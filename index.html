@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script src="supabase-client.js"></script>
+  <script src="authorized-emails.js"></script>
   <style>
     :root { --ac: #3d35c0; --ac-bg: rgba(61,53,192,.07); }
 
@@ -54,6 +55,13 @@
     .lc-title { font-family: var(--ff-d); font-size: 1.9rem; font-weight: 700;
       font-variation-settings: "opsz" 36; letter-spacing: -.03em; color: var(--ink); margin-bottom: 7px; }
     .lc-sub { font-size: .86rem; color: var(--ink-2); line-height: 1.55; margin-bottom: 30px; }
+    .lc-email-display { font-size: .82rem; font-weight: 600; color: var(--ink); background: var(--bg);
+      border: 1px solid var(--border); border-radius: var(--r); padding: 9px 14px; margin-bottom: 18px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .lc-email-display span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .lc-email-change { font-size: .72rem; color: var(--ink-3); cursor: pointer; white-space: nowrap;
+      text-decoration: underline; flex-shrink: 0; }
+    .lc-email-change:hover { color: var(--ink-2); }
 
     .field { margin-bottom: 16px; }
     .field-label { display: block; font-size: .77rem; font-weight: 600; color: var(--ink); margin-bottom: 7px; }
@@ -73,8 +81,9 @@
     .btn-enter:hover:not(:disabled) svg { transform: translateX(4px); }
 
     .form-err { font-size: .78rem; color: #991b1b; margin-top: 12px; text-align: center; animation: fadeIn .2s ease; }
-    .form-ok  { font-size: .78rem; color: #166534; margin-top: 12px; text-align: center; animation: fadeIn .2s ease; }
-    .login-hint { font-size: .73rem; color: var(--ink-3); text-align: center; margin-top: 22px; line-height: 1.55; }
+    .form-warn { font-size: .78rem; color: #92400e; margin-top: 12px; text-align: center; background: #fef3c7;
+      padding: 8px 12px; border-radius: 6px; animation: fadeIn .2s ease; }
+    .login-hint { font-size: .73rem; color: var(--ink-3); text-align: center; margin-top: 20px; line-height: 1.55; }
     .login-hint a { color: var(--ink-2); font-weight: 600; text-decoration: underline; cursor: pointer; }
     .login-hint a:hover { color: var(--ink); }
 
@@ -117,7 +126,6 @@
       text-transform: uppercase; white-space: nowrap; }
     .dash-sr { flex: 1; height: 1px; background: var(--border); }
 
-    /* Remediales banner */
     .remedial-banner { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
       border-radius: var(--r-l); padding: 16px 20px; margin-bottom: 28px;
       display: flex; align-items: center; gap: 14px; }
@@ -126,7 +134,6 @@
     .rb-title { font-size: .88rem; font-weight: 700; color: #fff; margin-bottom: 3px; }
     .rb-desc  { font-size: .75rem; color: rgba(255,255,255,.9); }
 
-    /* Subject cards */
     .subj-cards { display: flex; flex-direction: column; gap: 12px; }
     .subj-card { display: flex; align-items: flex-start; gap: 18px; text-decoration: none; color: inherit;
       background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-xl);
@@ -193,8 +200,8 @@
 </head>
 <body>
 
-<!-- ══ LOGIN ══ -->
-<div class="screen" id="s-login">
+<!-- ══ PASO 1: EMAIL ══ -->
+<div class="screen" id="s-email">
   <div class="login-grid">
 
     <aside class="login-brand" aria-hidden="true">
@@ -224,42 +231,35 @@
     <div class="login-form-panel">
       <div class="login-card">
         <div class="lc-logo">Apuntes <span>2° Medio</span></div>
-        <h2 class="lc-title">Bienvenido</h2>
-        <p class="lc-sub">Inicia sesión con tu cuenta personal.</p>
-        <form id="login-form" novalidate>
+        <h2 class="lc-title" id="email-title">Bienvenido</h2>
+        <p class="lc-sub" id="email-sub">Ingresa tu correo para verificar el acceso.</p>
+        <form id="email-form" novalidate>
           <div class="field">
             <label class="field-label" for="inp-email">Correo electrónico</label>
             <input class="field-input" type="email" id="inp-email" placeholder="tu@correo.cl" autocomplete="email" required>
           </div>
-          <div class="field">
-            <label class="field-label" for="inp-pwd">Contraseña</label>
-            <input class="field-input" type="password" id="inp-pwd" placeholder="Tu contraseña" autocomplete="current-password" required>
-          </div>
-          <button type="submit" class="btn-enter" id="btn-login">
-            Entrar a mis apuntes
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
+          <button type="submit" class="btn-enter" id="btn-email">
+            Verificar acceso
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
-          <p class="form-err" id="login-err" style="display:none"></p>
+          <p class="form-err" id="email-err" style="display:none"></p>
         </form>
-        <p class="login-hint">¿No tienes cuenta? <a id="go-register">Regístrate aquí</a></p>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- ══ REGISTRO ══ -->
-<div class="screen" id="s-register" hidden>
+<!-- ══ PASO 2: CONTRASEÑA ══ -->
+<div class="screen" id="s-password" hidden>
   <div class="login-grid">
 
     <aside class="login-brand" aria-hidden="true">
       <div class="lb-top">Apuntes 2° Medio</div>
       <div class="lb-center">
-        <div class="lb-eyebrow">Crear cuenta</div>
+        <div class="lb-eyebrow">Acceso verificado</div>
         <h1 class="lb-headline">Tu cuenta.<br>Tu progreso.<br><em>Tu ritmo.</em></h1>
-        <p class="lb-desc">Cada alumno tiene su propio espacio. El progreso se guarda automáticamente entre sesiones.</p>
+        <p class="lb-desc">El progreso se guarda automáticamente. Solo puedes tener una sesión activa a la vez.</p>
       </div>
       <div class="lb-bottom">Deutsche Schule Chillán · 2025</div>
     </aside>
@@ -267,35 +267,35 @@
     <div class="login-form-panel">
       <div class="login-card">
         <div class="lc-logo">Apuntes <span>2° Medio</span></div>
-        <h2 class="lc-title">Crear cuenta</h2>
-        <p class="lc-sub">Ingresa tus datos para registrarte.</p>
-        <form id="reg-form" novalidate>
+        <h2 class="lc-title" id="pwd-title">Ingresar</h2>
+        <p class="lc-sub" id="pwd-sub">Ingresa tu contraseña para continuar.</p>
+
+        <div class="lc-email-display">
+          <span id="pwd-email-display"></span>
+          <span class="lc-email-change" id="change-email">Cambiar</span>
+        </div>
+
+        <form id="pwd-form" novalidate>
           <div class="field">
-            <label class="field-label" for="reg-name">Nombre completo</label>
-            <input class="field-input" type="text" id="reg-name" placeholder="Tu nombre completo" autocomplete="name" required>
+            <label class="field-label" for="inp-pwd">Contraseña</label>
+            <input class="field-input" type="password" id="inp-pwd" placeholder="Tu contraseña" autocomplete="current-password" required>
           </div>
-          <div class="field">
-            <label class="field-label" for="reg-email">Correo electrónico</label>
-            <input class="field-input" type="email" id="reg-email" placeholder="tu@correo.cl" autocomplete="email" required>
+          <div class="field" id="confirm-field" style="display:none">
+            <label class="field-label" for="inp-confirm">Confirmar contraseña</label>
+            <input class="field-input" type="password" id="inp-confirm" placeholder="Repite tu contraseña" autocomplete="new-password">
           </div>
-          <div class="field">
-            <label class="field-label" for="reg-pwd">Contraseña</label>
-            <input class="field-input" type="password" id="reg-pwd" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required>
-          </div>
-          <div class="field">
-            <label class="field-label" for="reg-confirm">Confirmar contraseña</label>
-            <input class="field-input" type="password" id="reg-confirm" placeholder="Repite tu contraseña" autocomplete="new-password" required>
-          </div>
-          <button type="submit" class="btn-enter" id="btn-reg">
-            Crear mi cuenta
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
+          <button type="submit" class="btn-enter" id="btn-pwd">
+            <span id="btn-pwd-text">Ingresar</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
-          <p class="form-err" id="reg-err" style="display:none"></p>
-          <p class="form-ok"  id="reg-ok"  style="display:none"></p>
+          <p class="form-err" id="pwd-err" style="display:none"></p>
         </form>
-        <p class="login-hint">¿Ya tienes cuenta? <a id="go-login">Iniciar sesión</a></p>
+        <p class="login-hint" id="primera-vez-hint">
+          ¿Primera vez aquí? <a id="toggle-signup">Crea tu contraseña →</a>
+        </p>
+        <p class="login-hint" id="ya-tengo-hint" style="display:none">
+          ¿Ya tienes contraseña? <a id="toggle-login">Volver a Ingresar</a>
+        </p>
       </div>
     </div>
 
@@ -362,7 +362,7 @@
             </div>
             <div class="sc-body">
               <div class="sc-name">Física</div>
-              <div class="sc-desc">Dinámica · Roce, Tensión, Normal y Peso · Cálculo y Fórmulas</div>
+              <div class="sc-desc">Dinámica · Peso, Normal y Fórmulas · Roce y Tensión</div>
               <div class="sc-progress-wrap"><div class="sc-prog-bar" id="prog-fisica"></div></div>
               <div class="sc-prog-label" id="pct-fisica">Sin actividad aún</div>
             </div>
@@ -383,12 +383,12 @@
             </div>
             <div class="sc-body">
               <div class="sc-name">Biología</div>
-              <div class="sc-desc">Ciclo celular · Control del ciclo · Meiosis</div>
+              <div class="sc-desc">Ciclo celular · Control del ciclo · Meiosis · Sistema Nervioso</div>
               <div class="sc-progress-wrap"><div class="sc-prog-bar" id="prog-biologia"></div></div>
               <div class="sc-prog-label" id="pct-biologia">Sin actividad aún</div>
             </div>
             <div class="sc-right">
-              <span class="sc-count">3 temas</span>
+              <span class="sc-count">4 temas</span>
               <span class="sc-arrow" aria-hidden="true">→</span>
             </div>
           </a>
@@ -403,7 +403,7 @@
             </div>
             <div class="sc-body">
               <div class="sc-name">Química</div>
-              <div class="sc-desc">Métodos de separación de mezclas</div>
+              <div class="sc-desc">Clasificación de mezclas · Disoluciones · Solubilidad · Concentración</div>
               <div class="sc-progress-wrap"><div class="sc-prog-bar" id="prog-quimica"></div></div>
               <div class="sc-prog-label" id="pct-quimica">Sin actividad aún</div>
             </div>
@@ -428,56 +428,204 @@
 
 <script>
 (function () {
-  var sLogin = document.getElementById('s-login');
-  var sDash  = document.getElementById('s-dash');
-  var sReg   = document.getElementById('s-register');
+  var sEmail    = document.getElementById('s-email');
+  var sPassword = document.getElementById('s-password');
+  var sDash     = document.getElementById('s-dash');
+  var currentEmail = '';
+  var isSignupMode = false;
 
-  function show(el) {
-    [sLogin, sDash, sReg].forEach(function (s) { s.hidden = true; });
-    el.hidden = false;
+  function genToken() {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+    return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
   }
 
+  function show(el) {
+    [sEmail, sPassword, sDash].forEach(function (s) { s.hidden = true; });
+    el.hidden = false;
+  }
   function setErr(id, msg) {
     var el = document.getElementById(id);
     el.textContent = msg; el.style.display = 'block';
   }
-  function setOk(id, msg) {
+  function clearErr(id) {
     var el = document.getElementById(id);
-    el.textContent = msg; el.style.display = 'block';
-  }
-  function clearMsg() {
-    ['login-err','reg-err','reg-ok'].forEach(function(id){
-      var el = document.getElementById(id);
-      if (el) { el.textContent = ''; el.style.display = 'none'; }
-    });
+    el.textContent = ''; el.style.display = 'none';
   }
 
-  // ── SESIÓN EXISTENTE ──
+  // ── Detectar mensaje de sesión expirada ──
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('msg') === 'kicked') {
+    var errEl = document.getElementById('email-err');
+    errEl.textContent = 'Tu sesión fue iniciada desde otro dispositivo. Inicia sesión de nuevo.';
+    errEl.className = 'form-warn';
+    errEl.style.display = 'block';
+  }
+
+  // ── Verificar sesión existente ──
   window.sb.auth.getSession().then(function (res) {
-    if (res.data.session) openDash(res.data.session);
-  });
-
-  // ── CAMBIOS DE ESTADO AUTH ──
-  window.sb.auth.onAuthStateChange(function (event, session) {
-    if (event === 'SIGNED_IN' && session) openDash(session);
-    if (event === 'SIGNED_OUT') show(sLogin);
-  });
-
-  // ── ABRIR DASHBOARD ──
-  function openDash(session) {
-    show(sDash);
-    var uid = session.user.id;
-
-    window.sb.from('profiles').select('display_name').eq('id', uid).single().then(function (r) {
-      var name = (r.data && r.data.display_name) || session.user.email.split('@')[0];
-      document.getElementById('dash-greeting').textContent = 'Bienvenido, ' + name;
-      document.getElementById('dash-user-el').textContent  = name;
+    var session = res.data.session;
+    if (!session) return;
+    window.sb.from('profiles').select('display_name, session_token').eq('id', session.user.id).single().then(function (r) {
+      if (r.data && r.data.session_token) {
+        var stored = localStorage.getItem('_stkn');
+        if (!stored || stored !== r.data.session_token) {
+          window.sb.auth.signOut();
+          return;
+        }
+      }
+      openDash(session, r.data);
     });
+  });
 
-    loadProgress(uid);
+  // ── PASO 1: Verificar email ──
+  document.getElementById('email-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearErr('email-err');
+    var email = document.getElementById('inp-email').value.trim().toLowerCase();
+    if (!email) { setErr('email-err', 'Ingresa tu correo.'); return; }
+
+    var authorized = (window.AUTHORIZED_EMAILS || []).map(function(x){ return x.toLowerCase(); });
+    if (authorized.indexOf(email) === -1) {
+      setErr('email-err', 'Este correo no está autorizado para acceder.');
+      return;
+    }
+
+    currentEmail = email;
+    document.getElementById('pwd-email-display').textContent = email;
+    isSignupMode = false;
+    setSignupMode(false);
+    show(sPassword);
+    setTimeout(function(){ document.getElementById('inp-pwd').focus(); }, 100);
+  });
+
+  // ── Cambiar correo ──
+  document.getElementById('change-email').addEventListener('click', function () {
+    clearErr('pwd-err');
+    show(sEmail);
+    document.getElementById('inp-pwd').value = '';
+    document.getElementById('inp-confirm').value = '';
+  });
+
+  // ── Toggle primera vez / ya tengo cuenta ──
+  document.getElementById('toggle-signup').addEventListener('click', function (e) {
+    e.preventDefault();
+    setSignupMode(true);
+  });
+  document.getElementById('toggle-login').addEventListener('click', function (e) {
+    e.preventDefault();
+    setSignupMode(false);
+  });
+
+  function setSignupMode(isSignup) {
+    isSignupMode = isSignup;
+    var confirmField = document.getElementById('confirm-field');
+    var pwdTitle     = document.getElementById('pwd-title');
+    var pwdSub       = document.getElementById('pwd-sub');
+    var btnText      = document.getElementById('btn-pwd-text');
+    var hint1        = document.getElementById('primera-vez-hint');
+    var hint2        = document.getElementById('ya-tengo-hint');
+    var pwdInput     = document.getElementById('inp-pwd');
+
+    if (isSignup) {
+      confirmField.style.display = '';
+      pwdTitle.textContent = 'Elige tu contraseña';
+      pwdSub.textContent   = 'Es tu primera vez. Elige la contraseña con la que ingresarás siempre.';
+      btnText.textContent  = 'Crear cuenta e ingresar';
+      hint1.style.display  = 'none';
+      hint2.style.display  = '';
+      pwdInput.setAttribute('placeholder', 'Elige una contraseña (mín. 6 caracteres)');
+      pwdInput.setAttribute('autocomplete', 'new-password');
+    } else {
+      confirmField.style.display = 'none';
+      pwdTitle.textContent = 'Ingresar';
+      pwdSub.textContent   = 'Ingresa tu contraseña para continuar.';
+      btnText.textContent  = 'Ingresar';
+      hint1.style.display  = '';
+      hint2.style.display  = 'none';
+      pwdInput.setAttribute('placeholder', 'Tu contraseña');
+      pwdInput.setAttribute('autocomplete', 'current-password');
+    }
+    clearErr('pwd-err');
   }
 
-  // ── CARGAR PROGRESO ──
+  // ── PASO 2: Login / Signup ──
+  document.getElementById('pwd-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearErr('pwd-err');
+    var pwd     = document.getElementById('inp-pwd').value;
+    var confirm = document.getElementById('inp-confirm').value;
+    var btn     = document.getElementById('btn-pwd');
+
+    if (!pwd) { setErr('pwd-err', 'Ingresa tu contraseña.'); return; }
+
+    if (isSignupMode) {
+      if (pwd.length < 6) { setErr('pwd-err', 'La contraseña debe tener al menos 6 caracteres.'); return; }
+      if (pwd !== confirm) { setErr('pwd-err', 'Las contraseñas no coinciden.'); return; }
+      btn.disabled = true;
+      document.getElementById('btn-pwd-text').textContent = 'Creando cuenta...';
+
+      window.sb.auth.signUp({ email: currentEmail, password: pwd }).then(function (res) {
+        btn.disabled = false;
+        document.getElementById('btn-pwd-text').textContent = 'Crear cuenta e ingresar';
+        if (res.error) {
+          var msg = res.error.message;
+          if (msg.toLowerCase().includes('already') || msg.toLowerCase().includes('registered')) {
+            setErr('pwd-err', 'Ya tienes una cuenta. Usa "Ingresar" con tu contraseña.');
+            setSignupMode(false);
+          } else {
+            setErr('pwd-err', msg);
+          }
+          return;
+        }
+        if (res.data && res.data.user) {
+          var uid   = res.data.user.id;
+          var dname = currentEmail.split('@')[0];
+          var token = genToken();
+          localStorage.setItem('_stkn', token);
+          window.sb.from('profiles').upsert({ id: uid, display_name: dname, session_token: token }, { onConflict: 'id' });
+          if (res.data.session) {
+            openDash(res.data.session, { display_name: dname });
+          } else {
+            setErr('pwd-err', '¡Cuenta creada! Ahora inicia sesión con tu contraseña.');
+            setSignupMode(false);
+          }
+        }
+      });
+
+    } else {
+      btn.disabled = true;
+      document.getElementById('btn-pwd-text').textContent = 'Verificando...';
+
+      window.sb.auth.signInWithPassword({ email: currentEmail, password: pwd }).then(function (res) {
+        btn.disabled = false;
+        document.getElementById('btn-pwd-text').textContent = 'Ingresar';
+        if (res.error) {
+          var msg = res.error.message.includes('Invalid') ? 'Contraseña incorrecta.' : res.error.message;
+          setErr('pwd-err', msg);
+          return;
+        }
+        var uid   = res.data.session.user.id;
+        var token = genToken();
+        localStorage.setItem('_stkn', token);
+        window.sb.from('profiles').update({ session_token: token }).eq('id', uid).then(function () {
+          window.sb.from('profiles').select('display_name').eq('id', uid).single().then(function (r) {
+            openDash(res.data.session, r.data);
+          });
+        });
+      });
+    }
+  });
+
+  // ── Abrir dashboard ──
+  function openDash(session, profileData) {
+    show(sDash);
+    var name = (profileData && profileData.display_name) || session.user.email.split('@')[0];
+    document.getElementById('dash-greeting').textContent = 'Bienvenido, ' + name;
+    document.getElementById('dash-user-el').textContent  = name;
+    loadProgress(session.user.id);
+  }
+
+  // ── Progreso ──
   function loadProgress(uid) {
     window.sb.from('question_results').select('subject, correct').eq('user_id', uid).then(function (res) {
       if (res.error || !res.data || res.data.length === 0) return;
@@ -485,10 +633,8 @@
       var total   = results.length;
       var correct = results.filter(function (r) { return r.correct; }).length;
       var acc     = Math.round((correct / total) * 100);
-
       document.getElementById('stat-questions').textContent = total;
       document.getElementById('stat-accuracy').textContent  = acc + '%';
-
       ['fisica', 'biologia', 'quimica'].forEach(function (subj) {
         var sub = results.filter(function (r) { return r.subject === subj; });
         var tot = sub.length;
@@ -502,62 +648,14 @@
     });
   }
 
-  // ── LOGIN ──
-  document.getElementById('login-form').addEventListener('submit', function (e) {
-    e.preventDefault(); clearMsg();
-    var email = document.getElementById('inp-email').value.trim();
-    var pwd   = document.getElementById('inp-pwd').value;
-    var btn   = document.getElementById('btn-login');
-    if (!email || !pwd) { setErr('login-err', 'Completa todos los campos.'); return; }
-    btn.disabled = true; btn.textContent = 'Verificando...';
-    window.sb.auth.signInWithPassword({ email: email, password: pwd }).then(function (res) {
-      btn.disabled = false;
-      btn.innerHTML = 'Entrar a mis apuntes <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
-      if (res.error) {
-        var msg = res.error.message.includes('Invalid') ? 'Correo o contraseña incorrectos.' : res.error.message;
-        setErr('login-err', msg);
-      }
-    });
-  });
-
-  // ── REGISTRO ──
-  document.getElementById('reg-form').addEventListener('submit', function (e) {
-    e.preventDefault(); clearMsg();
-    var name    = document.getElementById('reg-name').value.trim();
-    var email   = document.getElementById('reg-email').value.trim();
-    var pwd     = document.getElementById('reg-pwd').value;
-    var confirm = document.getElementById('reg-confirm').value;
-    var btn     = document.getElementById('btn-reg');
-    if (!name || !email || !pwd) { setErr('reg-err', 'Completa todos los campos.'); return; }
-    if (pwd.length < 6)           { setErr('reg-err', 'La contraseña debe tener al menos 6 caracteres.'); return; }
-    if (pwd !== confirm)          { setErr('reg-err', 'Las contraseñas no coinciden.'); return; }
-    btn.disabled = true; btn.textContent = 'Creando cuenta...';
-    window.sb.auth.signUp({ email: email, password: pwd, options: { data: { display_name: name } } }).then(function (res) {
-      btn.disabled = false;
-      btn.innerHTML = 'Crear mi cuenta <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
-      if (res.error) { setErr('reg-err', res.error.message); return; }
-      if (res.data && res.data.user) {
-        window.sb.from('profiles').insert({ id: res.data.user.id, display_name: name });
-        if (res.data.session) {
-          // Email confirm OFF → abre dashboard directo
-        } else {
-          setOk('reg-ok', '✓ Cuenta creada. Revisa tu correo para confirmar y luego inicia sesión.');
-        }
-      }
-    });
-  });
-
-  // ── LOGOUT ──
+  // ── Logout ──
   document.getElementById('btn-logout').addEventListener('click', function () {
+    localStorage.removeItem('_stkn');
     window.sb.auth.signOut();
   });
 
-  // ── NAVEGACIÓN ENTRE PANTALLAS ──
-  document.getElementById('go-register').addEventListener('click', function (e) {
-    e.preventDefault(); clearMsg(); show(sReg);
-  });
-  document.getElementById('go-login').addEventListener('click', function (e) {
-    e.preventDefault(); clearMsg(); show(sLogin);
+  window.sb.auth.onAuthStateChange(function (event, session) {
+    if (event === 'SIGNED_OUT') show(sEmail);
   });
 })();
 </script>

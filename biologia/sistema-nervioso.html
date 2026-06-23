@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema Nervioso — Biología 2° Medio</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    :root {
+      --ac:    #166534;
+      --ac-bg: rgba(22,101,52,.07);
+      --ac-lt: #1a7a3f;
+      --ac-br: rgba(22,101,52,.17);
+    }
+  </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../supabase-client.js"></script>
+<script src="../auth-guard.js"></script>
+
+<nav class="site-nav">
+  <div class="nav-left">
+    <a href="index.html" class="back-btn" aria-label="Volver a Biología">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3L6 8l4 5"/></svg>
+      Biología
+    </a>
+    <span class="breadcrumb" aria-current="page">/ Sistema Nervioso</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="nav-user"></span>
+    <button class="nav-logout" onclick="AppAuth.signOut()">Salir</button>
+  </div>
+</nav>
+
+<div class="content-wrap">
+
+  <header class="pg-header">
+    <div class="pg-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/><path d="M2 9c6.667 6 13.333 0 20 6"/><path d="M15 2c-1.798 1.997-2.518 3.995-2.807 5.993"/></svg>
+      Biología · Tema 04
+    </div>
+    <h1 class="pg-title">Sistema Nervioso</h1>
+    <p class="pg-sub">Organización del SN · La neurona · Células gliales</p>
+    <div class="tab-wrap">
+      <button class="tab-btn active" onclick="showTab('estudiar',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Estudiar
+      </button>
+      <button class="tab-btn" onclick="showTab('practicar',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Practicar
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════ ESTUDIAR ═══════ -->
+  <div class="panel active" id="panel-estudiar">
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-l">La gran idea</span><span class="sec-hr"></span></div>
+      <div class="quote-card">
+        <div class="quote-text">El sistema nervioso <em>no procesa información</em> por sí solo — es una red que detecta, conduce, integra y responde. Cada una de esas cuatro tareas la hace un tipo diferente de neurona o estructura.</div>
+        <div class="quote-foot">Taller nº 10 · Biología II Medio 2026</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-l">Organización del sistema nervioso</span><span class="sec-hr"></span></div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">SNC</div>
+          <div><div class="p-name">Sistema Nervioso Central</div><div class="p-title">Centro de procesamiento</div></div>
+        </div>
+        <div class="p-body">El SNC integra y procesa toda la información. Está <strong>protegido</strong> por huesos (cráneo y columna vertebral) y meninges. Comprende:
+          <ul style="margin-top:8px; padding-left:18px; line-height:1.8;">
+            <li><strong>Encéfalo</strong>
+              <ul style="padding-left:16px;">
+                <li><strong>Cerebro</strong> — procesamiento superior (pensamiento, memoria, movimiento voluntario)</li>
+                <li><strong>Diencéfalo</strong> — tálamo (relay sensorial) e hipotálamo (homeostasis, temperatura, hambre)</li>
+                <li><strong>Tronco encefálico</strong> — funciones vitales automáticas (respiración, ritmo cardíaco)</li>
+                <li><strong>Cerebelo</strong> — coordinación motora y equilibrio</li>
+              </ul>
+            </li>
+            <li><strong>Médula espinal</strong> — conduce impulsos entre el encéfalo y el cuerpo; maneja reflejos espinales</li>
+          </ul>
+        </div>
+        <div class="p-formula">SNC = Encéfalo + Médula espinal</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">SNP</div>
+          <div><div class="p-name">Sistema Nervioso Periférico</div><div class="p-title">Conexión con el mundo</div></div>
+        </div>
+        <div class="p-body">El SNP conecta el SNC con los órganos y tejidos. Incluye todos los nervios fuera del encéfalo y la médula:
+          <ul style="margin-top:8px; padding-left:18px; line-height:1.8;">
+            <li><strong>Nervios craneales</strong> (12 pares) — surgen del encéfalo; controlan cara, cabeza y órganos del cuello</li>
+            <li><strong>Nervios espinales</strong> (31 pares) — surgen de la médula espinal; llevan info hacia y desde el resto del cuerpo</li>
+            <li><strong>Sistema nervioso autónomo (SNA)</strong>:
+              <ul style="padding-left:16px;">
+                <li><strong>Simpático</strong> — "lucha o huida": aumenta FC, dilata pupilas, inhibe digestión</li>
+                <li><strong>Parasimpático</strong> — "reposo y digestión": disminuye FC, contrae pupilas, activa digestión</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="p-formula">SNP = Nervios craneales + Nervios espinales + SNA (simpático y parasimpático)</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-l">La neurona — unidad funcional</span><span class="sec-hr"></span></div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">⬡</div>
+          <div><div class="p-name">Estructura de la neurona</div><div class="p-title">Componentes y funciones</div></div>
+        </div>
+        <div class="p-body">
+          La neurona está especializada para recibir, conducir y transmitir el impulso nervioso. Sus partes principales:
+          <ul style="margin-top:8px; padding-left:18px; line-height:1.85;">
+            <li><strong>Cuerpo celular (soma)</strong> — contiene el núcleo y la maquinaria celular. Aquí se integra la información recibida. Tiene muchas mitocondrias (alta demanda energética)</li>
+            <li><strong>Dendritas</strong> — extensiones cortas y ramificadas que <strong>reciben</strong> señales de otras neuronas y las conducen hacia el soma</li>
+            <li><strong>Axón</strong> — extensión larga y única que <strong>conduce</strong> el impulso nervioso desde el soma hacia los terminales</li>
+            <li><strong>Vaina de mielina</strong> — envoltura lipídica que recubre el axón (formada por células gliales). <strong>Acelera</strong> la conducción del impulso (conducción saltatoria entre nodos)</li>
+            <li><strong>Nodos de Ranvier</strong> — gaps en la vaina de mielina. El impulso "salta" de nodo en nodo → mayor velocidad</li>
+            <li><strong>Botón terminal (terminal sináptico)</strong> — extremo del axón que <strong>transmite</strong> la señal química a la neurona siguiente (neurotransmisor)</li>
+          </ul>
+        </div>
+        <div class="p-formula">Recibe (dendritas) → Conduce (axón) → Transmite (botón terminal)</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">⚡</div>
+          <div><div class="p-name">Velocidad del impulso nervioso</div><div class="p-title">¿De qué depende?</div></div>
+        </div>
+        <div class="p-body">La velocidad con que viaja el impulso depende de:
+          <ul style="margin-top:8px; padding-left:18px; line-height:1.85;">
+            <li><strong>Presencia de vaina de mielina</strong> — axones mielinizados son hasta 100× más rápidos (conducción saltatoria vs. conducción continua)</li>
+            <li><strong>Diámetro del axón</strong> — a mayor diámetro, mayor velocidad (menor resistencia eléctrica)</li>
+          </ul>
+          Si se destruye la vaina de mielina (ej.: esclerosis múltiple), el impulso se vuelve lento o se bloquea → pérdida de función motora o sensitiva.
+        </div>
+        <div class="p-tag">⚠ La vaina de mielina está formada por células de Schwann (en SNP) u oligodendrocitos (en SNC).</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">→←</div>
+          <div><div class="p-name">Tipos de neuronas</div><div class="p-title">Sensitivas vs. Motoras</div></div>
+        </div>
+        <div class="p-body">
+          <ul style="padding-left:18px; line-height:1.85;">
+            <li><strong>Neurona sensitiva (aferente)</strong> — lleva información <strong>desde los órganos sensoriales hacia el SNC</strong>. Ej.: al tocar algo caliente, la info sube al cerebro</li>
+            <li><strong>Neurona motora (eferente)</strong> — lleva órdenes <strong>desde el SNC hacia los músculos u órganos efectores</strong>. Ej.: el cerebro ordena retirar la mano</li>
+            <li><strong>Neurona interneurona (de asociación)</strong> — conecta neuronas dentro del SNC; integra y procesa la información</li>
+          </ul>
+        </div>
+        <div class="p-formula">Sensitiva → SNC (aferente) | SNC → Motora (eferente)</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-l">Células gliales</span><span class="sec-hr"></span></div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">🧬</div>
+          <div><div class="p-name">Células gliales</div><div class="p-title">Soporte, nutrición y protección</div></div>
+        </div>
+        <div class="p-body">Las células gliales <strong>no conducen impulsos</strong> — son las células de soporte del sistema nervioso. Son más numerosas que las neuronas (proporción ~10:1). Sus funciones incluyen:
+          <ul style="margin-top:8px; padding-left:18px; line-height:1.85;">
+            <li><strong>Astrocitos</strong> — forman la barrera hematoencefálica, nutren neuronas, regulan el ambiente iónico</li>
+            <li><strong>Oligodendrocitos (SNC) / Células de Schwann (SNP)</strong> — producen la vaina de mielina</li>
+            <li><strong>Microglía</strong> — función inmune del SNC; eliminan células dañadas (como macrófagos)</li>
+          </ul>
+          Sin células gliales, las neuronas no podrían sobrevivir ni funcionar correctamente.
+        </div>
+        <div class="p-tag">⚠ Las células gliales SÍ se dividen (pueden generar tumores). Las neuronas en su mayoría NO se dividen.</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-l">Lo que entra en la prueba</span><span class="sec-hr"></span></div>
+      <div class="kp-list">
+        <div class="kp-item"><div class="kp-n">1</div><div class="kp-t">El SNC incluye <strong>encéfalo + médula espinal</strong>. Todo lo demás es SNP.</div></div>
+        <div class="kp-item"><div class="kp-n">2</div><div class="kp-t">Las <strong>dendritas reciben</strong>, el <strong>axón conduce</strong>, el <strong>botón terminal transmite</strong>.</div></div>
+        <div class="kp-item"><div class="kp-n">3</div><div class="kp-t">La vaina de mielina <strong>acelera</strong> el impulso (conducción saltatoria entre nodos de Ranvier).</div></div>
+        <div class="kp-item"><div class="kp-n">4</div><div class="kp-t">Neurona sensitiva: lleva info al SNC (aferente). Neurona motora: lleva órdenes del SNC (eferente).</div></div>
+        <div class="kp-item"><div class="kp-n">5</div><div class="kp-t">Las células gliales <strong>no conducen impulsos</strong> — son soporte, nutrición y mielina.</div></div>
+        <div class="kp-item"><div class="kp-n">6</div><div class="kp-t">Simpático = "lucha o huida". Parasimpático = "reposo y digestión". Ambos son del SNP autónomo.</div></div>
+        <div class="kp-item"><div class="kp-n">7</div><div class="kp-t">El cerebelo coordina el movimiento y el equilibrio (no el pensamiento — eso es el cerebro).</div></div>
+        <div class="kp-item"><div class="kp-n">8</div><div class="kp-t">Los reflejos espinales los maneja la <strong>médula espinal</strong>, sin intervención del cerebro.</div></div>
+      </div>
+    </div>
+
+    <div class="pg-footer"><strong>Biología · 2° Medio · Sistema Nervioso</strong></div>
+  </div>
+
+  <!-- ═══════ PRACTICAR ═══════ -->
+  <div class="panel" id="panel-practicar">
+
+    <div class="quiz-top">
+      <div class="qt-row">
+        <div class="sc-group">
+          <div class="sc-item s-ok"><span class="sc-val" id="sc-ok">0</span><span class="sc-lbl">Correctas</span></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-fail"><span class="sc-val" id="sc-fail">0</span><span class="sc-lbl">Incorrectas</span></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-pend"><span class="sc-val" id="sc-pend">—</span><span class="sc-lbl">Pendientes</span></div>
+        </div>
+        <button class="reset-btn" onclick="resetQuiz()">Reiniciar</button>
+      </div>
+    </div>
+
+    <div class="q-card"><div class="q-num">Pregunta 01</div><div class="q-text">La médula espinal pertenece al:</div><div class="opts" id="q1"><button class="opt-btn" data-correct="true" onclick="answer(this,'q1')"><span class="opt-lbl">A</span>Sistema Nervioso Central (SNC)</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">B</span>Sistema Nervioso Periférico (SNP)</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">C</span>Sistema Nervioso Autónomo</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">D</span>Sistema Nervioso Parasimpático</button></div><div class="feedback" id="fb-q1"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 02</div><div class="q-text">Los nervios espinales y craneales pertenecen al:</div><div class="opts" id="q2"><button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">A</span>Sistema Nervioso Central (SNC)</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q2')"><span class="opt-lbl">B</span>Sistema Nervioso Periférico (SNP)</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">C</span>Encéfalo</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">D</span>Médula espinal</button></div><div class="feedback" id="fb-q2"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 03</div><div class="q-text">¿Qué parte de la neurona recibe las señales de otras neuronas?</div><div class="opts" id="q3"><button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">A</span>El axón</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">B</span>El botón terminal</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q3')"><span class="opt-lbl">C</span>Las dendritas</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">D</span>La vaina de mielina</button></div><div class="feedback" id="fb-q3"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 04</div><div class="q-text">¿Qué parte de la neurona conduce el impulso nervioso desde el soma hasta los terminales?</div><div class="opts" id="q4"><button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">A</span>Las dendritas</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q4')"><span class="opt-lbl">B</span>El axón</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">C</span>El cuerpo celular (soma)</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">D</span>El nodo de Ranvier</button></div><div class="feedback" id="fb-q4"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 05</div><div class="q-text">Una droga bloquea la producción de vaina de mielina en las neuronas. ¿Qué consecuencia tendrá sobre la conducción del impulso nervioso?</div><div class="opts" id="q5"><button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">A</span>Los impulsos serán más rápidos y precisos</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q5')"><span class="opt-lbl">B</span>Los impulsos serán más lentos o se bloquearán completamente</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">C</span>Las dendritas compensarán la falta de mielina</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">D</span>No tendrá ningún efecto en la velocidad del impulso</button></div><div class="feedback" id="fb-q5"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 06</div><div class="q-text">Una neurona lleva información desde los receptores de la piel hacia el cerebro. Esta neurona es:</div><div class="opts" id="q6"><button class="opt-btn" data-correct="false" onclick="answer(this,'q6')"><span class="opt-lbl">A</span>Neurona motora (eferente)</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q6')"><span class="opt-lbl">B</span>Neurona sensitiva (aferente)</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q6')"><span class="opt-lbl">C</span>Interneurona</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q6')"><span class="opt-lbl">D</span>Neurona glial</button></div><div class="feedback" id="fb-q6"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 07</div><div class="q-text">La velocidad de conducción del impulso nervioso en un axón depende principalmente de:</div><div class="opts" id="q7"><button class="opt-btn" data-correct="false" onclick="answer(this,'q7')"><span class="opt-lbl">A</span>La longitud del axón</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q7')"><span class="opt-lbl">B</span>El número de dendritas de la neurona</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q7')"><span class="opt-lbl">C</span>La presencia de mielina y el diámetro del axón</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q7')"><span class="opt-lbl">D</span>La cantidad de neurotransmisores liberados</button></div><div class="feedback" id="fb-q7"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 08</div><div class="q-text">Ves una película de terror y de repente un ruido te hace saltar del asiento. Las neuronas que llevan la señal auditiva al cerebro son _____, y las que ordenan al músculo contraerse son _____.</div><div class="opts" id="q8"><button class="opt-btn" data-correct="true" onclick="answer(this,'q8')"><span class="opt-lbl">A</span>Sensitivas · Motoras</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q8')"><span class="opt-lbl">B</span>Motoras · Sensitivas</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q8')"><span class="opt-lbl">C</span>Sensitivas · Sensitivas</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q8')"><span class="opt-lbl">D</span>Gliales · Motoras</button></div><div class="feedback" id="fb-q8"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 09</div><div class="q-text">¿Cuál es la función principal de las células gliales?</div><div class="opts" id="q9"><button class="opt-btn" data-correct="false" onclick="answer(this,'q9')"><span class="opt-lbl">A</span>Conducir impulsos nerviosos</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q9')"><span class="opt-lbl">B</span>Procesar información sensorial</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q9')"><span class="opt-lbl">C</span>Soporte, protección y nutrición de las neuronas</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q9')"><span class="opt-lbl">D</span>Liberar neurotransmisores en la sinapsis</button></div><div class="feedback" id="fb-q9"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 10</div><div class="q-text">Un reflejo de la rodilla al ser golpeada ocurre sin que la persona lo piense conscientemente. ¿Qué estructura del SNC maneja este reflejo?</div><div class="opts" id="q10"><button class="opt-btn" data-correct="false" onclick="answer(this,'q10')"><span class="opt-lbl">A</span>El cerebro</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q10')"><span class="opt-lbl">B</span>El cerebelo</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q10')"><span class="opt-lbl">C</span>La médula espinal</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q10')"><span class="opt-lbl">D</span>El tronco encefálico</button></div><div class="feedback" id="fb-q10"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 11</div><div class="q-text">¿A qué división del sistema nervioso pertenecen los nervios simpáticos y parasimpáticos?</div><div class="opts" id="q11"><button class="opt-btn" data-correct="false" onclick="answer(this,'q11')"><span class="opt-lbl">A</span>Sistema Nervioso Central (SNC)</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q11')"><span class="opt-lbl">B</span>Sistema Nervioso Periférico autónomo (SNP)</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q11')"><span class="opt-lbl">C</span>Médula espinal</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q11')"><span class="opt-lbl">D</span>Encéfalo</button></div><div class="feedback" id="fb-q11"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 12</div><div class="q-text">Comparando una neurona con una célula animal típica, ¿cuál sería la conclusión principal?</div><div class="opts" id="q12"><button class="opt-btn" data-correct="false" onclick="answer(this,'q12')"><span class="opt-lbl">A</span>La neurona no tiene núcleo, a diferencia de las células animales</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q12')"><span class="opt-lbl">B</span>Las células animales también pueden conducir impulsos eléctricos</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q12')"><span class="opt-lbl">C</span>La neurona está altamente especializada, con extensiones únicas (axón/dendritas) que las células típicas no tienen</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q12')"><span class="opt-lbl">D</span>Las neuronas se dividen constantemente como otras células del cuerpo</button></div><div class="feedback" id="fb-q12"></div></div>
+
+    <div class="pg-footer"><strong>Biología · 2° Medio · Sistema Nervioso</strong></div>
+  </div>
+
+</div>
+
+<script>
+var FBK = {
+  q1:  { ok: 'Correcto. La médula espinal, junto con el encéfalo, forma el SNC. Todo el resto —nervios craneales, espinales, simpático y parasimpático— pertenece al SNP.', fail: 'La médula espinal es parte del SNC (junto con el encéfalo). Los nervios que surgen de ella son SNP, pero la médula misma es SNC.' },
+  q2:  { ok: 'Correcto. Los nervios craneales y espinales son componentes del SNP: conectan el SNC con el resto del cuerpo.', fail: 'Los nervios craneales (12 pares) y espinales (31 pares) son SNP. Están fuera del SNC y conectan el encéfalo/médula con órganos y tejidos.' },
+  q3:  { ok: 'Correcto. Las dendritas son las extensiones ramificadas que reciben señales de otras neuronas y las conducen hacia el soma para ser integradas.', fail: 'Las dendritas reciben señales. El axón conduce el impulso. El botón terminal transmite a la siguiente neurona.' },
+  q4:  { ok: 'Correcto. El axón es la extensión larga de la neurona que conduce el impulso desde el soma hacia los botones terminales.', fail: 'Es el axón quien conduce el impulso hacia adelante. Las dendritas lo reciben, el soma lo integra, el botón terminal lo transmite.' },
+  q5:  { ok: 'Correcto. La vaina de mielina acelera el impulso mediante conducción saltatoria (el impulso salta de nodo en nodo). Sin mielina, la conducción es continua y mucho más lenta, o se bloquea en enfermedades como la esclerosis múltiple.', fail: 'La mielina permite conducción saltatoria (más rápida). Sin ella, el impulso se conduce lento o se interrumpe — como ocurre en enfermedades desmielinizantes.' },
+  q6:  { ok: 'Correcto. Sensitiva (aferente): lleva info HACIA el SNC. Motora (eferente): lleva órdenes DESDE el SNC. La señal auditiva va hacia el cerebro, por eso es sensitiva.', fail: 'Sensitiva = info hacia el SNC (aferente). Motora = órdenes desde el SNC (eferente). El sonido llega al cerebro → neurona sensitiva.' },
+  q7:  { ok: 'Correcto. La velocidad del impulso depende de la presencia de mielina (conducción saltatoria vs. continua) y del diámetro del axón (mayor diámetro = menor resistencia = mayor velocidad).', fail: 'La velocidad depende de la mielina y del diámetro del axón. La longitud no afecta la velocidad, solo el tiempo total de llegada.' },
+  q8:  { ok: 'Correcto. Las neuronas sensitivas (aferentes) llevan la señal al cerebro. Las motoras (eferentes) llevan la respuesta del cerebro al músculo.', fail: 'El camino correcto: receptor auditivo → neurona sensitiva → SNC → neurona motora → músculo.' },
+  q9:  { ok: 'Correcto. Las células gliales no conducen impulsos nerviosos. Su función es de soporte (estructural y metabólico), protección, nutrición y formación de la vaina de mielina.', fail: 'Las células gliales no conducen impulsos. Son soporte: nutren, protegen y forman mielina. Las neuronas conducen; las gliales sostienen.' },
+  q10: { ok: 'Correcto. Los reflejos espinales son procesados en la médula espinal sin necesitar al cerebro. Por eso son tan rápidos: el circuito es más corto.', fail: 'Los reflejos espinales no usan el cerebro — los integra la médula espinal directamente. Eso los hace más rápidos que respuestas voluntarias.' },
+  q11: { ok: 'Correcto. Los nervios simpáticos y parasimpáticos forman el sistema nervioso autónomo (SNA), que es parte del SNP. Regulan funciones involuntarias como el ritmo cardíaco y la digestión.', fail: 'El sistema autónomo (simpático + parasimpático) es parte del SNP. Están fuera del SNC y controlan funciones involuntarias.' },
+  q12: { ok: 'Correcto. La neurona está altamente especializada: sus extensiones largas (axón y dendritas) y sus estructuras de transmisión (botón terminal, mielina) no existen en células típicas.', fail: 'La neurona es altamente especializada con estructuras únicas (axón, dendritas, mielina) que no tienen células comunes. Además, la mayoría no se dividen.' }
+};
+
+var totalQ = Object.keys(FBK).length;
+var answered = 0, correct = 0, wrong = 0;
+
+function showTab(tab, btn) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('panel-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+function answer(btn, qid) {
+  var group = document.getElementById(qid);
+  var fb    = document.getElementById('fb-' + qid);
+  var buttons = group.querySelectorAll('.opt-btn');
+  if (btn.disabled) return;
+  var isOk = btn.getAttribute('data-correct') === 'true';
+  buttons.forEach(function(b){
+    b.disabled = true;
+    if (b.getAttribute('data-correct') === 'true') b.classList.add('correct');
+    else if (b === btn && !isOk)                   b.classList.add('wrong');
+    else                                            b.classList.add('dimmed');
+  });
+  if (isOk) {
+    correct++;
+    fb.className = 'feedback show ok'; fb.textContent = '✓ ' + FBK[qid].ok;
+  } else {
+    wrong++;
+    fb.className = 'feedback show fail'; fb.textContent = '✗ ' + FBK[qid].fail;
+  }
+  answered++;
+  updateScore();
+  AppAuth.saveProgress('bio-sn-' + qid, 'biologia', 'sistema-nervioso', isOk);
+}
+
+function updateScore() {
+  document.getElementById('sc-ok').textContent   = correct;
+  document.getElementById('sc-fail').textContent  = wrong;
+  document.getElementById('sc-pend').textContent  = totalQ - answered;
+}
+
+function resetQuiz() {
+  answered = 0; correct = 0; wrong = 0;
+  updateScore();
+  document.querySelectorAll('.opt-btn').forEach(function(b){
+    b.disabled = false; b.className = 'opt-btn';
+  });
+  document.querySelectorAll('.feedback').forEach(function(f){
+    f.className = 'feedback'; f.textContent = '';
+  });
+}
+
+document.getElementById('sc-pend').textContent = totalQ;
+</script>
+</div>
+</body>
+</html>

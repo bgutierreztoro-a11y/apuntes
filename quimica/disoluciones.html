@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Disoluciones — Química 2° Medio</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    :root { --ac: #b85c0a; --ac-bg: rgba(184,92,10,.07); --ac-lt: #c96d1a; --ac-br: rgba(184,92,10,.18); }
+
+    .formula-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: .82rem; }
+    .formula-table th { background: var(--ac-bg); color: var(--ac); font-weight: 700; padding: 8px 10px; text-align: left; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; }
+    .formula-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--ink-2); }
+    .formula-table tr:last-child td { border-bottom: none; }
+    .formula-table td strong { color: var(--ink); }
+
+    .method-box { background: var(--ac-bg); border: 1px solid var(--ac-br); border-radius: var(--r); padding: 14px 16px; margin: 12px 0; }
+    .method-box-title { font-size: .72rem; font-weight: 700; color: var(--ac); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; }
+    .method-box .formula { font-size: 1.05rem; font-weight: 800; color: var(--ink); text-align: center; padding: 8px; background: var(--surface); border-radius: 6px; margin: 8px 0; }
+    .method-box p { font-size: .82rem; color: var(--ink-2); line-height: 1.6; margin-top: 6px; }
+
+    .example-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 16px; margin: 12px 0; }
+    .example-title { font-size: .72rem; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 10px; }
+    .example-step { display: flex; gap: 10px; margin-bottom: 8px; font-size: .82rem; color: var(--ink-2); line-height: 1.55; }
+    .example-step-n { min-width: 22px; height: 22px; background: var(--ac-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 800; color: var(--ac); flex-shrink: 0; margin-top: 1px; }
+    .example-step strong { color: var(--ink); }
+    .example-result { background: var(--ac-bg); border-radius: 6px; padding: 8px 12px; font-size: .86rem; font-weight: 700; color: var(--ac); text-align: center; margin-top: 6px; }
+  </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../supabase-client.js"></script>
+<script src="../auth-guard.js"></script>
+
+<nav class="site-nav">
+  <div class="nav-left">
+    <a href="index.html" class="back-btn" aria-label="Volver a Química">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3L6 8l4 5"/></svg>
+      Química
+    </a>
+    <span class="breadcrumb" aria-current="page">/ Disoluciones</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="nav-user"></span>
+    <button class="nav-logout" onclick="AppAuth.signOut()">Salir</button>
+  </div>
+</nav>
+
+<div class="content-wrap">
+
+  <header class="pg-header">
+    <div class="pg-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 18.568A2 2 0 0 0 6.463 21.5h11.074a2 2 0 0 0 1.744-2.932l-5.07-8.145A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16.5c.5.5 1.5.5 2.5 0s2-.5 2.5 0"/></svg>
+      Química · 2° Medio
+    </div>
+    <h1 class="pg-title">Disoluciones</h1>
+    <p class="pg-sub">Clasificación de mezclas · Disoluciones · Solubilidad · Concentración</p>
+    <div class="tab-wrap">
+      <button class="tab-btn active" onclick="showTab('estudiar',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Estudiar
+      </button>
+      <button class="tab-btn" onclick="showTab('practicar',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Practicar
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════ ESTUDIAR ═══════ -->
+  <div class="panel active" id="panel-estudiar">
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-l">Clasificación de la materia</span><span class="sec-hr"></span></div>
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">01</div>
+          <div><div class="p-name">Sustancias puras vs. Mezclas</div><div class="p-title">Composición fija vs. variable</div></div>
+        </div>
+        <div class="p-body">
+          <strong>Sustancia pura:</strong> composición fija y propiedades constantes. Pueden ser <strong>elementos</strong> (solo un tipo de átomo: O₂, Fe) o <strong>compuestos</strong> (átomos de distintos elementos en proporción fija: H₂O, NaCl).
+          <br><br>
+          <strong>Mezclas:</strong> combinación de dos o más sustancias sin reacción química. La composición es <strong>variable</strong> y los componentes conservan sus propiedades. Se clasifican en:
+          <ul style="margin-top:8px; padding-left:18px; line-height:1.85;">
+            <li><strong>Homogéneas (disoluciones)</strong> — aspecto uniforme, no se distinguen sus componentes a simple vista ni con microscopio óptico. Ej.: agua con sal, aire, bronce</li>
+            <li><strong>Heterogéneas</strong> — componentes visibles o separables. Ej.: arena + agua, aceite + agua</li>
+          </ul>
+        </div>
+        <div class="p-formula">Mezcla homogénea = disolución · Mezcla heterogénea = componentes visibles</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">02</div>
+          <div><div class="p-name">Coloides y Suspensiones</div><div class="p-title">Mezclas especiales</div></div>
+        </div>
+        <div class="p-body">
+          <ul style="padding-left:18px; line-height:1.85;">
+            <li><strong>Coloide</strong> — partículas entre 1-1000 nm; aspecto homogéneo a simple vista pero presentan <strong>efecto Tyndall</strong> (dispersan la luz de un láser). No sedimentan. Ej.: leche, mayonesa, niebla</li>
+            <li><strong>Suspensión</strong> — partículas &gt;1000 nm; <strong>sedimentan con el tiempo</strong> y son visibles. Ej.: agua con arena, agua con barro</li>
+          </ul>
+        </div>
+        <div class="p-tag">⚠ Clave: Coloide = efecto Tyndall + no sedimenta. Suspensión = sedimenta con el tiempo.</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-l">Disoluciones</span><span class="sec-hr"></span></div>
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">03</div>
+          <div><div class="p-name">Componentes de una disolución</div><div class="p-title">Soluto + Solvente</div></div>
+        </div>
+        <div class="p-body">
+          <ul style="padding-left:18px; line-height:1.85;">
+            <li><strong>Soluto</strong> — sustancia que se disuelve (generalmente en menor cantidad). Ej.: sal en agua salada</li>
+            <li><strong>Solvente (disolvente)</strong> — sustancia en la que se disuelve el soluto (generalmente en mayor cantidad). El solvente universal es el <strong>agua</strong></li>
+          </ul>
+          <br>
+          <strong>Tipos de disoluciones según el estado del solvente:</strong>
+          <ul style="margin-top:8px; padding-left:18px; line-height:1.8;">
+            <li><strong>Líquida</strong> — solvente líquido. La más común. Ej.: agua con azúcar</li>
+            <li><strong>Gaseosa</strong> — solvente gas. Ej.: aire (N₂ es solvente, O₂, CO₂ son solutos)</li>
+            <li><strong>Sólida</strong> — solvente sólido. Ej.: aleaciones (bronce = Cu + Sn)</li>
+          </ul>
+          <br>
+          <strong>Según la cantidad de soluto:</strong>
+          <ul style="margin-top:6px; padding-left:18px; line-height:1.8;">
+            <li><strong>Diluida</strong> — poca cantidad de soluto</li>
+            <li><strong>Concentrada</strong> — mucha cantidad de soluto</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-l">Solubilidad</span><span class="sec-hr"></span></div>
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">04</div>
+          <div><div class="p-name">Saturación y factores</div><div class="p-title">¿Cuánto se puede disolver?</div></div>
+        </div>
+        <div class="p-body">
+          La <strong>solubilidad</strong> es la máxima cantidad de soluto que se puede disolver en una cantidad fija de solvente a una temperatura dada.
+          <ul style="margin-top:10px; padding-left:18px; line-height:1.85;">
+            <li><strong>Disolución no saturada</strong> — puede disolver más soluto</li>
+            <li><strong>Disolución saturada</strong> — tiene la máxima cantidad de soluto disuelto (en equilibrio)</li>
+            <li><strong>Disolución sobresaturada</strong> — tiene más soluto del que puede "sostener" en condiciones normales; es inestable → cristalización al menor toque</li>
+          </ul>
+          <br>
+          <strong>Factores que afectan la solubilidad:</strong>
+          <ul style="margin-top:6px; padding-left:18px; line-height:1.85;">
+            <li><strong>Temperatura</strong> — en sólidos: mayor T → mayor solubilidad. En gases: mayor T → <strong>menor</strong> solubilidad (el CO₂ escapa de bebidas calientes)</li>
+            <li><strong>Presión</strong> — afecta principalmente a gases: mayor presión → mayor solubilidad (bebidas carbonatadas selladas)</li>
+            <li><strong>Polaridad</strong> — "lo semejante disuelve a lo semejante": solventes polares (agua) disuelven solutos polares (sal). Solventes apolares disuelven solutos apolares (aceite en bencina)</li>
+          </ul>
+        </div>
+        <div class="p-tag">⚠ Los lípidos no se disuelven en agua porque son apolares y el agua es polar. "Like dissolves like."</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-l">Concentración Física</span><span class="sec-hr"></span></div>
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">05</div>
+          <div><div class="p-name">Unidades de concentración física</div><div class="p-title">%, %m/m, %m/v, %v/v</div></div>
+        </div>
+        <div class="p-body">Expresan la cantidad de soluto en relación al total (disolución completa). Se usan el <strong>Método Tabla (Regla de 3)</strong>.</div>
+      </div>
+
+      <div class="method-box">
+        <div class="method-box-title">Porcentaje masa/masa (%m/m)</div>
+        <div class="formula">%m/m = (masa soluto / masa disolución) × 100</div>
+        <p>Gramos de soluto por cada 100 g de disolución. <em>Masa disolución = masa soluto + masa solvente</em></p>
+      </div>
+
+      <div class="example-card">
+        <div class="example-title">Ejemplo — %m/m</div>
+        <div class="example-step"><div class="example-step-n">1</div><div>Dato: 45 g de NaNO₃ en 321 mL de solución (d = 1 g/mL → masa disolución = 321 g)</div></div>
+        <div class="example-step"><div class="example-step-n">2</div><div>%m/m = (45 / 321) × 100 = <strong>14%</strong></div></div>
+        <div class="example-result">%m/m = 14%</div>
+      </div>
+
+      <div class="method-box">
+        <div class="method-box-title">Porcentaje masa/volumen (%m/v)</div>
+        <div class="formula">%m/v = (masa soluto [g] / volumen disolución [mL]) × 100</div>
+        <p>Gramos de soluto por cada 100 mL de disolución. Muy usado en medicina.</p>
+      </div>
+
+      <div class="example-card">
+        <div class="example-title">Ejemplo — %m/v</div>
+        <div class="example-step"><div class="example-step-n">1</div><div>Dato: 90 g de acetona en solución acuosa, concentración = 25% m/m. Masa solvente = ?</div></div>
+        <div class="example-step"><div class="example-step-n">2</div><div>25 g soluto → 100 g disolución<br>90 g soluto → x g disolución → x = 360 g disolución</div></div>
+        <div class="example-step"><div class="example-step-n">3</div><div>Masa solvente = 360 − 90 = 270 g. Volumen = 360 mL (d=1 g/mL)</div></div>
+        <div class="example-result">Masa de agua añadida = 270 g (360 g disolución total)</div>
+      </div>
+
+      <div class="method-box">
+        <div class="method-box-title">Porcentaje volumen/volumen (%v/v)</div>
+        <div class="formula">%v/v = (volumen soluto [mL] / volumen disolución [mL]) × 100</div>
+        <p>mL de soluto por cada 100 mL de disolución. Usado para mezclas de líquidos (alcohol).</p>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-l">Concentración Química</span><span class="sec-hr"></span></div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">06</div>
+          <div><div class="p-name">Molaridad (M)</div><div class="p-title">Moles de soluto por litro de disolución</div></div>
+        </div>
+        <div class="p-body">La molaridad expresa moles de soluto por litro de disolución. Es la unidad de concentración más usada en química.</div>
+      </div>
+
+      <div class="method-box">
+        <div class="method-box-title">Fórmula Molaridad</div>
+        <div class="formula">M = n (mol soluto) / V (L disolución)</div>
+        <p><em>Para hallar masa: m = n × MM (masa molar)</em></p>
+      </div>
+
+      <div class="example-card">
+        <div class="example-title">Ejemplo — Molaridad</div>
+        <div class="example-step"><div class="example-step-n">1</div><div>Dato: 2 L de NH₃ con concentración 2 mol/L. ¿Qué masa de NH₃ contiene?</div></div>
+        <div class="example-step"><div class="example-step-n">2</div><div>n = M × V = 2 mol/L × 2 L = 4 mol</div></div>
+        <div class="example-step"><div class="example-step-n">3</div><div>MM(NH₃) = 14 + 3×1 = 17 g/mol</div></div>
+        <div class="example-step"><div class="example-step-n">4</div><div>m = 4 mol × 17 g/mol = 68 g</div></div>
+        <div class="example-result">Masa de NH₃ = 68 g</div>
+      </div>
+
+      <div class="example-card">
+        <div class="example-title">Ejemplo — Equivalencia de molaridad</div>
+        <div class="example-step"><div class="example-step-n">1</div><div>¿Son equivalentes: 2 L de disolución 0,25 M vs. 1 L de disolución 0,5 M?</div></div>
+        <div class="example-step"><div class="example-step-n">2</div><div>n₁ = 0,25 × 2 = 0,5 mol · n₂ = 0,5 × 1 = 0,5 mol → <strong>Sí, tienen la misma cantidad de soluto</strong></div></div>
+        <div class="example-result">0,5 mol en ambos casos → concentraciones distintas, mismos moles</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">07</div>
+          <div><div class="p-name">Molalidad (m)</div><div class="p-title">Moles de soluto por kg de solvente</div></div>
+        </div>
+        <div class="p-body"></div>
+      </div>
+
+      <div class="method-box">
+        <div class="method-box-title">Fórmula Molalidad</div>
+        <div class="formula">m = n (mol soluto) / kg (solvente)</div>
+        <p>A diferencia de la molaridad, usa <strong>kilos de solvente</strong> (no de disolución) y no cambia con la temperatura.</p>
+      </div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">08</div>
+          <div><div class="p-name">Fracción Molar (χ)</div><div class="p-title">Proporción de moles</div></div>
+        </div>
+        <div class="p-body"></div>
+      </div>
+
+      <div class="method-box">
+        <div class="method-box-title">Fórmula Fracción Molar</div>
+        <div class="formula">χᵢ = nᵢ / n_total</div>
+        <p>Fracción molar del componente i = moles de i dividido por el total de moles de todos los componentes. La suma de todas las fracciones molares = 1.</p>
+      </div>
+
+      <table class="formula-table">
+        <tr><th>Unidad</th><th>Fórmula</th><th>Denominador</th></tr>
+        <tr><td><strong>%m/m</strong></td><td>(m_soluto / m_disolución) × 100</td><td>Masa total</td></tr>
+        <tr><td><strong>%m/v</strong></td><td>(m_soluto / V_disolución) × 100</td><td>Volumen total</td></tr>
+        <tr><td><strong>%v/v</strong></td><td>(V_soluto / V_disolución) × 100</td><td>Volumen total</td></tr>
+        <tr><td><strong>Molaridad (M)</strong></td><td>n_soluto / V_disolución (L)</td><td>Litros de disolución</td></tr>
+        <tr><td><strong>Molalidad (m)</strong></td><td>n_soluto / kg_solvente</td><td>Kg de solvente</td></tr>
+        <tr><td><strong>Fracción molar (χ)</strong></td><td>nᵢ / n_total</td><td>Moles totales</td></tr>
+      </table>
+    </div>
+
+    <div class="pg-footer"><strong>Química · 2° Medio · Disoluciones</strong></div>
+  </div>
+
+  <!-- ═══════ PRACTICAR ═══════ -->
+  <div class="panel" id="panel-practicar">
+
+    <div class="quiz-top">
+      <div class="qt-row">
+        <div class="sc-group">
+          <div class="sc-item s-ok"><span class="sc-val" id="sc-ok">0</span><span class="sc-lbl">Correctas</span></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-fail"><span class="sc-val" id="sc-fail">0</span><span class="sc-lbl">Incorrectas</span></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-pend"><span class="sc-val" id="sc-pend">—</span><span class="sc-lbl">Pendientes</span></div>
+        </div>
+        <button class="reset-btn" onclick="resetQuiz()">Reiniciar</button>
+      </div>
+    </div>
+
+    <div class="q-card"><div class="q-num">Pregunta 01</div><div class="q-text">Una botella de bebida gaseosa sellada contiene CO₂ disuelto. Si calientas la bebida antes de abrirla, ¿qué pasará con la cantidad de CO₂ disuelto?</div><div class="opts" id="q1"><button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">A</span>Aumentará porque la temperatura aumenta la energía del sistema</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q1')"><span class="opt-lbl">B</span>Disminuirá porque los gases tienen menor solubilidad a mayor temperatura</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">C</span>Se mantendrá igual porque la botella está cerrada</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">D</span>Aumentará porque el agua caliente disuelve más sustancias</button></div><div class="feedback" id="fb-q1"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 02</div><div class="q-text">¿En cuál de los océanos esperarías encontrar mayor concentración de oxígeno disuelto: en el frío Pacífico Sur o en el cálido Mar Caribe?</div><div class="opts" id="q2"><button class="opt-btn" data-correct="true" onclick="answer(this,'q2')"><span class="opt-lbl">A</span>Pacífico Sur, porque las aguas frías disuelven más oxígeno</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">B</span>Mar Caribe, porque las aguas cálidas tienen más energía para disolver gases</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">C</span>Ambos tienen la misma concentración de O₂</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">D</span>Depende de la presión, no de la temperatura</button></div><div class="feedback" id="fb-q2"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 03</div><div class="q-text">Si dejas evaporar parte del solvente de una disolución no saturada, ¿qué ocurre con su concentración?</div><div class="opts" id="q3"><button class="opt-btn" data-correct="true" onclick="answer(this,'q3')"><span class="opt-lbl">A</span>Aumenta, porque hay menos solvente pero el mismo soluto</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">B</span>Disminuye, porque hay menos disolución total</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">C</span>Se mantiene igual porque el soluto no cambia</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">D</span>Depende del tipo de soluto</button></div><div class="feedback" id="fb-q3"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 04</div><div class="q-text">¿Son equivalentes una disolución de 2 L a 0,25 M y una de 1 L a 0,5 M?</div><div class="opts" id="q4"><button class="opt-btn" data-correct="true" onclick="answer(this,'q4')"><span class="opt-lbl">A</span>Sí, ambas contienen 0,5 mol de soluto en total</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">B</span>No, porque tienen diferente volumen</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">C</span>No, porque tienen diferente concentración molar</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">D</span>Sí, porque tienen el mismo volumen promedio</button></div><div class="feedback" id="fb-q4"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 05</div><div class="q-text">Se tiene una disolución de NaCl que al enfriarse precipita 50 g de sal. Antes del enfriamiento, ¿cómo se clasificaba esa disolución?</div><div class="opts" id="q5"><button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">A</span>Disolución no saturada</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">B</span>Disolución saturada fría</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q5')"><span class="opt-lbl">C</span>Disolución sobresaturada</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">D</span>Disolución diluida</button></div><div class="feedback" id="fb-q5"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 06</div><div class="q-text">2 L de una disolución de NH₃ tienen una concentración de 2 mol/L. La masa molar del NH₃ es 17 g/mol. ¿Qué masa de NH₃ contiene la disolución?</div><div class="opts" id="q6"><button class="opt-btn" data-correct="false" onclick="answer(this,'q6')"><span class="opt-lbl">A</span>34 g</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q6')"><span class="opt-lbl">B</span>17 g</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q6')"><span class="opt-lbl">C</span>68 g</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q6')"><span class="opt-lbl">D</span>136 g</button></div><div class="feedback" id="fb-q6"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 07</div><div class="q-text">Un estudiante clasifica tres muestras: A es transparente sin separarse con el tiempo, B parece homogénea pero dispersa un rayo láser (efecto Tyndall), C contiene partículas visibles que sedimentan en horas. ¿Cuál es la clasificación correcta de A, B y C?</div><div class="opts" id="q7"><button class="opt-btn" data-correct="false" onclick="answer(this,'q7')"><span class="opt-lbl">A</span>Suspensión – Disolución – Coloide</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q7')"><span class="opt-lbl">B</span>Disolución – Coloide – Suspensión</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q7')"><span class="opt-lbl">C</span>Coloide – Disolución – Suspensión</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q7')"><span class="opt-lbl">D</span>Disolución – Suspensión – Coloide</button></div><div class="feedback" id="fb-q7"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 08</div><div class="q-text">¿Por qué los aceites y las grasas no se disuelven en agua?</div><div class="opts" id="q8"><button class="opt-btn" data-correct="false" onclick="answer(this,'q8')"><span class="opt-lbl">A</span>Porque los lípidos son sólidos y no pueden disolverse en líquidos</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q8')"><span class="opt-lbl">B</span>Porque los lípidos son polares y el agua también es polar</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q8')"><span class="opt-lbl">C</span>Porque los lípidos son apolares y el agua es polar ("lo semejante disuelve a lo semejante")</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q8')"><span class="opt-lbl">D</span>Porque los lípidos no se disuelven en ninguna sustancia</button></div><div class="feedback" id="fb-q8"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 09</div><div class="q-text">Se disuelven 90 g de acetona en agua para preparar una solución con 25% m/m. ¿Cuántos gramos de agua se necesitan?</div><div class="opts" id="q9"><button class="opt-btn" data-correct="false" onclick="answer(this,'q9')"><span class="opt-lbl">A</span>90 g</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q9')"><span class="opt-lbl">B</span>225 g</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q9')"><span class="opt-lbl">C</span>270 g</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q9')"><span class="opt-lbl">D</span>360 g</button></div><div class="feedback" id="fb-q9"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 10</div><div class="q-text">Se analizan cuatro muestras con las siguientes características: A (0,5 nm, homogénea, no sedimenta, no Tyndall), B (250 nm, homogénea, no sedimenta, efecto Tyndall), C (1500 nm, heterogénea, sedimenta), D (800 nm, homogénea, no sedimenta, efecto Tyndall). ¿Cuáles son coloides?</div><div class="opts" id="q10"><button class="opt-btn" data-correct="false" onclick="answer(this,'q10')"><span class="opt-lbl">A</span>A y C</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q10')"><span class="opt-lbl">B</span>B y D</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q10')"><span class="opt-lbl">C</span>A y D</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q10')"><span class="opt-lbl">D</span>B y C</button></div><div class="feedback" id="fb-q10"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 11</div><div class="q-text">Se disuelven 45 g de NaNO₃ en 300 mL de agua, obteniéndose 321 mL de solución (densidad = 1 g/mL). ¿Cuál es su concentración en %m/m y %m/v?</div><div class="opts" id="q11"><button class="opt-btn" data-correct="false" onclick="answer(this,'q11')"><span class="opt-lbl">A</span>12% m/m y 13% m/v</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q11')"><span class="opt-lbl">B</span>13% m/m y 12% m/v</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q11')"><span class="opt-lbl">C</span>14% m/m y 14% m/v</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q11')"><span class="opt-lbl">D</span>15% m/m y 14% m/v</button></div><div class="feedback" id="fb-q11"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 12</div><div class="q-text">Se tienen tres disoluciones de NaOH: (1) 0,01 mol en 100 mL, (2) 4 g en 1 L, (3) 0,2 mol en 2 L. La masa molar del NaOH es 40 g/mol. ¿Cuál afirmación es correcta?</div><div class="opts" id="q12"><button class="opt-btn" data-correct="true" onclick="answer(this,'q12')"><span class="opt-lbl">A</span>Las tres disoluciones tienen la misma concentración (0,1 mol/L)</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q12')"><span class="opt-lbl">B</span>La disolución 1 es la más diluida</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q12')"><span class="opt-lbl">C</span>La disolución 2 es la más concentrada</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q12')"><span class="opt-lbl">D</span>Las disoluciones 1 y 3 son más diluidas que la 2</button></div><div class="feedback" id="fb-q12"></div></div>
+
+    <div class="pg-footer"><strong>Química · 2° Medio · Disoluciones</strong></div>
+  </div>
+
+</div>
+
+<script>
+var FBK = {
+  q1:  { ok: 'Correcto. Los gases tienen menor solubilidad a mayor temperatura. Al calentar la bebida, el CO₂ tiene menos tendencia a permanecer disuelto y escapa más fácilmente al abrirla.', fail: 'Los gases (como CO₂) tienen menor solubilidad a mayor temperatura. La regla es contraria a los sólidos: calentar agua fuerza a los gases a salir de la solución.' },
+  q2:  { ok: 'Correcto. Los gases se disuelven más en agua fría. El agua fría del Pacífico Sur tiene mayor solubilidad de O₂ que el cálido Mar Caribe — beneficiando la vida marina.', fail: 'Para gases: mayor temperatura = MENOR solubilidad. El Pacífico frío disuelve más O₂ que el Caribe cálido.' },
+  q3:  { ok: 'Correcto. Al evaporar solvente, hay menos solvente para la misma cantidad de soluto → la relación soluto/solvente aumenta → mayor concentración.', fail: 'Al evaporar solvente, el soluto queda en menos volumen → la concentración aumenta. La cantidad de soluto no cambia, el solvente disminuye.' },
+  q4:  { ok: 'Correcto. n = M × V: en ambos casos n = 0,5 mol. Tienen distinta concentración molar pero la misma cantidad total de soluto.', fail: 'n = M × V: solución 1: 0,25×2 = 0,5 mol; solución 2: 0,5×1 = 0,5 mol. Ambas tienen el mismo número de moles de soluto.' },
+  q5:  { ok: 'Correcto. Al enfriar la solución se forman cristales → la solución estaba sobresaturada (tenía más soluto disuelto del que puede sostener a la temperatura final).', fail: 'Si al enfriar precipita soluto, la disolución estaba sobresaturada: contenía más soluto del que podía sostener en equilibrio a la temperatura nueva.' },
+  q6:  { ok: 'Correcto. n = M × V = 2 × 2 = 4 mol. Masa = 4 mol × 17 g/mol = 68 g.', fail: 'Primero calcula moles: n = M × V = 2 mol/L × 2 L = 4 mol. Luego masa = 4 mol × 17 g/mol = 68 g.' },
+  q7:  { ok: 'Correcto. A: transparente, sin sedimentar → Disolución (partículas <1 nm). B: efecto Tyndall + no sedimenta → Coloide (1-1000 nm). C: sedimenta visiblemente → Suspensión (>1000 nm).', fail: 'Disolución: transparente, sin Tyndall, sin sedimento. Coloide: efecto Tyndall + no sedimenta. Suspensión: sedimenta, partículas visibles.' },
+  q8:  { ok: 'Correcto. "Like dissolves like": los lípidos son apolares y el agua es polar. No hay afinidad entre ellos → no se mezclan. Para disolver lípidos se necesita un solvente apolar.', fail: 'Los lípidos son apolares. El agua es polar. Dos sustancias de polaridad opuesta no se disuelven entre sí. Principio: lo semejante disuelve a lo semejante.' },
+  q9:  { ok: 'Correcto. 25% m/m → 25 g soluto por 100 g disolución. Para 90 g de acetona: 25→100 / 90→360 g disolución. Agua = 360 − 90 = 270 g.', fail: 'Por regla de 3: si 25 g de soluto están en 100 g de disolución, 90 g estarán en 360 g de disolución. Masa de agua = 360 - 90 = 270 g.' },
+  q10: { ok: 'Correcto. Coloides: partículas 1-1000 nm, efecto Tyndall, no sedimentan. B (250 nm, Tyndall) y D (800 nm, Tyndall) son coloides. A es disolución (muy pequeño, sin Tyndall). C es suspensión (sedimenta).', fail: 'Coloides tienen partículas 1-1000 nm y presentan efecto Tyndall. B (250 nm + Tyndall) y D (800 nm + Tyndall) son coloides. A es disolución, C es suspensión.' },
+  q11: { ok: 'Correcto. %m/m = (45/321) × 100 = 14%. %m/v = (45/321) × 100 = 14% (ya que densidad = 1 g/mL → 321 mL = 321 g).', fail: '%m/m = (masa soluto / masa disolución) × 100 = (45/321) × 100 ≈ 14%. Con densidad 1 g/mL, 321 mL = 321 g, así que %m/v también ≈ 14%.' },
+  q12: { ok: 'Correcto. (1) 0,01 mol/0,1 L = 0,1 M. (2) 4 g / 40 g/mol = 0,1 mol / 1 L = 0,1 M. (3) 0,2 mol / 2 L = 0,1 M. Las tres son 0,1 mol/L.', fail: 'Convierte todo a molaridad: (1) 0,01/0,1=0,1 M; (2) 4g/40g/mol=0,1mol → 0,1/1=0,1 M; (3) 0,2/2=0,1 M. Las tres son iguales: 0,1 M.' }
+};
+
+var totalQ = Object.keys(FBK).length;
+var answered = 0, correct = 0, wrong = 0;
+
+function showTab(tab, btn) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('panel-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+function answer(btn, qid) {
+  var group = document.getElementById(qid);
+  var fb    = document.getElementById('fb-' + qid);
+  var buttons = group.querySelectorAll('.opt-btn');
+  if (btn.disabled) return;
+  var isOk = btn.getAttribute('data-correct') === 'true';
+  buttons.forEach(function(b){
+    b.disabled = true;
+    if (b.getAttribute('data-correct') === 'true') b.classList.add('correct');
+    else if (b === btn && !isOk)                   b.classList.add('wrong');
+    else                                            b.classList.add('dimmed');
+  });
+  if (isOk) {
+    correct++;
+    fb.className = 'feedback show ok'; fb.textContent = '✓ ' + FBK[qid].ok;
+  } else {
+    wrong++;
+    fb.className = 'feedback show fail'; fb.textContent = '✗ ' + FBK[qid].fail;
+  }
+  answered++;
+  updateScore();
+  AppAuth.saveProgress('quim-disol-' + qid, 'quimica', 'disoluciones', isOk);
+}
+
+function updateScore() {
+  document.getElementById('sc-ok').textContent   = correct;
+  document.getElementById('sc-fail').textContent  = wrong;
+  document.getElementById('sc-pend').textContent  = totalQ - answered;
+}
+
+function resetQuiz() {
+  answered = 0; correct = 0; wrong = 0;
+  updateScore();
+  document.querySelectorAll('.opt-btn').forEach(function(b){ b.disabled = false; b.className = 'opt-btn'; });
+  document.querySelectorAll('.feedback').forEach(function(f){ f.className = 'feedback'; f.textContent = ''; });
+}
+
+document.getElementById('sc-pend').textContent = totalQ;
+</script>
+</div>
+</body>
+</html>

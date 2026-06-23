@@ -155,11 +155,20 @@
   </style>
 </head>
 <body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../supabase-client.js"></script>
+<script src="../auth-guard.js"></script>
 <div class="page">
 
-  <nav class="nav">
-    <a href="index.html" class="back-btn">← Biología</a>
-    <span class="crumb">Meiosis y Variabilidad</span>
+  <nav class="nav" style="display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="index.html" class="back-btn">← Biología</a>
+      <span class="crumb">Meiosis y Variabilidad</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding-right:4px;">
+      <span style="font-size:.75rem;color:#94a3b8;" id="nav-user"></span>
+      <button onclick="AppAuth.signOut()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:5px 10px;color:#94a3b8;font-size:.78rem;font-weight:600;cursor:pointer;">Salir</button>
+    </div>
   </nav>
 
   <div class="header">
@@ -694,7 +703,8 @@ function answer(qi, chosen) {
     else b.classList.add('dimmed');
   });
 
-  if (chosen === q.correct) {
+  var isOk = (chosen === q.correct);
+  if (isOk) {
     scores.ok++;
     fb.className = 'feedback show ok';
     fb.innerHTML = '✅ ' + q.fb;
@@ -704,6 +714,7 @@ function answer(qi, chosen) {
     fb.innerHTML = '❌ ' + q.fb;
   }
   updateScore();
+  AppAuth.saveProgress('bio-meiosis-q' + qi, 'biologia', 'meiosis', isOk);
 }
 
 function updateScore() {
