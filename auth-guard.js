@@ -1,6 +1,5 @@
 // ── Auth Guard ───────────────────────────────────────────────────────────────
 // Carga siempre DESPUÉS de supabase-client.js
-// Oculta la página hasta verificar sesión y token de sesión; redirige si no hay sesión.
 (function () {
   document.documentElement.style.visibility = 'hidden';
 
@@ -9,12 +8,30 @@
     return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
   }
 
+  function kickOut() {
+    window.sb.auth.signOut().then(function () {
+      localStorage.removeItem('_stkn');
+      window.location.href = '../index.html?msg=kicked';
+    });
+  }
+
+  function startTokenPolling(userId) {
+    setInterval(function () {
+      window.sb.auth.getSession().then(function (res) {
+        if (!res.data.session) { window.location.href = '../index.html'; return; }
+        window.sb.from('profiles').select('session_token').eq('id', userId).single().then(function (r) {
+          if (r.data && r.data.session_token) {
+            var stored = localStorage.getItem('_stkn');
+            if (!stored || stored !== r.data.session_token) kickOut();
+          }
+        });
+      });
+    }, 15000); // revisa cada 15 segundos
+  }
+
   window.sb.auth.getSession().then(function (res) {
     var session = res.data.session;
-    if (!session) {
-      window.location.href = '../index.html';
-      return;
-    }
+    if (!session) { window.location.href = '../index.html'; return; }
 
     window.sb
       .from('profiles')
@@ -24,14 +41,9 @@
       .then(function (r) {
         if (r.data && r.data.session_token) {
           var stored = localStorage.getItem('_stkn');
-          if (!stored || stored !== r.data.session_token) {
-            window.sb.auth.signOut().then(function () {
-              window.location.href = '../index.html?msg=kicked';
-            });
-            return;
-          }
+          if (!stored || stored !== r.data.session_token) { kickOut(); return; }
         } else {
-          // Token aún no existe (primer acceso con nuevo sistema): generarlo
+          // Primer acceso con el nuevo sistema: generar token
           var newToken = genToken();
           localStorage.setItem('_stkn', newToken);
           window.sb.from('profiles').update({ session_token: newToken }).eq('id', session.user.id);
@@ -40,6 +52,8 @@
         document.documentElement.style.visibility = '';
         var el = document.getElementById('nav-user');
         if (el && r.data) el.textContent = r.data.display_name || '';
+
+        startTokenPolling(session.user.id);
       });
   });
 
