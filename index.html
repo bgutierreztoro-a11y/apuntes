@@ -462,18 +462,20 @@
   }
 
   // ── Verificar sesión existente ──
-  window.sb.auth.getSession().then(function (res) {
-    var session = res.data.session;
-    if (!session) return;
-    window.sb.from('profiles').select('display_name, session_token').eq('id', session.user.id).single().then(function (r) {
-      if (r.data && r.data.session_token) {
-        var stored = localStorage.getItem('_stkn');
-        if (!stored || stored !== r.data.session_token) {
-          window.sb.auth.signOut();
-          return;
-        }
-      }
-      openDash(session, r.data);
+  window.sb.auth.getUser().then(function (ures) {
+    if (!ures.data.user) return;
+    var user    = ures.data.user;
+    var dbToken = user.user_metadata && user.user_metadata.stkn;
+    var stored  = localStorage.getItem('_stkn');
+    if (dbToken && (!stored || stored !== dbToken)) {
+      window.sb.auth.signOut();
+      return;
+    }
+    window.sb.auth.getSession().then(function (res) {
+      if (!res.data.session) return;
+      window.sb.from('profiles').select('display_name').eq('id', user.id).single().then(function (r) {
+        openDash(res.data.session, r.data);
+      });
     });
   });
 
@@ -582,7 +584,8 @@
           var dname = currentEmail.split('@')[0];
           var token = genToken();
           localStorage.setItem('_stkn', token);
-          window.sb.from('profiles').upsert({ id: uid, display_name: dname, session_token: token }, { onConflict: 'id' });
+          window.sb.auth.updateUser({ data: { stkn: token } });
+          window.sb.from('profiles').upsert({ id: uid, display_name: dname }, { onConflict: 'id' });
           if (res.data.session) {
             openDash(res.data.session, { display_name: dname });
           } else {
@@ -607,7 +610,7 @@
         var uid   = res.data.session.user.id;
         var token = genToken();
         localStorage.setItem('_stkn', token);
-        window.sb.from('profiles').update({ session_token: token }).eq('id', uid).then(function () {
+        window.sb.auth.updateUser({ data: { stkn: token } }).then(function () {
           window.sb.from('profiles').select('display_name').eq('id', uid).single().then(function (r) {
             openDash(res.data.session, r.data);
           });

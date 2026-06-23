@@ -9,52 +9,50 @@
   }
 
   function kickOut() {
+    localStorage.removeItem('_stkn');
     window.sb.auth.signOut().then(function () {
-      localStorage.removeItem('_stkn');
       window.location.href = '../index.html?msg=kicked';
     });
   }
 
-  function startTokenPolling(userId) {
-    setInterval(function () {
-      window.sb.auth.getSession().then(function (res) {
-        if (!res.data.session) { window.location.href = '../index.html'; return; }
-        window.sb.from('profiles').select('session_token').eq('id', userId).single().then(function (r) {
-          if (r.data && r.data.session_token) {
-            var stored = localStorage.getItem('_stkn');
-            if (!stored || stored !== r.data.session_token) kickOut();
-          }
-        });
-      });
-    }, 15000); // revisa cada 15 segundos
+  // Usa getUser() (llamada fresca al servidor) para leer el token real
+  function checkToken(onPass) {
+    window.sb.auth.getUser().then(function (res) {
+      if (!res.data.user) { window.location.href = '../index.html'; return; }
+      var user     = res.data.user;
+      var dbToken  = user.user_metadata && user.user_metadata.stkn;
+      var stored   = localStorage.getItem('_stkn');
+
+      if (!dbToken) {
+        // Usuario sin token aún: generar y guardar en metadata
+        var newToken = genToken();
+        localStorage.setItem('_stkn', newToken);
+        window.sb.auth.updateUser({ data: { stkn: newToken } });
+        if (onPass) onPass(user.id);
+      } else if (!stored || stored !== dbToken) {
+        kickOut();
+      } else {
+        if (onPass) onPass(user.id);
+      }
+    });
   }
 
+  // Verificación inicial al cargar la página
   window.sb.auth.getSession().then(function (res) {
     var session = res.data.session;
     if (!session) { window.location.href = '../index.html'; return; }
 
-    window.sb
-      .from('profiles')
-      .select('display_name, session_token')
-      .eq('id', session.user.id)
-      .single()
-      .then(function (r) {
-        if (r.data && r.data.session_token) {
-          var stored = localStorage.getItem('_stkn');
-          if (!stored || stored !== r.data.session_token) { kickOut(); return; }
-        } else {
-          // Primer acceso con el nuevo sistema: generar token
-          var newToken = genToken();
-          localStorage.setItem('_stkn', newToken);
-          window.sb.from('profiles').update({ session_token: newToken }).eq('id', session.user.id);
-        }
+    checkToken(function (uid) {
+      document.documentElement.style.visibility = '';
 
-        document.documentElement.style.visibility = '';
+      window.sb.from('profiles').select('display_name').eq('id', uid).single().then(function (r) {
         var el = document.getElementById('nav-user');
         if (el && r.data) el.textContent = r.data.display_name || '';
-
-        startTokenPolling(session.user.id);
       });
+
+      // Verificar cada 15 segundos — si otro dispositivo inició sesión, kick
+      setInterval(function () { checkToken(null); }, 15000);
+    });
   });
 
   window.AppAuth = {
@@ -68,22 +66,19 @@
     saveProgress: function (questionId, subject, topic, correct) {
       window.sb.auth.getSession().then(function (res) {
         if (!res.data.session) return;
-        window.sb
-          .from('question_results')
-          .upsert(
-            {
-              user_id:     res.data.session.user.id,
-              question_id: questionId,
-              subject:     subject,
-              topic:       topic,
-              correct:     correct,
-              answered_at: new Date().toISOString()
-            },
-            { onConflict: 'user_id,question_id' }
-          )
-          .then(function (r) {
-            if (r.error) console.warn('[Auth] saveProgress error:', r.error.message);
-          });
+        window.sb.from('question_results').upsert(
+          {
+            user_id:     res.data.session.user.id,
+            question_id: questionId,
+            subject:     subject,
+            topic:       topic,
+            correct:     correct,
+            answered_at: new Date().toISOString()
+          },
+          { onConflict: 'user_id,question_id' }
+        ).then(function (r) {
+          if (r.error) console.warn('[Auth] saveProgress error:', r.error.message);
+        });
       });
     }
   };
