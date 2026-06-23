@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chile 1958-1973 — Historia 2° Medio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #f9fafb; color: #111827; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    .page { max-width: 480px; margin: 0 auto; padding-bottom: 60px; }
+
+    .top-nav { background: #0f172a; padding: 12px 16px; display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 30; }
+    .nav-back { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); color: #94a3b8; border-radius: 8px; padding: 5px 12px; font-family: inherit; font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; }
+    .nav-crumb { font-size: 0.72rem; color: #475569; }
+
+    .page-header { background: #111827; padding: 28px 20px 30px; }
+    .header-chip { display: inline-flex; align-items: center; gap: 5px; background: rgba(13,148,136,0.18); border: 1px solid rgba(13,148,136,0.35); border-radius: 20px; padding: 4px 12px; font-size: 0.68rem; font-weight: 700; color: #5eead4; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+    .page-header h1 { font-size: 1.9rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1.1; color: #fff; margin-bottom: 8px; }
+    .header-sub { font-size: 0.84rem; color: #6b7280; font-weight: 500; }
+
+    .prueba-banner { background: #fffbeb; border: 1px solid #fcd34d; border-left: 4px solid #f59e0b; border-radius: 12px; margin: 16px 16px 0; padding: 12px 16px; display: flex; align-items: flex-start; gap: 10px; }
+    .prueba-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .prueba-title { font-size: 0.84rem; font-weight: 800; color: #92400e; margin-bottom: 3px; }
+    .prueba-sub { font-size: 0.74rem; color: #b45309; line-height: 1.4; }
+
+    .tab-bar { display: flex; gap: 8px; padding: 14px 16px 12px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 45px; z-index: 20; }
+    .tab-btn { flex: 1; padding: 9px 0; font-size: 0.83rem; font-weight: 700; border: none; border-radius: 9px; background: #f3f4f6; color: #6b7280; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .tab-btn.active { background: #0d9488; color: #fff; }
+
+    .panel { display: none; padding: 20px 16px; }
+    .panel.active { display: block; }
+
+    .sec-h { font-size: 0.97rem; font-weight: 800; color: #111827; margin: 28px 0 12px; padding-left: 12px; border-left: 3px solid #0d9488; line-height: 1.3; }
+    .sec-h:first-child { margin-top: 0; }
+
+    .car-block { background: #1e293b; border-radius: 16px; overflow: hidden; margin-bottom: 16px; }
+    .car-header { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .car-type { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #5eead4; }
+    .car-date { font-size: 0.72rem; font-weight: 600; color: #94a3b8; }
+    .car-body { padding: 16px; }
+    .car-caption { font-size: 0.71rem; color: #64748b; padding: 8px 16px 14px; line-height: 1.45; }
+
+    .kp-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .kp-list li { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 11px 14px; font-size: 0.82rem; color: #374151; line-height: 1.5; }
+    .kp-list li strong { color: #0d9488; font-weight: 700; }
+
+    .info-box { background: #f0fdfa; border: 1px solid rgba(13,148,136,0.25); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
+    .info-box h4 { font-size: 0.78rem; font-weight: 800; color: #065f46; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .info-box p { font-size: 0.81rem; color: #047857; line-height: 1.5; }
+
+    /* TERCIOS VISUALIZATION */
+    .tercios-wrap { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 16px; margin-bottom: 16px; }
+    .tercios-title { font-size: 0.78rem; font-weight: 800; color: #0d9488; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
+    .tercio-item { margin-bottom: 14px; }
+    .tercio-item:last-child { margin-bottom: 0; }
+    .tercio-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
+    .tercio-name { font-size: 0.83rem; font-weight: 700; color: #111827; }
+    .tercio-pct { font-size: 0.82rem; font-weight: 800; }
+    .tercio-bar-wrap { height: 8px; background: #f3f4f6; border-radius: 8px; overflow: hidden; margin-bottom: 4px; }
+    .tercio-bar { height: 100%; border-radius: 8px; }
+    .tercio-sub { font-size: 0.72rem; color: #9ca3af; }
+    .tercio-item.derecha .tercio-pct { color: #4f46e5; }
+    .tercio-item.derecha .tercio-bar { background: #4f46e5; width: 31.6%; }
+    .tercio-item.centro .tercio-pct { color: #f59e0b; }
+    .tercio-item.centro .tercio-bar { background: #f59e0b; width: 56.1%; }
+    .tercio-item.izquierda .tercio-pct { color: #ef4444; }
+    .tercio-item.izquierda .tercio-bar { background: #ef4444; width: 36.3%; }
+
+    /* PARTICIPATION STATS */
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .stat-item { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px 10px; text-align: center; }
+    .stat-year { font-size: 0.65rem; font-weight: 800; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .stat-val { font-size: 1.1rem; font-weight: 900; color: #0d9488; line-height: 1; margin-bottom: 3px; }
+    .stat-lbl { font-size: 0.62rem; color: #9ca3af; }
+
+    /* MODELOS ECONÓMICOS */
+    .modelos-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .modelo-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; display: flex; }
+    .modelo-accent { width: 5px; flex-shrink: 0; }
+    .modelo-accent.alessandri { background: #4f46e5; }
+    .modelo-accent.frei { background: #f59e0b; }
+    .modelo-accent.allende { background: #ef4444; }
+    .modelo-body { padding: 12px 14px; flex: 1; }
+    .modelo-pres { font-size: 0.67rem; font-weight: 800; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 3px; }
+    .modelo-name { font-size: 0.88rem; font-weight: 800; color: #111827; margin-bottom: 4px; }
+    .modelo-base { font-size: 0.77rem; color: #6b7280; line-height: 1.45; }
+
+    /* REFORMA POR PRESIDENTE — accordion style cards */
+    .reform-block { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .reform-card { border-radius: 12px; overflow: hidden; border: 1px solid #e5e7eb; }
+    .reform-card-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; }
+    .reform-card-head.alessandri { background: rgba(79,70,229,0.08); }
+    .reform-card-head.frei { background: rgba(245,158,11,0.1); }
+    .reform-card-head.allende { background: rgba(239,68,68,0.08); }
+    .reform-pres-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .reform-pres-dot.alessandri { background: #4f46e5; }
+    .reform-pres-dot.frei { background: #f59e0b; }
+    .reform-pres-dot.allende { background: #ef4444; }
+    .reform-pres-name { font-size: 0.8rem; font-weight: 800; color: #111827; flex: 1; }
+    .reform-pres-years { font-size: 0.68rem; color: #9ca3af; font-weight: 600; }
+    .reform-card-body { background: #fff; padding: 11px 14px; font-size: 0.8rem; color: #374151; line-height: 1.5; }
+    .reform-card-body strong { color: #111827; font-weight: 700; }
+
+    /* ═══ CAMBIO Y CONTINUIDAD ═══ */
+    .cc-section { background: #111827; border-radius: 16px; padding: 20px 16px; margin-bottom: 16px; }
+    .cc-title { font-size: 1rem; font-weight: 900; color: #fff; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .cc-sub { font-size: 0.78rem; color: #6b7280; margin-bottom: 20px; line-height: 1.4; }
+
+    .cc-pres-heads { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+    .cc-pres-head { border-radius: 8px; padding: 8px 6px; text-align: center; }
+    .cc-pres-head.alessandri { background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.35); }
+    .cc-pres-head.frei { background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.35); }
+    .cc-pres-head.allende { background: rgba(239,68,68,0.2); border: 1px solid rgba(239,68,68,0.35); }
+    .cc-pres-name { font-size: 0.72rem; font-weight: 800; color: #f1f5f9; display: block; margin-bottom: 2px; }
+    .cc-pres-years { font-size: 0.62rem; color: #94a3b8; }
+
+    .cc-area { margin-bottom: 16px; }
+    .cc-area:last-child { margin-bottom: 0; }
+    .cc-area-label { font-size: 0.68rem; font-weight: 800; color: #5eead4; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .cc-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .cc-card { border-radius: 8px; padding: 8px; }
+    .cc-card.alessandri { background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); }
+    .cc-card.frei { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); }
+    .cc-card.allende { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); }
+    .cc-card-text { font-size: 0.73rem; color: #cbd5e1; line-height: 1.4; margin-bottom: 6px; }
+    .cc-tag { display: inline-block; font-size: 0.58rem; font-weight: 800; border-radius: 4px; padding: 2px 6px; letter-spacing: 0.04em; text-transform: uppercase; }
+    .cc-tag.continuidad { background: rgba(16,185,129,0.2); color: #6ee7b7; }
+    .cc-tag.cambio { background: rgba(245,158,11,0.2); color: #fbbf24; }
+    .cc-tag.ruptura { background: rgba(239,68,68,0.2); color: #fca5a5; }
+
+    .cc-synthesis { background: rgba(13,148,136,0.12); border: 1px solid rgba(13,148,136,0.25); border-radius: 10px; padding: 12px 14px; margin-top: 16px; }
+    .cc-synthesis-title { font-size: 0.72rem; font-weight: 800; color: #5eead4; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
+    .cc-synthesis p { font-size: 0.79rem; color: #94a3b8; line-height: 1.5; }
+    .cc-synthesis strong { color: #e2e8f0; }
+
+    /* QUIZ */
+    .quiz-score { background: #fff; border-radius: 12px; padding: 16px; border: 1px solid #e5e7eb; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    .score-label { font-size: 0.7rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+    .score-val { font-size: 1.5rem; font-weight: 900; color: #0d9488; }
+    .quiz-item { background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; overflow: hidden; margin-bottom: 12px; }
+    .quiz-q-header { padding: 14px 16px 10px; }
+    .quiz-num { font-size: 0.63rem; font-weight: 800; color: #0d9488; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .quiz-q-text { font-size: 0.86rem; font-weight: 700; color: #111827; line-height: 1.4; }
+    .quiz-opts { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 6px; }
+    .opt { border: 1.5px solid #e5e7eb; border-radius: 8px; padding: 10px 14px; font-size: 0.81rem; background: #fff; color: #374151; text-align: left; cursor: pointer; font-family: inherit; font-weight: 500; transition: border-color 0.15s, background 0.15s; line-height: 1.35; }
+    .opt:hover:not(.disabled) { border-color: #0d9488; background: #f0fdfa; }
+    .opt.correct { border-color: #10b981 !important; background: #ecfdf5 !important; color: #065f46 !important; font-weight: 700; }
+    .opt.wrong { border-color: #ef4444 !important; background: #fef2f2 !important; color: #b91c1c !important; }
+    .opt.disabled { pointer-events: none; }
+    .quiz-fb { margin: 0 12px 12px; padding: 10px 12px; border-radius: 8px; font-size: 0.79rem; line-height: 1.45; display: none; font-weight: 600; }
+    .quiz-fb.show { display: block; }
+    .quiz-fb.correct { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .quiz-fb.wrong { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+    .reset-btn { display: block; width: 100%; padding: 14px; background: #0d9488; color: #fff; border: none; border-radius: 12px; font-size: 0.9rem; font-weight: 800; cursor: pointer; margin-top: 8px; font-family: inherit; }
+    .reset-btn:hover { opacity: 0.9; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="top-nav">
+    <a href="historia.html" class="nav-back">← Historia</a>
+    <span class="nav-crumb">/ Chile 1958-1973</span>
+  </nav>
+
+  <div class="page-header">
+    <div class="header-chip">🇨🇱 Historia · 2° Medio</div>
+    <h1>Chile 1958–1973</h1>
+    <p class="header-sub">Sociedad en movimiento — cambios estructurales y quiebre democrático</p>
+  </div>
+
+  <div class="prueba-banner">
+    <span class="prueba-icon">⚠️</span>
+    <div>
+      <div class="prueba-title">Esto entra en la prueba</div>
+      <div class="prueba-sub">Tres tercios · Reforma agraria · Cobre · Vivienda · ENU · Cambio y Continuidad entre Alessandri, Frei y Allende</div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(event,'estudiar')">📖 Estudiar</button>
+    <button class="tab-btn" onclick="switchTab(event,'practicar')">✏️ Practicar</button>
+  </div>
+
+  <!-- ═══════════════ ESTUDIAR ═══════════════ -->
+  <div id="estudiar" class="panel active">
+
+    <h2 class="sec-h">El Diagnóstico: Chile necesita cambiar</h2>
+
+    <ul class="kp-list">
+      <li><strong>Modelo ISI agotado:</strong> Chile llegó a 1958 con el modelo de Industrialización por Sustitución de Importaciones desgastado. Crecimiento lento, inflación alta, dependencia del cobre.</li>
+      <li><strong>Sociedad desigual:</strong> La tierra concentrada en pocas manos (latifundio), el cobre en manos de empresas norteamericanas, y el déficit habitacional masivo generaban tensión social creciente.</li>
+      <li><strong>Tres diagnósticos distintos:</strong> Los tres tercios del espectro político compartían el diagnóstico del problema (Chile está estancado), pero diferían radicalmente en la solución.</li>
+      <li><strong>Contexto internacional:</strong> La Guerra Fría, la Revolución Cubana (1959) y el debate Alianza para el Progreso vs. socialismo marcaron profundamente las opciones disponibles.</li>
+    </ul>
+
+    <h2 class="sec-h">La Explosión Democrática: más ciudadanos votan</h2>
+
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-year">1958</div>
+        <div class="stat-val">1,5M</div>
+        <div class="stat-lbl">Votantes</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-year">1964</div>
+        <div class="stat-val">2,9M</div>
+        <div class="stat-lbl">Votantes</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-year">1973</div>
+        <div class="stat-val">4,5M</div>
+        <div class="stat-lbl">Votantes</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h4>¿Qué explica este salto?</h4>
+      <p>La extensión del voto a las mujeres (1949), la incorporación de analfabetos en 1970, la reforma educacional que aumentó la escolaridad, y la politización de nuevos sectores sociales (pobladores, campesinos, jóvenes). La democracia chilena se profundizó justo cuando más se polarizaba.</p>
+    </div>
+
+    <h2 class="sec-h">El Sistema de los Tres Tercios</h2>
+
+    <div class="tercios-wrap">
+      <div class="tercios-title">Composición del electorado (aprox.)</div>
+      <div class="tercio-item derecha">
+        <div class="tercio-top">
+          <div class="tercio-name">Derecha — Alessandri (1958)</div>
+          <div class="tercio-pct">31,6%</div>
+        </div>
+        <div class="tercio-bar-wrap"><div class="tercio-bar"></div></div>
+        <div class="tercio-sub">PN, PL · modelo liberal · empresa privada</div>
+      </div>
+      <div class="tercio-item centro">
+        <div class="tercio-top">
+          <div class="tercio-name">Centro — Frei (1964)</div>
+          <div class="tercio-pct">56,1%</div>
+        </div>
+        <div class="tercio-bar-wrap"><div class="tercio-bar"></div></div>
+        <div class="tercio-sub">DC · democracia cristiana · reformismo moderado</div>
+      </div>
+      <div class="tercio-item izquierda">
+        <div class="tercio-top">
+          <div class="tercio-name">Izquierda — Allende (1970)</div>
+          <div class="tercio-pct">36,3%</div>
+        </div>
+        <div class="tercio-bar-wrap"><div class="tercio-bar"></div></div>
+        <div class="tercio-sub">UP (PS+PC) · vía chilena al socialismo</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h4>La paradoja del sistema</h4>
+      <p>Ningún sector tenía mayoría absoluta por sí solo. Eso obligaba a alianzas y negociaciones. Cuando la polarización rompió esos puentes de diálogo, el sistema entró en crisis. Allende ganó en 1970 con solo el 36,3% — minoría relativa que el Congreso ratificó.</p>
+    </div>
+
+    <h2 class="sec-h">Los Tres Modelos Económicos</h2>
+
+    <div class="modelos-grid">
+      <div class="modelo-card">
+        <div class="modelo-accent alessandri"></div>
+        <div class="modelo-body">
+          <div class="modelo-pres">Alessandri (1958-64)</div>
+          <div class="modelo-name">Liberalismo / Alianza para el Progreso</div>
+          <div class="modelo-base">Reducir el Estado, abrir la economía, atraer inversión privada extranjera. Reformas mínimas para mantener estabilidad. Influencia del modelo norteamericano (ApP).</div>
+        </div>
+      </div>
+      <div class="modelo-card">
+        <div class="modelo-accent frei"></div>
+        <div class="modelo-body">
+          <div class="modelo-pres">Frei Montalva (1964-70)</div>
+          <div class="modelo-name">Desarrollismo / Keynesianismo CEPAL</div>
+          <div class="modelo-base">Estado planificador y reformador. Basado en las ideas de la CEPAL: la industrialización planificada como salida al subdesarrollo. "Revolución en libertad" — reformas profundas sin ruptura.</div>
+        </div>
+      </div>
+      <div class="modelo-card">
+        <div class="modelo-accent allende"></div>
+        <div class="modelo-body">
+          <div class="modelo-pres">Allende (1970-73)</div>
+          <div class="modelo-name">Socialismo / Teoría de la Dependencia</div>
+          <div class="modelo-base">El subdesarrollo es estructural y resultado de la dominación imperialista. Solo la socialización de los medios de producción y la ruptura con el capitalismo dependiente generará desarrollo real.</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="sec-h">Reforma Agraria: El Campo en Disputa</h2>
+
+    <div class="reform-block">
+      <div class="reform-card">
+        <div class="reform-card-head alessandri">
+          <div class="reform-pres-dot alessandri"></div>
+          <div class="reform-pres-name">Jorge Alessandri</div>
+          <div class="reform-pres-years">1958–1964</div>
+        </div>
+        <div class="reform-card-body">
+          <strong>"La Reforma del Macetero"</strong> — reforma mínima. Solo redistribuyó tierras marginales e improductivas. No tocó los grandes latifundios. La derechá quería mostrar que "algo se hacía" sin alterar el poder terrateniente. El apodo "del macetero" surgió porque las tierras eran tan pequeñas que cabían en una maceta de jardín.
+        </div>
+      </div>
+      <div class="reform-card">
+        <div class="reform-card-head frei">
+          <div class="reform-pres-dot frei"></div>
+          <div class="reform-pres-name">Eduardo Frei Montalva</div>
+          <div class="reform-pres-years">1964–1970</div>
+        </div>
+        <div class="reform-card-body">
+          <strong>Ley 16.640 (1967)</strong> — reforma agraria profunda. Expropiación de predios sobre 80 HRB (hectáreas de riego básico). Entregó tierras a campesinos organizados en asentamientos. Creó la CORA (Corporación de la Reforma Agraria) y el INDAP. Afectó más de 30 millones de hectáreas durante su gobierno.
+        </div>
+      </div>
+      <div class="reform-card">
+        <div class="reform-card-head allende">
+          <div class="reform-pres-dot allende"></div>
+          <div class="reform-pres-name">Salvador Allende</div>
+          <div class="reform-pres-years">1970–1973</div>
+        </div>
+        <div class="reform-card-body">
+          <strong>Radicalización del proceso.</strong> Allende aceleró las expropiaciones usando la misma ley de Frei. Pero la novedad fue la tolerancia hacia las <em>tomas de fundos</em> — campesinos que ocupaban ilegalmente tierras antes de que se expropiaran legalmente. El MIR y otros grupos empujaban más allá del ritmo del gobierno. Surgieron comunidades como La Bandera y Nueva Habana en Santiago.
+        </div>
+      </div>
+    </div>
+
+    <h2 class="sec-h">Nacionalización del Cobre</h2>
+
+    <div class="reform-block">
+      <div class="reform-card">
+        <div class="reform-card-head frei">
+          <div class="reform-pres-dot frei"></div>
+          <div class="reform-pres-name">Frei Montalva: "Chilenización"</div>
+          <div class="reform-pres-years">1964–1970</div>
+        </div>
+        <div class="reform-card-body">
+          El Estado chileno adquirió el <strong>51% de las acciones</strong> de las grandes mineras norteamericanas (Anaconda, Kennecott). No fue una expropiación total — fue una compra negociada que mantuvo a las empresas norteamericanas como socias minoritarias. Frei lo llamó "chilenización" para diferenciarlo de la nacionalización total que pedía la izquierda.
+        </div>
+      </div>
+      <div class="reform-card">
+        <div class="reform-card-head allende">
+          <div class="reform-pres-dot allende"></div>
+          <div class="reform-pres-name">Allende: Nacionalización Total</div>
+          <div class="reform-pres-years">1971</div>
+        </div>
+        <div class="reform-card-body">
+          El Congreso aprobó la nacionalización total del cobre <strong>por unanimidad</strong> en julio de 1971 — incluyendo a la oposición de derecha y la DC. Las minas pasaron 100% al Estado, bajo CODELCO. EEUU reaccionó con bloqueo económico ("hacer aullar la economía", Nixon). Para Allende, el cobre era "el sueldo de Chile".
+        </div>
+      </div>
+    </div>
+
+    <h2 class="sec-h">Política Habitacional: La Ciudad en Disputa</h2>
+
+    <div class="reform-block">
+      <div class="reform-card">
+        <div class="reform-card-head alessandri">
+          <div class="reform-pres-dot alessandri"></div>
+          <div class="reform-pres-name">Alessandri</div>
+          <div class="reform-pres-years">1958–1964</div>
+        </div>
+        <div class="reform-card-body">
+          <strong>DFL2 y Poblaciones:</strong> Fomento de la vivienda para clase media mediante el DFL2 (exenciones tributarias). Construcción del conjunto habitacional <em>San Gregorio</em> en Santiago. Política orientada más a sectores medios que a los más pobres.
+        </div>
+      </div>
+      <div class="reform-card">
+        <div class="reform-card-head frei">
+          <div class="reform-pres-dot frei"></div>
+          <div class="reform-pres-name">Frei Montalva</div>
+          <div class="reform-pres-years">1964–1970</div>
+        </div>
+        <div class="reform-card-body">
+          <strong>MINVU (1965) y Operación Sitio:</strong> Creó el Ministerio de Vivienda y Urbanismo. La <em>Operación Sitio</em> entregaba terrenos urbanizados (agua, luz) para que los pobladores construyeran sus propias viviendas. Innovadora pero insuficiente. El episodio de <strong>Puerto Montt (1969)</strong> — represión violenta de una toma de terreno con pobladores muertos — fue el punto de quiebre moral de su gobierno.
+        </div>
+      </div>
+      <div class="reform-card">
+        <div class="reform-card-head allende">
+          <div class="reform-pres-dot allende"></div>
+          <div class="reform-pres-name">Allende</div>
+          <div class="reform-pres-years">1970–1973</div>
+        </div>
+        <div class="reform-card-body">
+          <strong>Tolerancia a las tomas:</strong> Las tomas de terreno se multiplicaron. El gobierno de la UP no reprimió como Frei en Puerto Montt. Surgieron campamentos emblemáticos con nombres políticos: <em>La Bandera</em>, <em>Nueva Habana</em> (Víctor Jara vivió en ésta). Los pobladores se organizaron autónomamente con comités y hasta "tribunales populares".
+        </div>
+      </div>
+    </div>
+
+    <h2 class="sec-h">Políticas Educativas</h2>
+
+    <div class="reform-block">
+      <div class="reform-card">
+        <div class="reform-card-head frei">
+          <div class="reform-pres-dot frei"></div>
+          <div class="reform-pres-name">Frei Montalva: Reforma Educacional</div>
+          <div class="reform-pres-years">1965</div>
+        </div>
+        <div class="reform-card-body">
+          Gran expansión del sistema educativo: amplió cobertura de educación secundaria, construyó escuelas en zonas rurales, capacitó profesores y lanzó campaña de alfabetización masiva. Aumentó el gasto en educación significativamente. Fue una de las reformas más exitosas y perdurables de su gobierno.
+        </div>
+      </div>
+      <div class="reform-card">
+        <div class="reform-card-head allende">
+          <div class="reform-pres-dot allende"></div>
+          <div class="reform-pres-name">Allende: La ENU y la Disputa</div>
+          <div class="reform-pres-years">1973</div>
+        </div>
+        <div class="reform-card-body">
+          La <strong>Escuela Nacional Unificada (ENU)</strong> fue la propuesta de reforma educacional del gobierno de Allende: educación laica, científica y con contenido marxista. Fue presentada en 1973 y generó una enorme controversia. La Iglesia Católica, la oposición y sectores militares la rechazaron duramente. El gobierno debió retirarla. Fue uno de los catalizadores de la polarización final.
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CAMBIO Y CONTINUIDAD ═══ -->
+    <h2 class="sec-h">Cambio y Continuidad: Los Tres Presidentes</h2>
+
+    <div class="cc-section">
+      <div class="cc-title">Cambio y Continuidad</div>
+      <div class="cc-sub">Los tres gobiernos compartieron el diagnóstico: Chile necesitaba reformas estructurales. Diferían en la profundidad, el ritmo y el método.</div>
+
+      <div class="cc-pres-heads">
+        <div class="cc-pres-head alessandri">
+          <span class="cc-pres-name">Alessandri</span>
+          <span class="cc-pres-years">1958–1964 · Derecha</span>
+        </div>
+        <div class="cc-pres-head frei">
+          <span class="cc-pres-name">Frei</span>
+          <span class="cc-pres-years">1964–1970 · DC</span>
+        </div>
+        <div class="cc-pres-head allende">
+          <span class="cc-pres-name">Allende</span>
+          <span class="cc-pres-years">1970–1973 · UP</span>
+        </div>
+      </div>
+
+      <!-- Reforma Agraria -->
+      <div class="cc-area">
+        <div class="cc-area-label">🌾 Reforma Agraria</div>
+        <div class="cc-cards">
+          <div class="cc-card alessandri">
+            <div class="cc-card-text">"Del macetero" — solo tierras marginales. No toca latifundios.</div>
+            <span class="cc-tag continuidad">Continuidad</span>
+          </div>
+          <div class="cc-card frei">
+            <div class="cc-card-text">Ley 16.640. Expropia predios grandes. CORA e INDAP.</div>
+            <span class="cc-tag cambio">Cambio</span>
+          </div>
+          <div class="cc-card allende">
+            <div class="cc-card-text">Radicaliza. Acelera expropiaciones. Tolera tomas ilegales.</div>
+            <span class="cc-tag ruptura">Ruptura</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cobre -->
+      <div class="cc-area">
+        <div class="cc-area-label">⛏️ Cobre</div>
+        <div class="cc-cards">
+          <div class="cc-card alessandri">
+            <div class="cc-card-text">Statu quo. Empresas norteamericanas operan sin cambios.</div>
+            <span class="cc-tag continuidad">Continuidad</span>
+          </div>
+          <div class="cc-card frei">
+            <div class="cc-card-text">Chilenización: Estado compra 51%. Socios con EEUU.</div>
+            <span class="cc-tag cambio">Cambio</span>
+          </div>
+          <div class="cc-card allende">
+            <div class="cc-card-text">Nacionalización total. Congreso aprueba por unanimidad.</div>
+            <span class="cc-tag ruptura">Ruptura</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vivienda -->
+      <div class="cc-area">
+        <div class="cc-area-label">🏘️ Vivienda</div>
+        <div class="cc-cards">
+          <div class="cc-card alessandri">
+            <div class="cc-card-text">DFL2 para clase media. San Gregorio. Política limitada.</div>
+            <span class="cc-tag continuidad">Continuidad</span>
+          </div>
+          <div class="cc-card frei">
+            <div class="cc-card-text">MINVU + Operación Sitio. Puerto Montt 1969: represión.</div>
+            <span class="cc-tag cambio">Cambio</span>
+          </div>
+          <div class="cc-card allende">
+            <div class="cc-card-text">Tolera tomas. La Bandera / Nueva Habana. No reprime.</div>
+            <span class="cc-tag ruptura">Ruptura</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Educación -->
+      <div class="cc-area">
+        <div class="cc-area-label">📚 Educación</div>
+        <div class="cc-cards">
+          <div class="cc-card alessandri">
+            <div class="cc-card-text">Sin reforma estructural. Mantiene sistema existente.</div>
+            <span class="cc-tag continuidad">Continuidad</span>
+          </div>
+          <div class="cc-card frei">
+            <div class="cc-card-text">Reforma 1965: más escuelas, cobertura, alfabetización.</div>
+            <span class="cc-tag cambio">Cambio</span>
+          </div>
+          <div class="cc-card allende">
+            <div class="cc-card-text">ENU (1973): laica y marxista. Retirada por polarización.</div>
+            <span class="cc-tag ruptura">Ruptura</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cc-synthesis">
+        <div class="cc-synthesis-title">Síntesis: la lógica del cambio</div>
+        <p><strong>Continuidad:</strong> Los tres reconocieron que el modelo heredado era insuficiente. Todos implementaron algún tipo de reforma agraria, política habitacional y educacional.<br><br><strong>Cambio:</strong> Cada gobierno profundizó las reformas más que el anterior — escalando en ritmo y radicalidad. Lo que para Alessandri era imposible, Frei lo institucionalizó, y Allende lo radicalizó.<br><br><strong>La ruptura de 1973:</strong> No fue solo el resultado de las políticas de Allende, sino de la incapacidad del sistema político para procesar un nivel de cambio tan acelerado en un contexto de Guerra Fría.</p>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h4>Nuevos actores: la sociedad se mueve</h4>
+      <p>Los tres gobiernos no solo cambiaron políticas — también cambiaron quiénes participaban en la política. Emergieron con fuerza: los <strong>pobladores</strong> (campamentos y tomas), los <strong>obreros organizados</strong> (CUT), los <strong>campesinos</strong> (sindicatos agrícolas) y la <strong>juventud universitaria</strong>. La Nueva Canción Chilena (Víctor Jara, Quilapayún) fue la banda sonora de ese Chile que se movilizaba.</p>
+    </div>
+
+  </div><!-- fin panel estudiar -->
+
+  <!-- ═══════════════ PRACTICAR ═══════════════ -->
+  <div id="practicar" class="panel">
+
+    <div class="quiz-score">
+      <div>
+        <div class="score-label">Puntaje</div>
+        <div class="score-val"><span id="score">0</span> / 10</div>
+      </div>
+      <div style="text-align:right">
+        <div class="score-label">Respondidas</div>
+        <div class="score-val"><span id="answered">0</span></div>
+      </div>
+    </div>
+
+    <div class="quiz-item" id="q1">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 1 de 10</div>
+        <div class="quiz-q-text">¿Cuántos votantes había en Chile en 1973 comparado con 1958?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q1',false)">A) Los mismos, aproximadamente 1,5 millones</button>
+        <button class="opt" onclick="answer(this,'q1',false)">B) El doble, unos 3 millones</button>
+        <button class="opt" onclick="answer(this,'q1',true)">C) El triple, aproximadamente 4,5 millones</button>
+        <button class="opt" onclick="answer(this,'q1',false)">D) El cuádruple, unos 6 millones</button>
+      </div>
+      <div class="quiz-fb" id="fb-q1"></div>
+    </div>
+
+    <div class="quiz-item" id="q2">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 2 de 10</div>
+        <div class="quiz-q-text">¿Por qué la Reforma Agraria de Alessandri fue apodada "del macetero"?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q2',false)">A) Porque se entregaron pequeñas macetas con plantas a los campesinos</button>
+        <button class="opt" onclick="answer(this,'q2',true)">B) Porque solo redistribuyó tierras tan pequeñas y marginales que cabían en una maceta — no tocó los grandes latifundios</button>
+        <button class="opt" onclick="answer(this,'q2',false)">C) Porque fue aprobada en el Congreso con escasos votos</button>
+        <button class="opt" onclick="answer(this,'q2',false)">D) Porque benefició solo a los agricultores de riego</button>
+      </div>
+      <div class="quiz-fb" id="fb-q2"></div>
+    </div>
+
+    <div class="quiz-item" id="q3">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 3 de 10</div>
+        <div class="quiz-q-text">¿Qué fue la "chilenización del cobre" de Frei Montalva?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q3',false)">A) La nacionalización completa de todas las minas de cobre</button>
+        <button class="opt" onclick="answer(this,'q3',false)">B) La expulsión total de las empresas norteamericanas del país</button>
+        <button class="opt" onclick="answer(this,'q3',true)">C) La compra por parte del Estado chileno del 51% de las acciones de las grandes mineras norteamericanas</button>
+        <button class="opt" onclick="answer(this,'q3',false)">D) La creación de la empresa estatal CODELCO en 1967</button>
+      </div>
+      <div class="quiz-fb" id="fb-q3"></div>
+    </div>
+
+    <div class="quiz-item" id="q4">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 4 de 10</div>
+        <div class="quiz-q-text">¿Qué fue la "Operación Sitio" del gobierno de Frei?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q4',false)">A) Una operación policial para desalojar las tomas ilegales de terreno</button>
+        <button class="opt" onclick="answer(this,'q4',true)">B) Un programa que entregaba terrenos urbanizados con servicios básicos para que los pobladores construyeran sus propias viviendas</button>
+        <button class="opt" onclick="answer(this,'q4',false)">C) La construcción estatal masiva de grandes conjuntos habitacionales terminados</button>
+        <button class="opt" onclick="answer(this,'q4',false)">D) La expropiación de propiedades de lujo para redistribuirlas</button>
+      </div>
+      <div class="quiz-fb" id="fb-q4"></div>
+    </div>
+
+    <div class="quiz-item" id="q5">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 5 de 10</div>
+        <div class="quiz-q-text">¿Qué fue la ENU y qué consecuencias tuvo?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q5',false)">A) La Educación Nacional Unificada — reforma de Frei que amplió la cobertura escolar</button>
+        <button class="opt" onclick="answer(this,'q5',true)">B) La Escuela Nacional Unificada — propuesta de Allende de educación laica y marxista, que fue retirada por la enorme controversia que generó</button>
+        <button class="opt" onclick="answer(this,'q5',false)">C) La Empresa Nacional Universitaria — empresa estatal de libros de texto</button>
+        <button class="opt" onclick="answer(this,'q5',false)">D) La Escuela Nacional Unificada — reforma educacional que la Iglesia Católica apoyó</button>
+      </div>
+      <div class="quiz-fb" id="fb-q5"></div>
+    </div>
+
+    <div class="quiz-item" id="q6">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 6 de 10</div>
+        <div class="quiz-q-text">¿Con qué votación el Congreso aprobó la nacionalización total del cobre propuesta por Allende?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q6',false)">A) Con mayoría simple, solo los votos de la UP</button>
+        <button class="opt" onclick="answer(this,'q6',false)">B) Con mayoría calificada (2/3 del Congreso)</button>
+        <button class="opt" onclick="answer(this,'q6',true)">C) Por unanimidad — incluyendo a la oposición de derecha y la DC</button>
+        <button class="opt" onclick="answer(this,'q6',false)">D) Fue rechazada por el Congreso y Allende la decretó por la vía ejecutiva</button>
+      </div>
+      <div class="quiz-fb" id="fb-q6"></div>
+    </div>
+
+    <div class="quiz-item" id="q7">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 7 de 10</div>
+        <div class="quiz-q-text">¿Qué ocurrió en Puerto Montt en 1969 y por qué fue importante para el gobierno de Frei?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q7',false)">A) Se inauguró el primer proyecto de Operación Sitio en el sur del país</button>
+        <button class="opt" onclick="answer(this,'q7',true)">B) La represión violenta de una toma de terreno dejó varios pobladores muertos, convirtiéndose en el punto de quiebre moral del gobierno DC</button>
+        <button class="opt" onclick="answer(this,'q7',false)">C) Un terremoto destruyó el proyecto habitacional más importante de Frei</button>
+        <button class="opt" onclick="answer(this,'q7',false)">D) Una huelga de obreros del salmón marcó el inicio del movimiento obrero sureño</button>
+      </div>
+      <div class="quiz-fb" id="fb-q7"></div>
+    </div>
+
+    <div class="quiz-item" id="q8">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 8 de 10</div>
+        <div class="quiz-q-text">El modelo económico de Eduardo Frei Montalva se basaba principalmente en las ideas de...</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q8',false)">A) La Alianza para el Progreso y el libre mercado liberal</button>
+        <button class="opt" onclick="answer(this,'q8',true)">B) La CEPAL y el desarrollismo keynesiano (Estado planificador e industrialización)</button>
+        <button class="opt" onclick="answer(this,'q8',false)">C) La Teoría de la Dependencia y el socialismo marxista</button>
+        <button class="opt" onclick="answer(this,'q8',false)">D) El neoliberalismo de la Escuela de Chicago</button>
+      </div>
+      <div class="quiz-fb" id="fb-q8"></div>
+    </div>
+
+    <div class="quiz-item" id="q9">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 9 de 10</div>
+        <div class="quiz-q-text">¿Cuál fue la principal diferencia entre la reforma agraria de Frei y la de Allende?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q9',false)">A) No hubo diferencias significativas — usaron el mismo método</button>
+        <button class="opt" onclick="answer(this,'q9',false)">B) Frei exproprió más hectáreas en total que Allende</button>
+        <button class="opt" onclick="answer(this,'q9',true)">C) Allende radicalizó el proceso acelerando expropiaciones y tolerando las tomas ilegales de fundos que el gobierno de Frei nunca habría aceptado</button>
+        <button class="opt" onclick="answer(this,'q9',false)">D) Frei repartió tierras a campesinos individuales mientras Allende creó cooperativas estatales obligatorias</button>
+      </div>
+      <div class="quiz-fb" id="fb-q9"></div>
+    </div>
+
+    <div class="quiz-item" id="q10">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 10 de 10</div>
+        <div class="quiz-q-text">Según el análisis de "Cambio y Continuidad", ¿qué es lo que comparten los tres gobiernos (Alessandri, Frei, Allende)?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q10',false)">A) Los tres defendieron el libre mercado y rechazaron la intervención estatal</button>
+        <button class="opt" onclick="answer(this,'q10',false)">B) Los tres buscaron la nationalización total del cobre</button>
+        <button class="opt" onclick="answer(this,'q10',true)">C) Los tres reconocieron que Chile necesitaba reformas estructurales y todos implementaron alguna forma de reforma agraria, política habitacional y educacional</button>
+        <button class="opt" onclick="answer(this,'q10',false)">D) Los tres apoyaron la vía armada para el cambio social</button>
+      </div>
+      <div class="quiz-fb" id="fb-q10"></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetQuiz()">↺ Reiniciar preguntas</button>
+
+  </div><!-- fin panel practicar -->
+
+</div><!-- fin page -->
+
+<script>
+  let score = 0, answered = 0;
+
+  const feedbacks = {
+    q1:  { ok: '✓ Correcto. El padrón electoral pasó de 1,5 millones (1958) a 4,5 millones (1973) — el triple — por el voto femenino, el voto de analfabetos (1970) y la mayor escolaridad.', no: '✗ Incorrecto. El padrón electoral se triplicó: de 1,5 millones en 1958 a 4,5 millones en 1973.' },
+    q2:  { ok: '✓ Correcto. La reforma de Alessandri fue tan mínima (solo tierras marginales e improductivas) que fue apodada "del macetero" — las parcelas eran tan pequeñas que cabían en una maceta.', no: '✗ Incorrecto. El apodo "del macetero" hace referencia a que la reforma solo distribuyó tierras marginales tan pequeñas que irónicamente "cabían en una maceta" — no tocó los latifundios.' },
+    q3:  { ok: '✓ Correcto. La "chilenización" de Frei fue la compra del 51% de las acciones de las grandes mineras norteamericanas. No las expropió, las compró — el Estado quedó como socio mayoritario.', no: '✗ Incorrecto. La "chilenización" de Frei fue la compra del 51% de las minas por parte del Estado — no la nacionalización total, que vendría con Allende en 1971.' },
+    q4:  { ok: '✓ Correcto. La Operación Sitio entregaba terrenos con servicios básicos instalados para que los propios pobladores construyeran sus viviendas progresivamente — el Estado ponía el sitio, la familia construía.', no: '✗ Incorrecto. La Operación Sitio era un programa que entregaba terrenos urbanizados (con agua y luz) para que los pobladores construyeran sus propias viviendas.' },
+    q5:  { ok: '✓ Correcto. La ENU (Escuela Nacional Unificada) fue la propuesta de reforma educacional de Allende en 1973, con orientación laica y marxista. La Iglesia y la oposición la rechazaron tan duramente que el gobierno debió retirarla.', no: '✗ Incorrecto. La ENU fue la Escuela Nacional Unificada, propuesta educacional de Allende (1973), con orientación laica y marxista. Fue retirada ante el rechazo de la Iglesia y la oposición.' },
+    q6:  { ok: '✓ Correcto. La nacionalización del cobre fue aprobada por unanimidad en el Congreso — todos los partidos la apoyaron, incluyendo la oposición. El cobre era "el sueldo de Chile" y nadie quiso aparecer en contra.', no: '✗ Incorrecto. La nacionalización del cobre (julio 1971) fue aprobada por unanimidad en el Congreso — incluyendo la DC y la derecha. No hubo ningún voto en contra.' },
+    q7:  { ok: '✓ Correcto. En Puerto Montt (1969) la represión policial de una toma de terreno dejó varios pobladores muertos. Fue el episodio que marcó el límite moral del gobierno DC de Frei.', no: '✗ Incorrecto. En Puerto Montt (1969) ocurrió la represión violenta de una toma de terreno con pobladores muertos — fue el punto de quiebre moral del gobierno de Frei.' },
+    q8:  { ok: '✓ Correcto. Frei Montalva se inspiró en las ideas de la CEPAL (Comisión Económica para América Latina), que promovía el desarrollismo: un Estado planificador que impulsa la industrialización para salir del subdesarrollo.', no: '✗ Incorrecto. Frei se basó en las ideas de la CEPAL y el desarrollismo keynesiano — un Estado planificador e industrializador, no el libre mercado ni el socialismo marxista.' },
+    q9:  { ok: '✓ Correcto. La diferencia clave fue que Allende toleró (y en algunos casos apoyó tácticamente) las tomas ilegales de fundos, mientras que Frei solo usó la vía legal. Eso radicalizó el proceso y aceleró los tiempos.', no: '✗ Incorrecto. La diferencia fue que Allende radicalizó el proceso tolerando las tomas ilegales de fundos — algo que Frei nunca habría aceptado. Allende usó la misma ley de Frei pero de forma acelerada y complementada con las tomas.' },
+    q10: { ok: '✓ Correcto. El elemento de continuidad entre los tres gobiernos es que todos reconocieron la necesidad de cambios estructurales e implementaron alguna forma de reforma agraria, política de vivienda y política educacional. Lo que cambió fue la profundidad y el método.', no: '✗ Incorrecto. La continuidad está en que los tres reconocieron que Chile necesitaba reformas estructurales y todos implementaron (con diferente profundidad) reformas agrarias, habitacionales y educacionales.' }
+  };
+
+  function answer(btn, qId, isCorrect) {
+    const qEl = document.getElementById(qId);
+    const opts = qEl.querySelectorAll('.opt');
+    const fb = document.getElementById('fb-' + qId);
+    opts.forEach(o => o.classList.add('disabled'));
+    btn.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (isCorrect) {
+      score++;
+      document.getElementById('score').textContent = score;
+      fb.textContent = feedbacks[qId].ok;
+      fb.className = 'quiz-fb show correct';
+    } else {
+      fb.textContent = feedbacks[qId].no;
+      fb.className = 'quiz-fb show wrong';
+    }
+    answered++;
+    document.getElementById('answered').textContent = answered;
+  }
+
+  function resetQuiz() {
+    score = 0; answered = 0;
+    document.getElementById('score').textContent = '0';
+    document.getElementById('answered').textContent = '0';
+    document.querySelectorAll('.opt').forEach(o => { o.className = 'opt'; });
+    document.querySelectorAll('.quiz-fb').forEach(fb => { fb.className = 'quiz-fb'; fb.textContent = ''; });
+  }
+
+  function switchTab(e, tab) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    e.target.classList.add('active');
+  }
+</script>
+</body>
+</html>

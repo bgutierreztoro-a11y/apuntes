@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roce y Tensión — Física 2° Medio</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    :root { --ac: #3d35c0; --ac-bg: rgba(61,53,192,.07); --ac-lt: #5b52d8; --ac-br: rgba(61,53,192,.18); }
+
+    /* Tension cases mini-table */
+    .tension-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 14px 0; }
+    .tg-cell {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 12px 10px; text-align: center;
+    }
+    .tg-case { font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-3); margin-bottom: 8px; }
+    .tg-eq { font-size: .85rem; font-weight: 800; color: var(--ink); margin-bottom: 5px; letter-spacing: -.01em; }
+    .tg-note { font-size: .72rem; color: var(--ink-2); line-height: 1.4; }
+    .tg-cell.accent-up   { border-color: rgba(22,101,52,.3); }
+    .tg-cell.accent-mid  { border-color: var(--ac-br); }
+    .tg-cell.accent-down { border-color: rgba(153,27,27,.3); }
+    .tg-eq.up   { color: #166534; }
+    .tg-eq.mid  { color: var(--ac); }
+    .tg-eq.down { color: #991b1b; }
+
+    /* Score bar for practicar */
+    .score-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-l); padding: 14px 20px; margin-bottom: 20px;
+    }
+    .sb-group { display: flex; gap: 20px; align-items: center; }
+    .sb-item { text-align: center; }
+    .sb-val { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 700; font-variation-settings: "opsz" 36; line-height: 1; display: block; }
+    .sb-lbl { font-size: .6rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-top: 3px; color: var(--ink-3); display: block; }
+    .s-ok .sb-val  { color: #166534; }
+    .s-fail .sb-val { color: #991b1b; }
+    .s-pend .sb-val { color: var(--ink-3); }
+    .sb-div { width: 1px; height: 28px; background: var(--border); }
+
+    /* Exam alert banner */
+    .exam-banner {
+      background: rgba(184,92,10,.06); border: 1px solid rgba(184,92,10,.2);
+      border-radius: var(--r); padding: 12px 16px; margin-bottom: 24px;
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .exam-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+    .exam-txt { font-size: .82rem; color: #92400e; line-height: 1.6; }
+    .exam-txt strong { color: #78350f; font-weight: 700; }
+  </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../supabase-client.js"></script>
+<script src="../auth-guard.js"></script>
+
+<nav class="site-nav">
+  <div class="nav-left">
+    <a href="index.html" class="back-btn" aria-label="Volver a Física">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3L6 8l4 5"/></svg>
+      Física
+    </a>
+    <span class="breadcrumb" aria-current="page">/ Roce y Tensión</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="nav-user"></span>
+    <button class="nav-logout" onclick="AppAuth.signOut()">Salir</button>
+  </div>
+</nav>
+
+<div class="content-wrap">
+
+  <header class="pg-header">
+    <div class="pg-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Física · Mecánica
+    </div>
+    <h1 class="pg-title">Roce y<br>Tensión</h1>
+    <p class="pg-sub">Las fuerzas que frenan, transmiten y ordenan los sistemas</p>
+    <div class="tab-wrap">
+      <button class="tab-btn active" onclick="showTab('estudiar',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Estudiar
+      </button>
+      <button class="tab-btn" onclick="showTab('practicar',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Practicar
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════ ESTUDIAR ═══════════════════ -->
+  <div class="panel active" id="panel-estudiar">
+
+    <!-- ALERTA PRUEBA -->
+    <div class="exam-banner">
+      <span class="exam-icon">⚡</span>
+      <div class="exam-txt">
+        <strong>Material de prueba — foco en esto:</strong> Roce estático vs cinético · Fórmulas Rk y Re · Comparar tensiones según movimiento · Sistemas con cuerdas y poleas · Diagramas de cuerpo libre.
+      </div>
+    </div>
+
+    <!-- 01 LA GRAN IDEA -->
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-l">La gran idea</span><span class="sec-hr"></span></div>
+      <div class="quote-card">
+        <div class="quote-text">El roce <em>no depende del movimiento</em> del cuerpo — depende del <em>deslizamiento relativo</em> entre las superficies. Puedes estar en movimiento y tener roce estático, o estar quieto y tener cero roce cinético.</div>
+        <div class="quote-foot">Dinámica, Cap. 2 — Deutsche Schule Chillán</div>
+      </div>
+    </div>
+
+    <!-- 02 ROCE -->
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-l">Roce — dos tipos, una regla</span><span class="sec-hr"></span></div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">Re</div>
+          <div><div class="p-name">Primer tipo</div><div class="p-title">Roce Estático</div></div>
+        </div>
+        <div class="p-body">
+          Actúa cuando las superficies <strong>no se deslizan</strong> entre sí — aunque el cuerpo sí pueda estar en movimiento. Ejemplo: tus pies al caminar (el zapato no resbala en el suelo → roce estático que te impulsa). Un auto que frena sin patinar.<br><br>
+          Su valor varía entre 0 y un máximo. <strong>El máximo es el umbral</strong> que, si se supera, hace que las superficies empiecen a deslizar.
+        </div>
+        <div class="p-formula">Re ≤ μe × N &nbsp;&nbsp;—&nbsp;&nbsp; Re_máx = μe × N</div>
+        <div class="p-tag">μe = coeficiente de roce estático &nbsp;·&nbsp; N = Fuerza Normal</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">Rk</div>
+          <div><div class="p-name">Segundo tipo</div><div class="p-title">Roce Cinético</div></div>
+        </div>
+        <div class="p-body">
+          Actúa cuando las superficies <strong>sí se deslizan</strong> entre sí — esquiar, frotar manos, una rueda que patina. <strong>Genera calor</strong> (por eso las manos se calientan al frotarlas). Su valor es <strong>constante</strong> para condiciones dadas, y siempre menor que el máximo estático.
+        </div>
+        <div class="p-formula">Rk = μk × N</div>
+        <div class="p-tag">μk = coeficiente de roce cinético &nbsp;·&nbsp; <strong>Siempre: μe &gt; μk</strong></div>
+      </div>
+
+      <!-- SVG Diagrama de roce -->
+      <div class="graph-wrap">
+        <div class="graph-title">Dirección del roce vs. dirección del movimiento</div>
+        <svg width="100%" height="120" viewBox="0 0 320 120">
+          <defs>
+            <marker id="arr-gray" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#a8a7c0"/></marker>
+            <marker id="arr-red" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#991b1b"/></marker>
+            <marker id="arr-blue" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#3d35c0"/></marker>
+          </defs>
+          <!-- surface -->
+          <line x1="20" y1="90" x2="300" y2="90" stroke="#e5e4dc" stroke-width="2"/>
+          <!-- block -->
+          <rect x="120" y="52" width="80" height="38" rx="4" fill="white" stroke="#d0cfc4" stroke-width="1.5"/>
+          <text x="160" y="75" text-anchor="middle" font-size="11" fill="#5e5d78" font-family="sans-serif" font-weight="600">M</text>
+          <!-- motion arrow (blue, right) -->
+          <line x1="200" y1="71" x2="258" y2="71" stroke="#3d35c0" stroke-width="2" marker-end="url(#arr-blue)"/>
+          <text x="230" y="64" text-anchor="middle" font-size="9" fill="#3d35c0" font-family="sans-serif" font-weight="700">Movimiento</text>
+          <!-- friction arrow (red, left) -->
+          <line x1="120" y1="71" x2="64" y2="71" stroke="#991b1b" stroke-width="2" marker-end="url(#arr-red)"/>
+          <text x="92" y="64" text-anchor="middle" font-size="9" fill="#991b1b" font-family="sans-serif" font-weight="700">Roce Rk</text>
+          <!-- labels below -->
+          <text x="160" y="110" text-anchor="middle" font-size="9" fill="#a8a7c0" font-family="sans-serif">El roce cinético siempre se opone al deslizamiento</text>
+        </svg>
+        <div class="graph-cap">El roce cinético siempre actúa en sentido contrario al deslizamiento. El estático, en cambio, puede apuntar a favor del movimiento (ejemplo: impulso al caminar).</div>
+      </div>
+
+      <div class="f-card">
+        <div class="f-title">Lo que más confunde — μ y la Normal</div>
+        <div class="f-body">
+          <strong>+Normal = +Roce.</strong> No depende del área de contacto ni de la velocidad — solo de N y del coeficiente. Por eso en la F1 usan alerones invertidos: aumentan la fuerza hacia abajo sobre el auto → N sube → Rk sube → más agarre en curvas.<br><br>
+          <strong>μ puede ser mayor que 1.</strong> Si μk = 1,1, significa que la fuerza de roce es 110% de la Normal. No hay límite físico que impida esto — solo depende de qué tan rugosas o adherentes sean las superficies.
+        </div>
+        <div class="p-formula">
+          Orden típico coeficientes: &nbsp; μ<sub>hielo</sub> &lt; μ<sub>madera</sub> &lt; μ<sub>goma</sub>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 TENSIÓN -->
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-l">Tensión — la fuerza del cable</span><span class="sec-hr"></span></div>
+
+      <div class="f-card">
+        <div class="f-title">¿Qué es la tensión?</div>
+        <div class="f-body">
+          Fuerza que se transmite a través de cuerdas o cables. <strong>Siempre tira — nunca empuja.</strong> Un cable puede tensar, pero no comprimir. Las cuerdas "se alejan de los cuerpos" — apuntan hacia el cable, no hacia el objeto.<br><br>
+          En cuerdas ideales (sin masa, sin elasticidad), la tensión es <strong>igual en todos los puntos</strong> de la cuerda.
+        </div>
+      </div>
+
+      <!-- SVG bloque colgante -->
+      <div class="dcl-wrap">
+        <div class="dcl-lbl">Diagrama de cuerpo libre — bloque colgante</div>
+        <svg width="160" height="170" viewBox="0 0 160 170">
+          <defs>
+            <marker id="arr-T" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 Z" fill="#3d35c0"/></marker>
+            <marker id="arr-P" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 Z" fill="#991b1b"/></marker>
+            <marker id="arr-rope" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 Z" fill="#a8a7c0"/></marker>
+          </defs>
+          <!-- ceiling -->
+          <rect x="55" y="2" width="50" height="7" rx="2" fill="#d0cfc4"/>
+          <!-- rope from ceiling -->
+          <line x1="80" y1="9" x2="80" y2="45" stroke="#d0cfc4" stroke-width="2" stroke-dasharray="3,2"/>
+          <!-- block -->
+          <rect x="52" y="45" width="56" height="46" rx="5" fill="white" stroke="#d0cfc4" stroke-width="1.5"/>
+          <text x="80" y="73" text-anchor="middle" font-size="13" fill="#100f1c" font-family="sans-serif" font-weight="700">M</text>
+          <!-- T arrow up (blue) -->
+          <line x1="80" y1="45" x2="80" y2="10" stroke="#3d35c0" stroke-width="2.5" marker-end="url(#arr-T)"/>
+          <text x="90" y="28" font-size="11" fill="#3d35c0" font-family="sans-serif" font-weight="700">T</text>
+          <!-- P arrow down (red) -->
+          <line x1="80" y1="91" x2="80" y2="140" stroke="#991b1b" stroke-width="2.5" marker-end="url(#arr-P)"/>
+          <text x="88" y="120" font-size="11" fill="#991b1b" font-family="sans-serif" font-weight="700">P=mg</text>
+          <!-- Fn equation -->
+          <text x="80" y="162" text-anchor="middle" font-size="10" fill="#5e5d78" font-family="sans-serif">Fn = T − P = m·a</text>
+        </svg>
+        <div class="dcl-cap">La tensión T tira hacia arriba. El peso P = mg tira hacia abajo.<br>La diferencia determina la aceleración.</div>
+      </div>
+
+      <!-- Tres casos de tensión -->
+      <div class="f-card">
+        <div class="f-title">Los tres casos que tienes que dominar</div>
+        <div class="f-body">De <strong>Fn = T − P = ma</strong> se desprende que <strong>T = m(g + a)</strong> — donde a es positiva si apunta arriba, negativa si apunta abajo.</div>
+      </div>
+
+      <div class="tension-grid">
+        <div class="tg-cell accent-up">
+          <div class="tg-case">Sube o baja acelerando ↑</div>
+          <div class="tg-eq up">T &gt; mg</div>
+          <div class="tg-note">T = m(g + a)<br>a apunta arriba</div>
+        </div>
+        <div class="tg-cell accent-mid">
+          <div class="tg-case">MRU o reposo</div>
+          <div class="tg-eq mid">T = mg</div>
+          <div class="tg-note">T = mg<br>a = 0 → Fn = 0</div>
+        </div>
+        <div class="tg-cell accent-down">
+          <div class="tg-case">Sube o baja acelerando ↓</div>
+          <div class="tg-eq down">T &lt; mg</div>
+          <div class="tg-note">T = m(g − a)<br>a apunta abajo</div>
+        </div>
+      </div>
+
+      <div class="p-tag" style="display:block; margin-top:2px;">
+        ⚠ <strong>MRU sube o baja</strong> → T = mg (igual en ambos). La velocidad no importa; lo que importa es la aceleración.
+      </div>
+
+      <!-- SVG Atwood -->
+      <div class="graph-wrap" style="margin-top:14px;">
+        <div class="graph-title">Máquina de Atwood — sistema con polea</div>
+        <svg width="100%" height="190" viewBox="0 0 280 190">
+          <defs>
+            <marker id="arr-up" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#166534"/></marker>
+            <marker id="arr-dn" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#991b1b"/></marker>
+          </defs>
+          <!-- ceiling bar -->
+          <rect x="110" y="4" width="60" height="8" rx="2" fill="#d0cfc4"/>
+          <!-- pulley -->
+          <circle cx="140" cy="26" r="18" fill="none" stroke="#d0cfc4" stroke-width="2"/>
+          <circle cx="140" cy="26" r="5" fill="#e5e4dc"/>
+          <!-- left rope -->
+          <line x1="126" y1="32" x2="100" y2="120" stroke="#d0cfc4" stroke-width="1.8"/>
+          <!-- right rope -->
+          <line x1="154" y1="32" x2="180" y2="120" stroke="#d0cfc4" stroke-width="1.8"/>
+          <!-- left block (3 kg — lighter) -->
+          <rect x="72" y="120" width="56" height="38" rx="4" fill="white" stroke="#d0cfc4" stroke-width="1.5"/>
+          <text x="100" y="143" text-anchor="middle" font-size="11" fill="#100f1c" font-family="sans-serif" font-weight="700">3 kg</text>
+          <!-- right block (6 kg — heavier) -->
+          <rect x="152" y="110" width="56" height="48" rx="4" fill="white" stroke="#d0cfc4" stroke-width="1.5"/>
+          <text x="180" y="138" text-anchor="middle" font-size="11" fill="#100f1c" font-family="sans-serif" font-weight="700">6 kg</text>
+          <!-- left block accelerates up -->
+          <line x1="100" y1="120" x2="100" y2="90" stroke="#166534" stroke-width="2" marker-end="url(#arr-up)"/>
+          <text x="108" y="105" font-size="9" fill="#166534" font-family="sans-serif" font-weight="700">a ↑</text>
+          <!-- right block accelerates down -->
+          <line x1="180" y1="158" x2="180" y2="185" stroke="#991b1b" stroke-width="2" marker-end="url(#arr-dn)"/>
+          <text x="188" y="175" font-size="9" fill="#991b1b" font-family="sans-serif" font-weight="700">a ↓</text>
+          <!-- T label on rope -->
+          <text x="128" y="78" font-size="10" fill="#3d35c0" font-family="sans-serif" font-weight="700">T</text>
+          <text x="150" y="78" font-size="10" fill="#3d35c0" font-family="sans-serif" font-weight="700">T</text>
+          <!-- formula -->
+          <text x="140" y="185" text-anchor="middle" font-size="9" fill="#a8a7c0" font-family="sans-serif">a = (m₁−m₂)g / (m₁+m₂)</text>
+        </svg>
+        <div class="graph-cap">En la máquina de Atwood: el más pesado baja, el más liviano sube. La misma cuerda → misma T en ambos lados. Se usa para calcular aceleración y tensión.</div>
+      </div>
+    </div>
+
+    <!-- 04 CLAVE — ORDENAR TENSIONES -->
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-l">La pregunta trampa — ordenar tensiones</span><span class="sec-hr"></span></div>
+
+      <div class="quote-card">
+        <div class="quote-text">Una cuerda mueve el bloque M verticalmente. <em>¿Cómo cambia la tensión</em> si sube rápido, si está en reposo, si baja con MRU, o si baja cada vez más rápido?</div>
+        <div class="quote-foot">Tipo de pregunta frecuente en prueba — dominar este razonamiento</div>
+      </div>
+
+      <div class="f-card">
+        <div class="f-title">El razonamiento correcto — paso a paso</div>
+        <div class="f-body">
+          <strong>1. Dibuja el DCL:</strong> T apunta arriba, P = mg apunta abajo.<br>
+          <strong>2. Aplica 2° Principio:</strong> Fn = T − P = ma → T = mg + ma = m(g + a)<br>
+          <strong>3. Identifica la aceleración:</strong> ¿Hacia dónde apunta? (positiva = arriba)
+        </div>
+        <div class="p-formula">T = m(g + a) — con a positiva si apunta arriba, negativa si apunta abajo</div>
+      </div>
+
+      <div class="f-card" style="padding:0;overflow:hidden;">
+        <table class="ref-table">
+          <thead><tr><th>Situación</th><th>Dirección de a</th><th>T vs mg</th><th>Fórmula</th></tr></thead>
+          <tbody>
+            <tr><td>Sube acelerando ↑</td><td>Arriba (+)</td><td style="color:#166534;font-weight:700">T &gt; mg</td><td>T = m(g+a)</td></tr>
+            <tr><td>Reposo</td><td>Cero</td><td style="color:#3d35c0;font-weight:700">T = mg</td><td>T = mg</td></tr>
+            <tr><td>MRU (cualquier dirección)</td><td>Cero (a = 0)</td><td style="color:#3d35c0;font-weight:700">T = mg</td><td>T = mg</td></tr>
+            <tr><td>Baja acelerando ↓</td><td>Abajo (−)</td><td style="color:#991b1b;font-weight:700">T &lt; mg</td><td>T = m(g−a)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="p-tag" style="display:block;margin-top:4px;">⚠ Reposo y MRU tienen la <strong>misma tensión</strong> (T = mg) porque en ambos a = 0. La velocidad no importa, solo la aceleración.</div>
+    </div>
+
+    <!-- 05 GRÁFICOS -->
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-l">Gráficos clave</span><span class="sec-hr"></span></div>
+
+      <div class="graph-wrap">
+        <div class="graph-title">Fuerza de roce estático vs. fuerza aplicada</div>
+        <svg width="100%" height="120" viewBox="0 0 280 120">
+          <defs>
+            <marker id="arr-g2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#a8a7c0"/></marker>
+          </defs>
+          <line x1="30" y1="100" x2="260" y2="100" stroke="#e5e4dc" stroke-width="1.5" marker-end="url(#arr-g2)"/>
+          <line x1="30" y1="100" x2="30" y2="10" stroke="#e5e4dc" stroke-width="1.5" marker-end="url(#arr-g2)"/>
+          <text x="264" y="104" font-size="9" fill="#a8a7c0" font-family="sans-serif">F aplicada</text>
+          <text x="4" y="14" font-size="9" fill="#a8a7c0" font-family="sans-serif">Roce</text>
+          <!-- static segment: rising line to peak -->
+          <line x1="30" y1="100" x2="130" y2="28" stroke="#3d35c0" stroke-width="2" stroke-linecap="round"/>
+          <!-- drop to kinetic -->
+          <line x1="130" y1="28" x2="130" y2="45" stroke="#3d35c0" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <!-- kinetic: flat line -->
+          <line x1="130" y1="45" x2="240" y2="45" stroke="#991b1b" stroke-width="2" stroke-linecap="round"/>
+          <!-- labels -->
+          <text x="50" y="68" font-size="9" fill="#3d35c0" font-family="sans-serif" font-weight="600">Re estático</text>
+          <text x="170" y="40" font-size="9" fill="#991b1b" font-family="sans-serif" font-weight="600">Rk cinético</text>
+          <line x1="130" y1="100" x2="130" y2="28" stroke="#e5e4dc" stroke-width="1" stroke-dasharray="2,2"/>
+          <text x="115" y="112" font-size="8" fill="#a8a7c0" font-family="sans-serif">Re_máx</text>
+        </svg>
+        <div class="graph-cap">El roce estático sube hasta Re_máx = μe × N. Al superarlo, el cuerpo desliza y el roce cae al valor cinético Rk = μk × N (constante). Por eso μe &gt; μk siempre.</div>
+      </div>
+    </div>
+
+    <!-- 06 LO QUE ENTRA EN LA PRUEBA -->
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">06</span><span class="sec-l">Lo que entra en la prueba</span><span class="sec-hr"></span></div>
+      <div class="kp-list">
+        <div class="kp-item"><div class="kp-n">1</div><div class="kp-t">Roce <strong>no depende del área de contacto</strong> ni de la velocidad — solo de N y del coeficiente μ.</div></div>
+        <div class="kp-item"><div class="kp-n">2</div><div class="kp-t">Roce estático actúa aunque haya movimiento, siempre que <strong>las superficies no deslicen entre sí</strong>.</div></div>
+        <div class="kp-item"><div class="kp-n">3</div><div class="kp-t"><strong>μe &gt; μk siempre.</strong> Se necesita más fuerza para iniciar el movimiento que para mantenerlo.</div></div>
+        <div class="kp-item"><div class="kp-n">4</div><div class="kp-t">Caminar usa <strong>roce estático</strong>. El suelo no desliza bajo tu pie — te empuja hacia adelante.</div></div>
+        <div class="kp-item"><div class="kp-n">5</div><div class="kp-t">Tensión T = m(g + a): a positiva = hacia arriba. En MRU o reposo <strong>a = 0 → T = mg</strong>.</div></div>
+        <div class="kp-item"><div class="kp-n">6</div><div class="kp-t">Reposo y MRU tienen la misma tensión. <strong>La velocidad no cambia la tensión, la aceleración sí.</strong></div></div>
+        <div class="kp-item"><div class="kp-n">7</div><div class="kp-t">En Atwood: la cuerda transmite <strong>la misma T</strong> a ambos bloques. La aceleración es a = (m₁−m₂)g/(m₁+m₂).</div></div>
+        <div class="kp-item"><div class="kp-n">8</div><div class="kp-t">Para un bloque que baja acelerando: T &lt; mg. No confundir con "el bloque cae libremente" (T = 0 solo si la cuerda está cortada).</div></div>
+        <div class="kp-item"><div class="kp-n">9</div><div class="kp-t">En un sistema MRU: <strong>Fn = 0</strong> en todo el sistema. La fuerza aplicada iguala exactamente al roce total.</div></div>
+        <div class="kp-item"><div class="kp-n">10</div><div class="kp-t">La Normal <strong>no siempre</strong> es igual al peso. En planos inclinados o con fuerzas externas adicionales cambia → y con N cambia el roce.</div></div>
+      </div>
+    </div>
+
+    <div class="pg-footer"><strong>Física · 2° Medio · Roce y Tensión</strong></div>
+  </div>
+
+  <!-- ═══════════════════ PRACTICAR ═══════════════════ -->
+  <div class="panel" id="panel-practicar">
+
+    <div class="score-bar">
+      <div class="sb-group">
+        <div class="sc-item s-ok"><span class="sc-val" id="sc-ok">0</span><span class="sc-lbl">Correctas</span></div>
+        <div class="sb-div"></div>
+        <div class="sc-item s-fail"><span class="sc-val" id="sc-fail">0</span><span class="sc-lbl">Incorrectas</span></div>
+        <div class="sb-div"></div>
+        <div class="sc-item s-pend"><span class="sc-val" id="sc-pend">—</span><span class="sc-lbl">Pendientes</span></div>
+      </div>
+      <button class="reset-btn" onclick="resetAll()">Reiniciar</button>
+    </div>
+
+    <!-- Level tabs -->
+    <div class="level-tabs">
+      <button class="lv-btn active" onclick="showLevel('conceptual',this)">Conceptual</button>
+      <button class="lv-btn" onclick="showLevel('analisis',this)">Análisis</button>
+      <button class="lv-btn" onclick="showLevel('calculo',this)">Cálculo</button>
+    </div>
+
+    <!-- ─── NIVEL 1: CONCEPTUAL ─── -->
+    <div class="lv-panel active" id="lv-conceptual">
+
+      <div class="q-card"><div class="q-num">Conceptual 01</div><div class="q-text">Una persona camina sin resbalar. ¿Qué tipo de roce actúa entre el zapato y el suelo, y en qué sentido apunta?</div><div class="opts" id="c1"><button class="opt-btn" data-correct="false" onclick="ansQ(this,'c1')"><span class="opt-lbl">A</span>Cinético, hacia atrás (opuesto al movimiento)</button><button class="opt-btn" data-correct="true" onclick="ansQ(this,'c1')"><span class="opt-lbl">B</span>Estático, hacia adelante (a favor del movimiento)</button><button class="opt-btn" data-correct="false" onclick="ansQ(this,'c1')"><span class="opt-lbl">C</span>Estático, hacia atrás (opuesto al movimiento)</button><button class="opt-btn" data-correct="false" onclick="ansQ(this,'c1')"><span class="opt-lbl">D</span>Cinético, hacia adelante (a favor del movimiento)</button></div><div class="feedback" id="fb-c1"></div></div>
+
+      <div class="q-card"><div class="q-num">Conceptual 02</div><div class="q-text">Dos superficies tienen μe = 0,8 y μk = 0,6. Se aplica una fuerza creciente hasta mover el objeto. ¿Qué fuerza de roce actúa justo cuando el objeto empieza a deslizar?</div><div class="opts" id="c2"><button class="opt-btn" data-correct="false" onclick="ansQ(this,'c2')"><span class="opt-lbl">A</span>Rk = μk × N = fuerza cinética</button><button class="opt-btn" data-correct="true" onclick="ansQ(this,'c2')"><span class="opt-lbl">B</span>Re_máx = μe × N = fuerza estática máxima</button><button class="opt-btn" data-correct="false" onclick="ansQ(this,'c2')"><span class="opt-lbl">C</span>Cero — en el instante de inicio no hay roce</button><button class="opt-btn" data-correct="false" onclick="ansQ(this,'c2')"><span class="opt-lbl">D</span>(μe + μk)/2 × N = promedio entre ambos</button></div><div class="feedback" id="fb-c2"></div></div>
+
+      <div class="q-card"><div class="q-num">Conceptual 03</div><div class="q-text">Un bloque cuelga de una cuerda y se mueve hacia abajo con velocidad constante de 4 m/s. ¿Cuánto vale la tensión T?</div><div class="opts" id="c3"><button class="opt-btn" data-correct="false" onclick="ansQ(this,'c3')"><span class="opt-lbl">A</span>T &gt; mg, porque el bloque tiene velocidad</button><button class="opt-btn" data-correct="true" onclick="ansQ(this,'c3')"><span class="opt-lbl">B</span>T = mg, porque velocidad constante implica a = 0</button><button class="opt-btn" data-correct="false" onclick="ansQ(this,'c3')"><span class="opt-lbl">C</span>T &lt; mg, porque baja y la gravedad ayuda</button><button class="opt-btn" data-correct="false" onclick="ansQ(this,'c3')"><span class="opt-lbl">D</span>T = 0, porque va hacia abajo sin frenarse</button></div><div class="feedback" id="fb-c3"></div></div>
+
+      <div class="q-card"><div class="q-num">Conceptual 04</div><div class="q-text">Un esquiador desliza hacia abajo con MRU. ¿Qué tipo de roce actúa y en qué sentido apunta?</div><div class="opts" id="c4"><button class="opt-btn" data-correct="true" onclick="ansQ(this,'c4')"><span class="opt-lbl">A</span>Cinético, hacia arriba por la pendiente (opuesto al deslizamiento)</button><button class="opt-btn" data-correct="false" onclick="ansQ(this,'c4')"><span class="opt-lbl">B</span>Estático, hacia abajo (a favor del movimiento)</button><button class="opt-btn" data-correct="false" onclick="ansQ(this,'c4')"><span class="opt-lbl">C</span>Cinético, perpendicular a la pendiente</button><button class="opt-btn" data-correct="false" onclick="ansQ(this,'c4')"><span class="opt-lbl">D</span>Estático, hacia arriba (las superficies no deslizan)</button></div><div class="feedback" id="fb-c4"></div></div>
+
+    </div><!-- /lv-conceptual -->
+
+    <!-- ─── NIVEL 2: ANÁLISIS PASO A PASO ─── -->
+    <div class="lv-panel" id="lv-analisis">
+
+      <!-- PROBLEMA A1: Ordenar tensiones -->
+      <div class="prob-card" id="pa1">
+        <div class="prob-hdr">
+          <span class="prob-id">Análisis 01</span>
+          <span class="diff-pill diff-med">Intermedio</span>
+        </div>
+        <div class="prob-body">
+          <div class="prob-scenario">Una cuerda ideal mueve verticalmente un bloque de masa M. Compara la tensión en cuatro situaciones distintas y ordénalas de mayor a menor.</div>
+          <div class="prob-setup">
+            <strong>T₁</strong> — sube cada vez más rápido &nbsp;·&nbsp;
+            <strong>T₂</strong> — está en reposo &nbsp;·&nbsp;
+            <strong>T₃</strong> — baja con MRU &nbsp;·&nbsp;
+            <strong>T₄</strong> — baja cada vez más rápido
+          </div>
+
+          <!-- SVG bloque con cuerda -->
+          <div class="dcl-wrap">
+            <div class="dcl-lbl">DCL del bloque en cualquiera de los cuatro casos</div>
+            <svg width="130" height="155" viewBox="0 0 130 155">
+              <defs>
+                <marker id="aT" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#3d35c0"/></marker>
+                <marker id="aP" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#991b1b"/></marker>
+              </defs>
+              <rect x="42" y="7" width="46" height="6" rx="2" fill="#d0cfc4"/>
+              <line x1="65" y1="13" x2="65" y2="44" stroke="#d0cfc4" stroke-width="1.5" stroke-dasharray="3,2"/>
+              <rect x="37" y="44" width="56" height="44" rx="5" fill="white" stroke="#d0cfc4" stroke-width="1.5"/>
+              <text x="65" y="70" text-anchor="middle" font-size="14" fill="#100f1c" font-family="sans-serif" font-weight="700">M</text>
+              <line x1="65" y1="44" x2="65" y2="14" stroke="#3d35c0" stroke-width="2.5" marker-end="url(#aT)"/>
+              <text x="74" y="32" font-size="12" fill="#3d35c0" font-family="sans-serif" font-weight="700">T</text>
+              <line x1="65" y1="88" x2="65" y2="130" stroke="#991b1b" stroke-width="2.5" marker-end="url(#aP)"/>
+              <text x="72" y="115" font-size="11" fill="#991b1b" font-family="sans-serif" font-weight="700">mg</text>
+              <text x="65" y="150" text-anchor="middle" font-size="9" fill="#5e5d78" font-family="sans-serif">Fn = T − mg = ma</text>
+            </svg>
+          </div>
+
+          <div class="steps-wrap">
+
+            <!-- Step 0 — info -->
+            <div class="rstep rstep-info show" id="pa1-s0">
+              <div class="rstep-lbl">Punto de partida</div>
+              <div class="rstep-txt">Del DCL: <strong>Fn = T − mg = ma</strong>, por lo tanto <strong>T = mg + ma = m(g + a)</strong>. La tensión depende solo de la aceleración — no de la velocidad.</div>
+              <button class="next-btn show" onclick="revealStep('pa1',1)">Siguiente →</button>
+            </div>
+
+            <!-- Step 1 — pregunta sobre T₁ -->
+            <div class="rstep rstep-ask" id="pa1-s1">
+              <div class="rstep-lbl">Pregunta 1 de 3</div>
+              <div class="rstep-txt">El bloque <strong>sube cada vez más rápido (T₁)</strong>. ¿Hacia dónde apunta su aceleración?</div>
+              <div class="rstep-opts" id="pa1-s1-opts">
+                <button class="ropt" data-correct="true" onclick="stepChoice(this,'pa1',1,true,'¡Correcto! Sube y acelera → la velocidad aumenta hacia arriba → aceleración apunta arriba. En T = m(g+a), con a positiva (arriba), T &gt; mg.')"><span class="ropt-lbl">A</span>Apunta hacia arriba (+) → T₁ = m(g + a) &gt; mg</button>
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa1',1,false,'No. Si sube y cada vez más rápido, la velocidad aumenta hacia arriba → la aceleración apunta hacia donde aumenta la velocidad: arriba.')"><span class="ropt-lbl">B</span>Apunta hacia abajo (−) → T₁ = m(g − a) &lt; mg</button>
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa1',1,false,'Si la aceleración fuera cero sería MRU. Pero el bloque &quot;cada vez más rápido&quot; significa que cambia su velocidad → a ≠ 0.')"><span class="ropt-lbl">C</span>Es cero → T₁ = mg (MRU)</button>
+              </div>
+              <div class="rstep-fb" id="pa1-s1-fb"></div>
+              <button class="next-btn" id="pa1-s1-next" onclick="revealStep('pa1',2)">Siguiente →</button>
+            </div>
+
+            <!-- Step 2 — pregunta sobre T₄ -->
+            <div class="rstep rstep-ask" id="pa1-s2">
+              <div class="rstep-lbl">Pregunta 2 de 3</div>
+              <div class="rstep-txt">El bloque <strong>baja cada vez más rápido (T₄)</strong>. ¿Cuánto vale T₄ comparado con mg?</div>
+              <div class="rstep-opts" id="pa1-s2-opts">
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa1',2,false,'Si bajara con MRU, a = 0 y T = mg. Pero &quot;más rápido&quot; significa a ≠ 0.')"><span class="ropt-lbl">A</span>T₄ = mg (baja, pero a = 0)</button>
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa1',2,false,'T &gt; mg cuando a apunta hacia arriba. Aquí baja acelerando → a apunta hacia abajo → T = m(g−a) &lt; mg.')"><span class="ropt-lbl">B</span>T₄ &gt; mg (la cuerda soporta más)</button>
+                <button class="ropt" data-correct="true" onclick="stepChoice(this,'pa1',2,true,'¡Correcto! Baja acelerando → a apunta hacia abajo → T = m(g−a) &lt; mg. La cuerda necesita menos fuerza porque la gravedad &quot;ayuda&quot; al movimiento.')"><span class="ropt-lbl">C</span>T₄ &lt; mg (a apunta abajo → T = m(g−a))</button>
+              </div>
+              <div class="rstep-fb" id="pa1-s2-fb"></div>
+              <button class="next-btn" id="pa1-s2-next" onclick="revealStep('pa1',3)">Siguiente →</button>
+            </div>
+
+            <!-- Step 3 — pregunta final: orden -->
+            <div class="rstep rstep-ask" id="pa1-s3">
+              <div class="rstep-lbl">Pregunta 3 de 3 — Conclusión</div>
+              <div class="rstep-txt">T₂ (reposo) y T₃ (MRU bajando) ambos tienen a = 0. ¿Cuál es el orden correcto de mayor a menor?</div>
+              <div class="rstep-opts" id="pa1-s3-opts">
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa1',3,false,'No. T₁ es la mayor (sube acelerando) y T₄ la menor (baja acelerando). T₂ y T₃ están en el medio y son iguales.')"><span class="ropt-lbl">A</span>T₁ &gt; T₂ &gt; T₃ &gt; T₄</button>
+                <button class="ropt" data-correct="true" onclick="stepChoice(this,'pa1',3,true,'¡Perfecto! T₁ &gt; T₂ = T₃ &gt; T₄. Reposo y MRU tienen a = 0 → misma tensión. Solo la aceleración (no la velocidad) cambia T.')"><span class="ropt-lbl">B</span>T₁ &gt; T₂ = T₃ &gt; T₄</button>
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa1',3,false,'T₂ y T₃ son iguales (ambos a = 0), pero no son las menores. T₄ (baja acelerando) es la menor.')"><span class="ropt-lbl">C</span>T₄ &gt; T₁ &gt; T₂ = T₃</button>
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa1',3,false,'Todas las situaciones tienen diferentes aceleraciones o el mismo valor (T₂=T₃). No son todas iguales.')"><span class="ropt-lbl">D</span>T₁ = T₂ = T₃ = T₄</button>
+              </div>
+              <div class="rstep-fb" id="pa1-s3-fb"></div>
+              <button class="next-btn" id="pa1-s3-next" onclick="revealSolution('pa1')">Ver solución completa →</button>
+            </div>
+
+            <!-- Solución -->
+            <div class="sol-block" id="pa1-sol">
+              <div class="sol-hdr">Solución completa</div>
+              <div class="sol-line">Partimos de <strong>T = m(g + a)</strong>, donde a positiva = arriba, negativa = abajo.</div>
+              <div class="sol-line"><strong>T₁</strong> (sube acelerando): a ↑ → <span class="sol-formula">T₁ = m(g + a) &gt; mg</span></div>
+              <div class="sol-line"><strong>T₂</strong> (reposo): a = 0 → <span class="sol-formula">T₂ = mg</span></div>
+              <div class="sol-line"><strong>T₃</strong> (MRU bajando): a = 0 → <span class="sol-formula">T₃ = mg</span></div>
+              <div class="sol-line"><strong>T₄</strong> (baja acelerando): a ↓ → <span class="sol-formula">T₄ = m(g − a) &lt; mg</span></div>
+              <div class="sol-answer">T₁  &gt;  T₂ = T₃  &gt;  T₄</div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- /pa1 -->
+
+      <!-- PROBLEMA A2: Máquina de Atwood -->
+      <div class="prob-card" id="pa2">
+        <div class="prob-hdr">
+          <span class="prob-id">Análisis 02</span>
+          <span class="diff-pill diff-hard">Avanzado</span>
+        </div>
+        <div class="prob-body">
+          <div class="prob-scenario">Dos masas cuelgan de una cuerda ideal que pasa por una polea ideal: masa M₁ = 6 kg (derecha) y M₂ = 3 kg (izquierda). El sistema parte del reposo.</div>
+          <div class="prob-setup">Calcula paso a paso la <strong>aceleración del sistema</strong> y la <strong>tensión T en la cuerda</strong>. Usa g = 9,8 m/s².</div>
+
+          <div class="steps-wrap">
+
+            <div class="rstep rstep-info show" id="pa2-s0">
+              <div class="rstep-lbl">Análisis del sistema</div>
+              <div class="rstep-txt"><strong>Cuerda única → misma T en ambos lados</strong>. El más pesado (6 kg) baja, el más liviano (3 kg) sube. La fuerza neta que mueve el sistema es la diferencia de pesos.</div>
+              <button class="next-btn show" onclick="revealStep('pa2',1)">Empezar →</button>
+            </div>
+
+            <div class="rstep rstep-ask" id="pa2-s1">
+              <div class="rstep-lbl">Paso 1 — Fuerza neta del sistema</div>
+              <div class="rstep-txt">Tratamos el sistema completo. Los pesos se oponen entre sí. ¿Cuál es la fuerza neta sobre el sistema?</div>
+              <div class="rstep-opts" id="pa2-s1-opts">
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa2',1,false,'Eso sería si toda la masa del sistema estuviera en un solo lado. La fuerza neta es la diferencia de pesos, no la suma.')"><span class="ropt-lbl">A</span>Fn = (6 + 3) × 9,8 = 88,2 N</button>
+                <button class="ropt" data-correct="true" onclick="stepChoice(this,'pa2',1,true,'¡Exacto! La cuerda conecta los dos bloques: los pesos &quot;compiten&quot;. La fuerza que mueve el sistema es P₁ − P₂ = (6−3) × 9,8 = 29,4 N.')"><span class="ropt-lbl">B</span>Fn = (6 − 3) × 9,8 = 29,4 N</button>
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa2',1,false,'Ese es el peso de 3 kg. La fuerza neta del sistema entero es la diferencia de ambos pesos.')"><span class="ropt-lbl">C</span>Fn = 3 × 9,8 = 29,4 N (solo el menor)</button>
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa2',1,false,'Si Fn = 0, el sistema estaría en reposo o MRU. Pero 6 kg ≠ 3 kg → hay desequilibrio → Fn ≠ 0.')"><span class="ropt-lbl">D</span>Fn = 0 (los pesos se cancelan)</button>
+              </div>
+              <div class="rstep-fb" id="pa2-s1-fb"></div>
+              <button class="next-btn" id="pa2-s1-next" onclick="revealStep('pa2',2)">Siguiente →</button>
+            </div>
+
+            <div class="rstep rstep-ask" id="pa2-s2">
+              <div class="rstep-lbl">Paso 2 — Aceleración (entrada numérica)</div>
+              <div class="rstep-txt">La masa total del sistema es m_total = 6 + 3 = 9 kg. Usando a = Fn / m_total, calcula la aceleración.</div>
+              <div class="num-q">a = 29,4 / 9 = ?</div>
+              <div class="num-row">
+                <input class="num-inp" id="pa2-s2-inp" type="text" placeholder="0.00" onkeydown="if(event.key==='Enter')checkNum('pa2',2,3.27,0.12)">
+                <span class="num-unit">m/s²</span>
+                <button class="num-btn" onclick="checkNum('pa2',2,3.27,0.12)">Verificar</button>
+              </div>
+              <div class="rstep-fb" id="pa2-s2-fb"></div>
+              <button class="next-btn" id="pa2-s2-next" onclick="revealStep('pa2',3)">Siguiente →</button>
+            </div>
+
+            <div class="rstep rstep-ask" id="pa2-s3">
+              <div class="rstep-lbl">Paso 3 — Tensión (entrada numérica)</div>
+              <div class="rstep-txt">Analiza solo el bloque de <strong>3 kg</strong>: sube con aceleración a = 3,27 m/s². Su ecuación es <strong>T − m₂g = m₂a</strong> → T = m₂(g + a).</div>
+              <div class="num-q">T = 3 × (9,8 + 3,27) = ?</div>
+              <div class="num-row">
+                <input class="num-inp" id="pa2-s3-inp" type="text" placeholder="0.00" onkeydown="if(event.key==='Enter')checkNum('pa2',3,39.2,1.2)">
+                <span class="num-unit">N</span>
+                <button class="num-btn" onclick="checkNum('pa2',3,39.2,1.2)">Verificar</button>
+              </div>
+              <div class="rstep-fb" id="pa2-s3-fb"></div>
+              <button class="next-btn" id="pa2-s3-next" onclick="revealSolution('pa2')">Ver solución →</button>
+            </div>
+
+            <div class="sol-block" id="pa2-sol">
+              <div class="sol-hdr">Solución completa</div>
+              <div class="sol-line"><strong>Fuerza neta del sistema:</strong> <span class="sol-formula">Fn = (6−3) × 9,8 = 29,4 N</span></div>
+              <div class="sol-line"><strong>Aceleración:</strong> <span class="sol-formula">a = 29,4 / 9 = 3,27 m/s²</span></div>
+              <div class="sol-line"><strong>Verificación con 6 kg</strong> (baja): m₁g − T = m₁a → T = m₁(g−a) = 6(9,8−3,27) = 6 × 6,53 = <span class="sol-formula">39,2 N ✓</span></div>
+              <div class="sol-answer">a = 3,27 m/s² &nbsp;·&nbsp; T = 39,2 N</div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- /pa2 -->
+
+      <!-- PROBLEMA A3: Dos bloques en superficie plana -->
+      <div class="prob-card" id="pa3">
+        <div class="prob-hdr">
+          <span class="prob-id">Análisis 03</span>
+          <span class="diff-pill diff-med">Intermedio</span>
+        </div>
+        <div class="prob-body">
+          <div class="prob-scenario">Dos bloques de igual masa M están unidos por una cuerda ideal sobre una superficie horizontal sin roce. Se aplica una fuerza F al bloque de la derecha.</div>
+          <div class="prob-setup">¿Cuánto vale la tensión T en la cuerda que une los dos bloques?</div>
+
+          <div class="dcl-wrap">
+            <div class="dcl-lbl">Diagrama del sistema</div>
+            <svg width="240" height="90" viewBox="0 0 240 90">
+              <defs>
+                <marker id="aF" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#b45309"/></marker>
+                <marker id="aA" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#3d35c0"/></marker>
+              </defs>
+              <!-- Surface -->
+              <line x1="10" y1="72" x2="230" y2="72" stroke="#e5e4dc" stroke-width="2"/>
+              <!-- Left block -->
+              <rect x="30" y="34" width="54" height="38" rx="4" fill="white" stroke="#d0cfc4" stroke-width="1.5"/>
+              <text x="57" y="57" text-anchor="middle" font-size="12" fill="#100f1c" font-family="sans-serif" font-weight="700">M</text>
+              <!-- rope -->
+              <line x1="84" y1="53" x2="116" y2="53" stroke="#d0cfc4" stroke-width="2"/>
+              <text x="100" y="45" text-anchor="middle" font-size="9" fill="#3d35c0" font-family="sans-serif" font-weight="700">T</text>
+              <!-- Right block -->
+              <rect x="116" y="34" width="54" height="38" rx="4" fill="white" stroke="#d0cfc4" stroke-width="1.5"/>
+              <text x="143" y="57" text-anchor="middle" font-size="12" fill="#100f1c" font-family="sans-serif" font-weight="700">M</text>
+              <!-- Force F -->
+              <line x1="170" y1="53" x2="210" y2="53" stroke="#b45309" stroke-width="2.5" marker-end="url(#aF)"/>
+              <text x="190" y="45" text-anchor="middle" font-size="11" fill="#b45309" font-family="sans-serif" font-weight="700">F</text>
+              <!-- acceleration arrow -->
+              <line x1="60" y1="18" x2="140" y2="18" stroke="#3d35c0" stroke-width="1.5" marker-end="url(#aA)"/>
+              <text x="100" y="13" text-anchor="middle" font-size="9" fill="#3d35c0" font-family="sans-serif">a = F/(2M)</text>
+            </svg>
+          </div>
+
+          <div class="steps-wrap">
+
+            <div class="rstep rstep-info show" id="pa3-s0">
+              <div class="rstep-lbl">Estrategia</div>
+              <div class="rstep-txt">Analiza cada bloque por separado con su DCL. La cuerda transmite tensión T — la misma en ambos extremos.</div>
+              <button class="next-btn show" onclick="revealStep('pa3',1)">Siguiente →</button>
+            </div>
+
+            <div class="rstep rstep-ask" id="pa3-s1">
+              <div class="rstep-lbl">Paso 1 — Fuerzas sobre el bloque izquierdo</div>
+              <div class="rstep-txt">No hay roce. La fuerza F solo actúa sobre el bloque derecho. ¿Qué fuerzas horizontales actúan sobre el bloque izquierdo (M)?</div>
+              <div class="rstep-opts" id="pa3-s1-opts">
+                <button class="ropt" data-correct="true" onclick="stepChoice(this,'pa3',1,true,'¡Correcto! Solo T actúa horizontalmente sobre el bloque izquierdo (no hay roce, y F se aplica al derecho). Su ecuación es T = Ma.')"><span class="ropt-lbl">A</span>Solo T (la tensión lo jala hacia la derecha)</button>
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa3',1,false,'F se aplica directamente al bloque derecho, no al izquierdo. La cuerda transmite T al bloque izquierdo, no F.')"><span class="ropt-lbl">B</span>F y T actúan sobre él</button>
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa3',1,false,'Si no hubiera ninguna fuerza, el bloque izquierdo no se movería. La cuerda lo arrastra con tensión T.')"><span class="ropt-lbl">C</span>Ninguna fuerza horizontal (la cuerda no cuenta)</button>
+              </div>
+              <div class="rstep-fb" id="pa3-s1-fb"></div>
+              <button class="next-btn" id="pa3-s1-next" onclick="revealStep('pa3',2)">Siguiente →</button>
+            </div>
+
+            <div class="rstep rstep-info" id="pa3-s2">
+              <div class="rstep-lbl">Construyendo las ecuaciones</div>
+              <div class="rstep-txt">
+                <strong>Bloque izquierdo:</strong> T = Ma &nbsp;→&nbsp; T lo acelera.<br>
+                <strong>Bloque derecho:</strong> F − T = Ma &nbsp;→&nbsp; F lo empuja, T lo "frena" (la cuerda jala hacia atrás).<br>
+                <strong>Sumando ambas:</strong> F = 2Ma → <strong>a = F/(2M)</strong>
+              </div>
+              <button class="next-btn show" onclick="revealStep('pa3',3)">Sustituir →</button>
+            </div>
+
+            <div class="rstep rstep-ask" id="pa3-s3">
+              <div class="rstep-lbl">Paso final — ¿Cuánto vale T?</div>
+              <div class="rstep-txt">Sustituyendo a = F/(2M) en T = Ma:</div>
+              <div class="rstep-opts" id="pa3-s3-opts">
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa3',3,false,'T = Ma = M × F/(2M) = F/2, no F. T = F solo si hubiera un solo bloque.')"><span class="ropt-lbl">A</span>T = F (la cuerda transmite toda la fuerza)</button>
+                <button class="ropt" data-correct="true" onclick="stepChoice(this,'pa3',3,true,'¡Exacto! T = Ma = M × F/(2M) = F/2. Tiene sentido: la fuerza F mueve 2 bloques, la cuerda solo transmite la mitad al bloque izquierdo.')"><span class="ropt-lbl">B</span>T = F/2 (la mitad para cada bloque)</button>
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa3',3,false,'T = F/2, no F/4. Cada bloque tiene la misma masa → la fuerza se reparte en partes iguales.')"><span class="ropt-lbl">C</span>T = F/4</button>
+                <button class="ropt" data-correct="false" onclick="stepChoice(this,'pa3',3,false,'Si T = 0, el bloque izquierdo no se movería (no hay fuerzas sobre él). Como se mueve, T ≠ 0.')"><span class="ropt-lbl">D</span>T = 0 (sin roce, la cuerda no hace nada)</button>
+              </div>
+              <div class="rstep-fb" id="pa3-s3-fb"></div>
+              <button class="next-btn" id="pa3-s3-next" onclick="revealSolution('pa3')">Ver solución →</button>
+            </div>
+
+            <div class="sol-block" id="pa3-sol">
+              <div class="sol-hdr">Solución completa</div>
+              <div class="sol-line"><strong>Sistema completo:</strong> <span class="sol-formula">F = 2M·a → a = F/(2M)</span></div>
+              <div class="sol-line"><strong>Bloque izquierdo:</strong> <span class="sol-formula">T = M·a = M × F/(2M) = F/2</span></div>
+              <div class="sol-line">El resultado T = F/2 vale para cualquier F y cualquier M (siempre que las masas sean iguales y no haya roce).</div>
+              <div class="sol-answer">T = F / 2</div>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- /pa3 -->
+
+    </div><!-- /lv-analisis -->
+
+    <!-- ─── NIVEL 3: CÁLCULO NUMÉRICO ─── -->
+    <div class="lv-panel" id="lv-calculo">
+
+      <!-- C1: Coeficientes de roce -->
+      <div class="calc-card">
+        <div class="calc-hdr">
+          <span class="calc-num">Cálculo 01</span>
+          <span class="calc-title">Coeficientes de roce</span>
+        </div>
+        <div class="calc-body">
+          <div class="calc-given">
+            <strong>Enunciado:</strong> Se necesitan <strong>400 N</strong> para poner en movimiento una caja de <strong>50 kg</strong> sobre una superficie horizontal de concreto. Si la misma fuerza continúa actuando, la caja adquiere una aceleración de <strong>0,7 m/s²</strong>. Calcula μe y μk entre la caja y el concreto.<br>
+            <em>Usa g = 9,8 m/s². Expresa con 2 decimales.</em>
+          </div>
+
+          <div class="calc-step">
+            <div class="cstep-n">1</div>
+            <div class="cstep-body">
+              <div class="cstep-q">Calcula la Normal: N = mg</div>
+              <div class="cstep-hint">Fórmula: N = 50 × 9,8</div>
+              <div class="num-row">
+                <input class="num-inp" id="c1-s1" type="text" placeholder="0.0" onkeydown="if(event.key==='Enter')checkNum('c1',1,490,1)">
+                <span class="num-unit">N</span>
+                <button class="num-btn" onclick="checkNum('c1',1,490,1)">Verificar</button>
+              </div>
+              <div class="rstep-fb" id="c1-s1-fb"></div>
+            </div>
+          </div>
+
+          <div class="calc-step">
+            <div class="cstep-n">2</div>
+            <div class="cstep-body">
+              <div class="cstep-q">Calcula μe: Los 400 N son la fuerza mínima para iniciar el movimiento = Re_máx</div>
+              <div class="cstep-hint">μe = Re_máx / N = 400 / N del paso anterior</div>
+              <div class="num-row">
+                <input class="num-inp" id="c1-s2" type="text" placeholder="0.00" onkeydown="if(event.key==='Enter')checkNum('c1',2,0.816,0.025)">
+                <span class="num-unit">(adimensional)</span>
+                <button class="num-btn" onclick="checkNum('c1',2,0.816,0.025)">Verificar</button>
+              </div>
+              <div class="rstep-fb" id="c1-s2-fb"></div>
+            </div>
+          </div>
+
+          <div class="calc-step">
+            <div class="cstep-n">3</div>
+            <div class="cstep-body">
+              <div class="cstep-q">Calcula Rk: con F = 400 N y a = 0,7 m/s², aplica 2° principio: F − Rk = ma</div>
+              <div class="cstep-hint">Rk = F − ma = 400 − (50 × 0,7)</div>
+              <div class="num-row">
+                <input class="num-inp" id="c1-s3" type="text" placeholder="0.0" onkeydown="if(event.key==='Enter')checkNum('c1',3,365,2)">
+                <span class="num-unit">N</span>
+                <button class="num-btn" onclick="checkNum('c1',3,365,2)">Verificar</button>
+              </div>
+              <div class="rstep-fb" id="c1-s3-fb"></div>
+            </div>
+          </div>
+
+          <div class="calc-step">
+            <div class="cstep-n">4</div>
+            <div class="cstep-body">
+              <div class="cstep-q">Calcula μk = Rk / N</div>
+              <div class="cstep-hint">μk = 365 / 490</div>
+              <div class="num-row">
+                <input class="num-inp" id="c1-s4" type="text" placeholder="0.00" onkeydown="if(event.key==='Enter')checkNum('c1',4,0.745,0.025)">
+                <span class="num-unit">(adimensional)</span>
+                <button class="num-btn" onclick="checkNum('c1',4,0.745,0.025)">Verificar</button>
+              </div>
+              <div class="rstep-fb" id="c1-s4-fb"></div>
+            </div>
+          </div>
+
+          <div class="sol-block" id="c1-sol" style="display:block;margin-top:0;">
+            <div class="sol-hdr">Respuestas</div>
+            <div class="sol-line"><strong>N</strong> = 50 × 9,8 = <span class="sol-formula">490 N</span></div>
+            <div class="sol-line"><strong>μe</strong> = 400 / 490 = <span class="sol-formula">0,82</span></div>
+            <div class="sol-line"><strong>Rk</strong> = 400 − 50(0,7) = 400 − 35 = <span class="sol-formula">365 N</span></div>
+            <div class="sol-line"><strong>μk</strong> = 365 / 490 = <span class="sol-formula">0,74</span></div>
+            <div class="sol-line" style="margin-top:8px;"><em>Confirma: μe (0,82) &gt; μk (0,74) ✓ — siempre debe cumplirse.</em></div>
+          </div>
+        </div>
+      </div><!-- /c1 -->
+
+      <!-- C2: Tren de bloques -->
+      <div class="calc-card">
+        <div class="calc-hdr">
+          <span class="calc-num">Cálculo 02</span>
+          <span class="calc-title">El tren de bloques</span>
+        </div>
+        <div class="calc-body">
+          <div class="calc-given">
+            <strong>Enunciado:</strong> Tres bloques (4 kg | 2 kg | 4 kg) están sobre una superficie horizontal, unidos con cuerdas ideales. Se aplica una fuerza <strong>F = 60 N</strong> al bloque de la derecha y el sistema se mueve con <strong>MRU</strong>. Calcula μk entre los bloques y la superficie, y las tensiones T₁ (entre 4 kg izq. y 2 kg) y T₂ (entre 2 kg y 4 kg der.).<br>
+            <em>Usa g = 9,8 m/s².</em>
+          </div>
+
+          <div class="dcl-wrap" style="margin-bottom:16px;">
+            <div class="dcl-lbl">Configuración del sistema</div>
+            <svg width="260" height="70" viewBox="0 0 260 70">
+              <defs><marker id="aF2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 Z" fill="#b45309"/></marker></defs>
+              <line x1="10" y1="60" x2="250" y2="60" stroke="#e5e4dc" stroke-width="2"/>
+              <!-- Block 1 (4kg left) -->
+              <rect x="14" y="22" width="52" height="38" rx="3" fill="white" stroke="#d0cfc4" stroke-width="1.5"/>
+              <text x="40" y="45" text-anchor="middle" font-size="10" fill="#100f1c" font-family="sans-serif" font-weight="700">4 kg</text>
+              <!-- rope T1 -->
+              <line x1="66" y1="41" x2="90" y2="41" stroke="#d0cfc4" stroke-width="1.5"/>
+              <text x="78" y="35" text-anchor="middle" font-size="9" fill="#3d35c0" font-family="sans-serif" font-weight="700">T₁</text>
+              <!-- Block 2 (2kg) -->
+              <rect x="90" y="26" width="44" height="34" rx="3" fill="white" stroke="#d0cfc4" stroke-width="1.5"/>
+              <text x="112" y="47" text-anchor="middle" font-size="10" fill="#100f1c" font-family="sans-serif" font-weight="700">2 kg</text>
+              <!-- rope T2 -->
+              <line x1="134" y1="41" x2="158" y2="41" stroke="#d0cfc4" stroke-width="1.5"/>
+              <text x="146" y="35" text-anchor="middle" font-size="9" fill="#3d35c0" font-family="sans-serif" font-weight="700">T₂</text>
+              <!-- Block 3 (4kg right) -->
+              <rect x="158" y="22" width="52" height="38" rx="3" fill="white" stroke="#d0cfc4" stroke-width="1.5"/>
+              <text x="184" y="45" text-anchor="middle" font-size="10" fill="#100f1c" font-family="sans-serif" font-weight="700">4 kg</text>
+              <!-- Force -->
+              <line x1="210" y1="41" x2="245" y2="41" stroke="#b45309" stroke-width="2.5" marker-end="url(#aF2)"/>
+              <text x="228" y="34" text-anchor="middle" font-size="10" fill="#b45309" font-family="sans-serif" font-weight="700">60 N</text>
+            </svg>
+          </div>
+
+          <div class="calc-step">
+            <div class="cstep-n">1</div>
+            <div class="cstep-body">
+              <div class="cstep-q">Normal total del sistema: N = m_total × g</div>
+              <div class="cstep-hint">m_total = 4 + 2 + 4 = 10 kg</div>
+              <div class="num-row">
+                <input class="num-inp" id="c2-s1" type="text" placeholder="0.0" onkeydown="if(event.key==='Enter')checkNum('c2',1,98,1)">
+                <span class="num-unit">N</span>
+                <button class="num-btn" onclick="checkNum('c2',1,98,1)">Verificar</button>
+              </div>
+              <div class="rstep-fb" id="c2-s1-fb"></div>
+            </div>
+          </div>
+
+          <div class="calc-step">
+            <div class="cstep-n">2</div>
+            <div class="cstep-body">
+              <div class="cstep-q">Como el sistema va con MRU: Fn = 0 → F = Rk_total → calcula μk</div>
+              <div class="cstep-hint">μk = F / N_total = 60 / 98</div>
+              <div class="num-row">
+                <input class="num-inp" id="c2-s2" type="text" placeholder="0.00" onkeydown="if(event.key==='Enter')checkNum('c2',2,0.612,0.025)">
+                <span class="num-unit">(adimensional)</span>
+                <button class="num-btn" onclick="checkNum('c2',2,0.612,0.025)">Verificar</button>
+              </div>
+              <div class="rstep-fb" id="c2-s2-fb"></div>
+            </div>
+          </div>
+
+          <div class="calc-step">
+            <div class="cstep-n">3</div>
+            <div class="cstep-body">
+              <div class="cstep-q">T₁: analiza solo el bloque izquierdo (4 kg). Con MRU, T₁ = Rk₁</div>
+              <div class="cstep-hint">T₁ = μk × N₁ = μk × (4 × 9,8) = μk × 39,2</div>
+              <div class="num-row">
+                <input class="num-inp" id="c2-s3" type="text" placeholder="0.0" onkeydown="if(event.key==='Enter')checkNum('c2',3,24,1)">
+                <span class="num-unit">N</span>
+                <button class="num-btn" onclick="checkNum('c2',3,24,1)">Verificar</button>
+              </div>
+              <div class="rstep-fb" id="c2-s3-fb"></div>
+            </div>
+          </div>
+
+          <div class="calc-step">
+            <div class="cstep-n">4</div>
+            <div class="cstep-body">
+              <div class="cstep-q">T₂: analiza el bloque derecho (4 kg). Con MRU: F − T₂ − Rk₃ = 0 → T₂ = F − Rk₃</div>
+              <div class="cstep-hint">T₂ = 60 − μk × 39,2 = 60 − 24</div>
+              <div class="num-row">
+                <input class="num-inp" id="c2-s4" type="text" placeholder="0.0" onkeydown="if(event.key==='Enter')checkNum('c2',4,36,1)">
+                <span class="num-unit">N</span>
+                <button class="num-btn" onclick="checkNum('c2',4,36,1)">Verificar</button>
+              </div>
+              <div class="rstep-fb" id="c2-s4-fb"></div>
+            </div>
+          </div>
+
+          <div class="sol-block" id="c2-sol" style="display:block;margin-top:0;">
+            <div class="sol-hdr">Respuestas</div>
+            <div class="sol-line"><strong>N_total</strong> = 10 × 9,8 = <span class="sol-formula">98 N</span></div>
+            <div class="sol-line"><strong>μk</strong> = 60 / 98 = <span class="sol-formula">0,61</span></div>
+            <div class="sol-line"><strong>T₁</strong> = 0,61 × 39,2 = <span class="sol-formula">24 N</span></div>
+            <div class="sol-line"><strong>T₂</strong> = 60 − 24 = <span class="sol-formula">36 N</span></div>
+            <div class="sol-line" style="margin-top:8px;"><em>Verifica con 2 kg: T₂ − T₁ − Rk₂ = 36 − 24 − 0,61×19,6 = 36−24−12 = 0 ✓ (MRU)</em></div>
+          </div>
+        </div>
+      </div><!-- /c2 -->
+
+    </div><!-- /lv-calculo -->
+
+    <div class="pg-footer"><strong>Física · 2° Medio · Roce y Tensión</strong></div>
+  </div><!-- /panel-practicar -->
+
+</div><!-- /content-wrap -->
+
+<script>
+/* ── FEEDBACK MAP ── */
+var FBK = {
+  c1:{ ok:'¡Correcto! Las superficies no deslizan → roce estático actúa → te impulsa hacia adelante.', fail:'Al caminar sin resbalar, el zapato no desliza sobre el suelo → roce ESTÁTICO. Y como el suelo te empuja hacia adelante (reacción), el roce apunta hacia adelante.'},
+  c2:{ ok:'Correcto. En el instante exacto de inicio, actúa Re_máx = μe × N — la fuerza que se acaba de superar. Tras ese instante el roce cae a Rk.', fail:'Justo cuando el cuerpo empieza a moverse se superó Re_máx. Ese es el valor que venciste. Después del deslizamiento, cae a Rk.'},
+  c3:{ ok:'Correcto. Velocidad constante → a = 0 → Fn = T − mg = 0 → T = mg. La velocidad (4 m/s) no cambia T — solo la aceleración lo haría.', fail:'Velocidad constante = MRU = a = 0. T = mg siempre que no haya aceleración. La velocidad a la que baja no importa.'},
+  c4:{ ok:'Correcto. El esquiador desliza sobre los esquíes → las superficies sí resbalentre sí → CINÉTICO. Y como se opone al deslizamiento (hacia abajo), apunta hacia arriba.', fail:'Como las superficies deslizan entre sí (esquíes sobre nieve), el roce es CINÉTICO. Se opone al movimiento (hacia abajo por la pendiente) → apunta hacia arriba.'}
+};
+
+var totalQ = 0, answered = 0, correct = 0, wrong = 0;
+
+/* ── SIMPLE MCQ ── */
+function ansQ(btn, qid) {
+  var group = document.getElementById(qid), fb = document.getElementById('fb-' + qid);
+  var buttons = group.querySelectorAll('.opt-btn'), isOk = btn.getAttribute('data-correct') === 'true';
+  buttons.forEach(function(b){ b.disabled = true; b.classList.add('dimmed'); });
+  if (isOk) {
+    btn.classList.remove('dimmed'); btn.classList.add('correct');
+    fb.className = 'feedback show ok'; fb.textContent = '✓ ' + FBK[qid].ok;
+    correct++; document.getElementById('sc-ok').textContent = correct;
+    if (window.AppAuth) AppAuth.saveProgress('rt-' + qid, 'fisica', 'roce-tension', true);
+  } else {
+    btn.classList.remove('dimmed'); btn.classList.add('wrong');
+    buttons.forEach(function(b){ if (b.getAttribute('data-correct') === 'true'){ b.classList.remove('dimmed'); b.classList.add('correct'); } });
+    fb.className = 'feedback show fail'; fb.textContent = '✗ ' + FBK[qid].fail;
+    wrong++; document.getElementById('sc-fail').textContent = wrong;
+    if (window.AppAuth) AppAuth.saveProgress('rt-' + qid, 'fisica', 'roce-tension', false);
+  }
+  answered++; document.getElementById('sc-pend').textContent = Math.max(0, totalQ - answered);
+}
+
+/* ── STEP CHOICE (Brilliant MCQ) ── */
+function stepChoice(btn, pid, sIdx, isOk, msgOk) {
+  var optGroup = document.getElementById(pid + '-s' + sIdx + '-opts');
+  if (!optGroup) return;
+  var opts = optGroup.querySelectorAll('.ropt');
+  opts.forEach(function(o){ o.disabled = true; o.classList.add('dimmed'); });
+  var fb = document.getElementById(pid + '-s' + sIdx + '-fb');
+  if (isOk) {
+    btn.classList.remove('dimmed'); btn.classList.add('correct');
+    if (fb){ fb.className = 'rstep-fb show ok'; fb.textContent = '✓ ' + msgOk; }
+    correct++; document.getElementById('sc-ok').textContent = correct;
+    if (window.AppAuth) AppAuth.saveProgress('rt-' + pid + '-s' + sIdx, 'fisica', 'roce-tension', true);
+  } else {
+    btn.classList.remove('dimmed'); btn.classList.add('wrong');
+    opts.forEach(function(o){ if (o.getAttribute('data-correct') === 'true'){ o.classList.remove('dimmed'); o.classList.add('correct'); } });
+    if (fb){ fb.className = 'rstep-fb show fail'; fb.textContent = btn.querySelector('.ropt-lbl').nextSibling.textContent.trim().split('(')[0]; }
+    wrong++; document.getElementById('sc-fail').textContent = wrong;
+    if (window.AppAuth) AppAuth.saveProgress('rt-' + pid + '-s' + sIdx, 'fisica', 'roce-tension', false);
+  }
+  answered++; document.getElementById('sc-pend').textContent = Math.max(0, totalQ - answered);
+  var nextBtn = document.getElementById(pid + '-s' + sIdx + '-next');
+  if (nextBtn) nextBtn.classList.add('show');
+}
+
+/* ── REVEAL STEP ── */
+function revealStep(pid, stepIdx) {
+  var el = document.getElementById(pid + '-s' + stepIdx);
+  if (el) {
+    el.classList.add('show');
+    setTimeout(function(){ el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 80);
+  }
+}
+
+/* ── REVEAL SOLUTION ── */
+function revealSolution(pid) {
+  var sol = document.getElementById(pid + '-sol');
+  if (sol) {
+    sol.classList.add('show');
+    setTimeout(function(){ sol.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 80);
+  }
+}
+
+/* ── NUMERICAL CHECK ── */
+function checkNum(pid, sIdx, correct_val, tol) {
+  var inp = document.getElementById(pid + '-s' + sIdx);
+  if (!inp) return;
+  var raw = inp.value.replace(',', '.').trim();
+  var val = parseFloat(raw);
+  var fb = document.getElementById(pid + '-s' + sIdx + '-fb');
+  var nextBtn = document.getElementById(pid + '-s' + sIdx + '-next');
+  if (isNaN(val)) {
+    if (fb){ fb.className = 'rstep-fb show fail'; fb.textContent = 'Ingresa un número válido (usa punto o coma decimal).'; }
+    return;
+  }
+  if (Math.abs(val - correct_val) <= tol) {
+    inp.classList.remove('wrong'); inp.classList.add('correct'); inp.disabled = true;
+    if (fb){ fb.className = 'rstep-fb show ok'; fb.textContent = '✓ ¡Correcto! Resultado: ' + correct_val.toFixed(2); }
+    if (nextBtn) nextBtn.classList.add('show');
+    correct++; document.getElementById('sc-ok').textContent = correct;
+    if (window.AppAuth) AppAuth.saveProgress('rt-' + pid + '-n' + sIdx, 'fisica', 'roce-tension', true);
+    answered++; document.getElementById('sc-pend').textContent = Math.max(0, totalQ - answered);
+  } else {
+    inp.classList.remove('correct'); inp.classList.add('wrong');
+    if (fb){ fb.className = 'rstep-fb show fail'; fb.textContent = 'No es correcto. Revisa el cálculo e intenta de nuevo.'; }
+    setTimeout(function(){ inp.classList.remove('wrong'); if(fb) fb.className='rstep-fb'; }, 1600);
+    wrong++; document.getElementById('sc-fail').textContent = wrong;
+    if (window.AppAuth) AppAuth.saveProgress('rt-' + pid + '-n' + sIdx, 'fisica', 'roce-tension', false);
+    answered++; document.getElementById('sc-pend').textContent = Math.max(0, totalQ - answered);
+  }
+}
+
+/* ── TAB SWITCH ── */
+function showTab(tab, btn) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('panel-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ── LEVEL SWITCH ── */
+function showLevel(lv, btn) {
+  document.querySelectorAll('.lv-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.lv-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('lv-' + lv).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ── RESET ── */
+function resetAll() {
+  answered = 0; correct = 0; wrong = 0;
+  document.getElementById('sc-ok').textContent = '0';
+  document.getElementById('sc-fail').textContent = '0';
+  document.getElementById('sc-pend').textContent = totalQ;
+
+  /* Reset simple MCQ */
+  document.querySelectorAll('.opt-btn').forEach(function(b){ b.disabled = false; b.classList.remove('correct','wrong','dimmed'); });
+  document.querySelectorAll('.feedback').forEach(function(f){ f.className = 'feedback'; f.textContent = ''; });
+
+  /* Reset step problems */
+  ['pa1','pa2','pa3'].forEach(function(pid) {
+    for (var i = 1; i <= 5; i++) {
+      var step = document.getElementById(pid + '-s' + i);
+      if (step) { step.classList.remove('show'); }
+      var fb = document.getElementById(pid + '-s' + i + '-fb');
+      if (fb) { fb.className = 'rstep-fb'; fb.textContent = ''; }
+      var nb = document.getElementById(pid + '-s' + i + '-next');
+      if (nb) nb.classList.remove('show');
+      var opts = document.getElementById(pid + '-s' + i + '-opts');
+      if (opts) { opts.querySelectorAll('.ropt').forEach(function(o){ o.disabled=false; o.classList.remove('correct','wrong','dimmed'); }); }
+    }
+    var s0next = document.getElementById(pid + '-s0') && document.getElementById(pid + '-s0').querySelector('.next-btn');
+    var sol = document.getElementById(pid + '-sol');
+    if (sol) sol.classList.remove('show');
+  });
+
+  /* Reset numerical inputs */
+  ['c1-s1','c1-s2','c1-s3','c1-s4','c2-s1','c2-s2','c2-s3','c2-s4','pa2-s2-inp','pa2-s3-inp'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) { el.value=''; el.disabled=false; el.classList.remove('correct','wrong'); }
+  });
+  ['pa2','c1','c2'].forEach(function(pid){
+    for (var i=1;i<=4;i++){
+      var fb=document.getElementById(pid+'-s'+i+'-fb');
+      if(fb){fb.className='rstep-fb';fb.textContent='';}
+      var nb=document.getElementById(pid+'-s'+i+'-next');
+      if(nb)nb.classList.remove('show');
+    }
+  });
+}
+
+window.onload = function() {
+  /* count simple MCQ + one for each step choice + one per numerical */
+  var simple = document.querySelectorAll('#lv-conceptual .q-card').length;
+  var stepChoices = document.querySelectorAll('.rstep-opts').length;
+  var nums = document.querySelectorAll('.num-inp').length;
+  totalQ = simple + stepChoices + nums;
+  document.getElementById('sc-pend').textContent = totalQ;
+};
+</script>
+</body>
+</html>

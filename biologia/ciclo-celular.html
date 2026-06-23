@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ciclo Celular y Mitosis — Biología</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --acc: #10b981; --acc-lt: #ecfdf5; --acc-dim: #6ee7b7;
+      --bg: #f9fafb; --sur: #fff; --brd: #e5e7eb;
+      --tx: #111827; --tx2: #6b7280; --tx3: #9ca3af;
+      --green: #059669; --glt: #d1fae5;
+      --red: #dc2626; --rlt: #fee2e2;
+      --sh: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+      --shsm: 0 1px 2px rgba(0,0,0,.05), 0 1px 4px rgba(0,0,0,.04);
+      --r: 16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--tx); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    .page { max-width: 480px; margin: 0 auto; padding-bottom: 72px; }
+
+    /* NAV */
+    .nav { background: #0f172a; padding: 11px 16px; display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 10; }
+    .back-btn { display: flex; align-items: center; gap: 5px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 5px 10px; color: #94a3b8; font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; }
+    .crumb { font-size: 0.75rem; color: #475569; }
+
+    /* HEADER */
+    .header { background: #111827; padding: 22px 20px; }
+    .header-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(16,185,129,0.18); border: 1px solid rgba(16,185,129,0.35); border-radius: 20px; padding: 4px 12px; font-size: 0.68rem; font-weight: 700; color: #6ee7b7; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+    .header h1 { font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1; color: #fff; margin-bottom: 6px; }
+    .header-sub { font-size: 0.86rem; color: #6b7280; font-weight: 500; }
+
+    /* TABS */
+    .tab-bar { background: #1f2937; border-top: 1px solid #111827; }
+    .tab-nav { display: flex; border-top: 1px solid #1f2937; }
+    .tab-btn { flex: 1; border: none; background: transparent; color: #6b7280; font-size: 0.82rem; font-weight: 600; padding: 12px 0 11px; cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .tab-btn.active { color: #fff; border-bottom-color: var(--acc); }
+
+    /* PANELS */
+    .panel { display: none; padding: 18px 16px 0; }
+    .panel.active { display: block; }
+
+    /* SECTION HEADER */
+    .sec-hd { font-size: 0.68rem; font-weight: 700; color: var(--tx3); letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 10px 2px; }
+
+    /* INFO CARD */
+    .info-card { background: var(--sur); border-radius: var(--r); padding: 16px 18px; box-shadow: var(--shsm); border: 1px solid var(--brd); margin-bottom: 10px; }
+    .info-card-title { font-size: 0.9rem; font-weight: 800; color: var(--tx); margin-bottom: 8px; }
+    .info-card p { font-size: 0.83rem; color: var(--tx2); line-height: 1.68; }
+    .info-card p + p { margin-top: 6px; }
+    .info-card strong { color: var(--tx); font-weight: 700; }
+    .info-card ul { padding-left: 16px; margin-top: 6px; }
+    .info-card ul li { font-size: 0.83rem; color: var(--tx2); line-height: 1.6; margin-bottom: 5px; }
+    .info-card ul li strong { color: var(--tx); }
+
+    /* HIGHLIGHT BOX */
+    .hl-box { background: var(--acc-lt); border-left: 3px solid var(--acc); border-radius: 0 10px 10px 0; padding: 10px 14px; margin-bottom: 10px; }
+    .hl-box-lbl { font-size: 0.66rem; font-weight: 700; color: var(--acc); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .hl-box p { font-size: 0.81rem; color: #065f46; line-height: 1.65; }
+    .hl-box strong { color: #064e3b; }
+
+    /* DIAGRAM BLOCK */
+    .diag-block { background: #1f2937; border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    .diag-header { background: #374151; padding: 7px 14px; display: flex; justify-content: space-between; align-items: center; }
+    .diag-type { font-size: 0.65rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; }
+    .diag-title { font-size: 0.65rem; color: #6b7280; }
+    .diag-body { padding: 14px; display: flex; justify-content: center; background: #111827; }
+    .diag-caption { padding: 10px 14px; font-size: 0.77rem; color: #d1d5db; line-height: 1.5; }
+
+    /* PHASE GRID */
+    .phase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .phase-card { background: var(--sur); border-radius: 12px; padding: 13px; box-shadow: var(--shsm); border: 1px solid var(--brd); }
+    .phase-icon { font-size: 1.3rem; margin-bottom: 6px; }
+    .phase-name { font-size: 0.82rem; font-weight: 700; color: var(--tx); margin-bottom: 4px; }
+    .phase-desc { font-size: 0.75rem; color: var(--tx2); line-height: 1.5; }
+    .phase-accent { display: inline-block; font-size: 0.65rem; font-weight: 700; color: var(--acc); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+
+    /* KEY POINTS */
+    .kp-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+    .kp-item { display: flex; gap: 14px; align-items: flex-start; }
+    .kp-n { font-size: 1.05rem; font-weight: 900; color: var(--acc-dim); min-width: 26px; line-height: 1.45; }
+    .kp-t { font-size: 0.86rem; color: var(--tx2); line-height: 1.65; padding-top: 1px; }
+    .kp-t strong { color: var(--tx); }
+
+    /* COMPARISON TABLE */
+    .comp-table { background: var(--sur); border-radius: var(--r); overflow: hidden; border: 1px solid var(--brd); margin-bottom: 14px; }
+    .comp-row { display: grid; grid-template-columns: 1.2fr 1fr 1fr; border-bottom: 1px solid var(--brd); }
+    .comp-row:last-child { border-bottom: none; }
+    .comp-cell { padding: 10px 12px; font-size: 0.79rem; color: var(--tx2); line-height: 1.4; }
+    .comp-cell.head { font-weight: 800; color: var(--tx); background: #f3f4f6; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .comp-cell.acc { color: var(--acc); font-weight: 600; }
+
+    /* QUIZ */
+    .quiz-top { background: var(--sur); border-radius: var(--r); padding: 14px 16px; margin-bottom: 14px; border: 1px solid var(--brd); }
+    .sc-group { display: flex; gap: 14px; align-items: center; }
+    .sc-item { text-align: center; }
+    .sc-val { font-size: 1.4rem; font-weight: 900; line-height: 1; }
+    .sc-lbl { font-size: 0.61rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px; color: var(--tx3); }
+    .sc-div { width: 1px; height: 28px; background: var(--brd); }
+    .s-ok { color: var(--green); }
+    .s-fail { color: var(--red); }
+    .s-pend { color: var(--tx3); }
+    .reset-btn { margin-left: auto; background: var(--acc-lt); border: 1px solid #a7f3d0; color: var(--green); border-radius: 8px; padding: 6px 12px; font-size: 0.78rem; font-weight: 700; cursor: pointer; }
+    .q-card { background: var(--sur); border-radius: var(--r); padding: 16px 15px; margin-bottom: 11px; box-shadow: var(--shsm); border: 1px solid var(--brd); }
+    .q-num { font-size: 0.67rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--acc); margin-bottom: 6px; }
+    .q-text { font-size: 0.91rem; font-weight: 700; color: var(--tx); line-height: 1.5; margin-bottom: 12px; }
+    .opts { display: flex; flex-direction: column; gap: 7px; }
+    .opt-btn { width: 100%; min-height: 44px; background: #f9fafb; border: 1.5px solid var(--brd); border-radius: 10px; padding: 9px 12px; text-align: left; font-size: 0.82rem; font-weight: 500; color: var(--tx2); cursor: pointer; display: flex; align-items: center; gap: 9px; transition: border-color 0.12s, background 0.12s; line-height: 1.4; font-family: inherit; }
+    .opt-btn:hover:not(:disabled) { border-color: var(--acc); background: var(--acc-lt); color: var(--tx); }
+    .opt-lbl { min-width: 22px; height: 22px; border-radius: 6px; background: #f3f4f6; color: var(--tx3); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.7rem; flex-shrink: 0; }
+    .opt-btn.correct { background: var(--glt); border-color: #a7f3d0; color: #065f46; }
+    .opt-btn.correct .opt-lbl { background: #a7f3d0; color: #065f46; }
+    .opt-btn.wrong { background: var(--rlt); border-color: #fca5a5; color: #7f1d1d; }
+    .opt-btn.wrong .opt-lbl { background: #fca5a5; color: #7f1d1d; }
+    .opt-btn.dimmed { opacity: 0.3; }
+    .opt-btn:disabled { cursor: default; }
+    .feedback { display: none; margin-top: 10px; border-radius: 10px; padding: 9px 13px; font-size: 0.79rem; line-height: 1.6; }
+    .feedback.show { display: block; }
+    .feedback.ok { background: var(--glt); border: 1px solid #a7f3d0; color: #065f46; }
+    .feedback.fail { background: var(--rlt); border: 1px solid #fca5a5; color: #7f1d1d; }
+
+    .mb14 { margin-bottom: 14px; }
+    .mb20 { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="nav">
+    <a href="index.html" class="back-btn">← Biología</a>
+    <span class="crumb">Ciclo Celular y Mitosis</span>
+  </nav>
+
+  <div class="header">
+    <div class="header-chip">Tema 01 · Biología</div>
+    <h1>Ciclo Celular<br>y Mitosis</h1>
+    <p class="header-sub">Interfase, fases de la mitosis y citocinesis</p>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="showTab('estudiar',this)">📖 Estudiar</button>
+      <button class="tab-btn" onclick="showTab('practicar',this)">✏️ Practicar</button>
+    </div>
+  </div>
+
+  <!-- ══════════ ESTUDIAR ══════════ -->
+  <div class="panel active" id="panel-estudiar">
+
+    <!-- EL CICLO CELULAR -->
+    <p class="sec-hd" style="margin-top:4px;">El Ciclo Celular</p>
+
+    <div class="info-card mb14">
+      <div class="info-card-title">¿Qué es el ciclo celular?</div>
+      <p>Es la secuencia ordenada de eventos que ocurren en una célula eucariota desde que se forma hasta que se divide. Se compone de dos grandes etapas: la <strong>Interfase</strong> (preparación) y la <strong>División celular</strong> (mitosis + citocinesis).</p>
+    </div>
+
+    <!-- SVG CICLO CELULAR -->
+    <div class="diag-block mb14">
+      <div class="diag-header">
+        <span class="diag-type">Diagrama</span>
+        <span class="diag-title">Ciclo Celular</span>
+      </div>
+      <div class="diag-body">
+        <svg width="240" height="240" viewBox="0 0 240 240">
+          <!-- Fondo del círculo -->
+          <circle cx="120" cy="120" r="90" fill="#0f172a" stroke="#374151" stroke-width="1"/>
+          <!-- G1 ~40% -->
+          <path d="M120 30 A90 90 0 0 1 202.5 157.5" fill="none" stroke="#3b82f6" stroke-width="22" stroke-linecap="butt"/>
+          <!-- S ~25% -->
+          <path d="M202.5 157.5 A90 90 0 0 1 80 204.5" fill="none" stroke="#10b981" stroke-width="22" stroke-linecap="butt"/>
+          <!-- G2 ~15% -->
+          <path d="M80 204.5 A90 90 0 0 1 37 82" fill="none" stroke="#f59e0b" stroke-width="22" stroke-linecap="butt"/>
+          <!-- M ~20% -->
+          <path d="M37 82 A90 90 0 0 1 120 30" fill="none" stroke="#ef4444" stroke-width="22" stroke-linecap="butt"/>
+          <!-- Centro -->
+          <circle cx="120" cy="120" r="62" fill="#111827"/>
+          <text x="120" y="113" text-anchor="middle" fill="#f1f5f9" font-size="11" font-weight="900" font-family="Inter,sans-serif">Ciclo</text>
+          <text x="120" y="129" text-anchor="middle" fill="#6b7280" font-size="10" font-family="Inter,sans-serif">Celular</text>
+          <!-- Etiquetas -->
+          <text x="165" y="58" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="800" font-family="Inter,sans-serif">G1</text>
+          <text x="208" y="185" text-anchor="middle" fill="#6ee7b7" font-size="11" font-weight="800" font-family="Inter,sans-serif">S</text>
+          <text x="40" y="198" text-anchor="middle" fill="#fcd34d" font-size="11" font-weight="800" font-family="Inter,sans-serif">G2</text>
+          <text x="30" y="60" text-anchor="middle" fill="#fca5a5" font-size="11" font-weight="800" font-family="Inter,sans-serif">M</text>
+          <!-- Subtítulos -->
+          <text x="165" y="70" text-anchor="middle" fill="#64748b" font-size="8.5" font-family="Inter,sans-serif">~40%</text>
+          <text x="208" y="196" text-anchor="middle" fill="#64748b" font-size="8.5" font-family="Inter,sans-serif">~25%</text>
+          <text x="40" y="208" text-anchor="middle" fill="#64748b" font-size="8.5" font-family="Inter,sans-serif">~15%</text>
+          <text x="32" y="72" text-anchor="middle" fill="#64748b" font-size="8.5" font-family="Inter,sans-serif">~20%</text>
+          <!-- Flecha de dirección -->
+          <text x="138" y="36" fill="#475569" font-size="14" font-family="Inter,sans-serif">↻</text>
+        </svg>
+      </div>
+      <div class="diag-caption">El ciclo celular humano dura ~24 horas. G1 es la fase más larga; la mitosis (M) es la más corta (~1 hora).</div>
+    </div>
+
+    <!-- INTERFASE -->
+    <p class="sec-hd">Interfase</p>
+
+    <div class="phase-grid mb14">
+      <div class="phase-card">
+        <div class="phase-icon">🔵</div>
+        <div class="phase-accent">G1</div>
+        <div class="phase-name">Fase G1</div>
+        <div class="phase-desc">Crecimiento celular, síntesis de proteínas y orgánulos. Punto de restricción (R): la célula decide si continúa el ciclo.</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-icon">🟢</div>
+        <div class="phase-accent">S</div>
+        <div class="phase-name">Fase S</div>
+        <div class="phase-desc">Síntesis (replicación) del ADN. Cada cromosoma pasa de 1 a 2 cromátidas hermanas unidas por cohesinas. Duplicación de centrosomas.</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-icon">🟡</div>
+        <div class="phase-accent">G2</div>
+        <div class="phase-name">Fase G2</div>
+        <div class="phase-desc">Segunda fase de crecimiento. Síntesis de proteínas mitóticas (tubulina). Verificación de que el ADN fue bien replicado.</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-icon">⬛</div>
+        <div class="phase-accent">G0</div>
+        <div class="phase-name">Fase G0</div>
+        <div class="phase-desc">Estado de quiescencia (no proliferación). Las células se salen del ciclo temporalmente (neuronas, músculo cardíaco) o permanentemente.</div>
+      </div>
+    </div>
+
+    <div class="hl-box mb14">
+      <div class="hl-box-lbl">Punto de Restricción (R)</div>
+      <p>Ocurre en G1. Si la célula pasa este punto, está comprometida a completar el ciclo. Depende de señales mitogénicas, tamaño celular adecuado y disponibilidad de nutrientes. Es regulado por <strong>Rb y Ciclina D/CDK4</strong>.</p>
+    </div>
+
+    <!-- MITOSIS -->
+    <p class="sec-hd">Mitosis — Las 6 Fases</p>
+
+    <!-- DIAGRAMA MITOSIS -->
+    <div class="diag-block mb14">
+      <div class="diag-header">
+        <span class="diag-type">Diagrama</span>
+        <span class="diag-title">Fases de la Mitosis</span>
+      </div>
+      <div class="diag-body" style="padding: 14px 8px; overflow-x: auto;">
+        <svg width="440" height="120" viewBox="0 0 440 120" style="min-width:340px;">
+          <!-- Profase -->
+          <rect x="2" y="10" width="68" height="80" rx="8" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+          <text x="36" y="28" text-anchor="middle" fill="#93c5fd" font-size="8.5" font-weight="800" font-family="Inter,sans-serif">PROFASE</text>
+          <!-- Cromosomas condensados -->
+          <ellipse cx="28" cy="58" rx="7" ry="14" fill="#3b82f6" opacity="0.8"/>
+          <ellipse cx="44" cy="58" rx="7" ry="14" fill="#ef4444" opacity="0.8"/>
+          <!-- Huso -->
+          <line x1="8" y1="35" x2="64" y2="80" stroke="#94a3b8" stroke-width="1" opacity="0.5"/>
+          <line x1="64" y1="35" x2="8" y2="80" stroke="#94a3b8" stroke-width="1" opacity="0.5"/>
+          <text x="36" y="100" text-anchor="middle" fill="#6b7280" font-size="7.5" font-family="Inter,sans-serif">Condensación</text>
+          <text x="36" y="110" text-anchor="middle" fill="#6b7280" font-size="7.5" font-family="Inter,sans-serif">cromosómica</text>
+
+          <!-- Prometafase -->
+          <rect x="76" y="10" width="68" height="80" rx="8" fill="#1a3a2e" stroke="#10b981" stroke-width="1.5"/>
+          <text x="110" y="28" text-anchor="middle" fill="#6ee7b7" font-size="7.5" font-weight="800" font-family="Inter,sans-serif">PROMETAFASE</text>
+          <ellipse cx="102" cy="55" rx="7" ry="14" fill="#3b82f6" opacity="0.8"/>
+          <ellipse cx="118" cy="55" rx="7" ry="14" fill="#ef4444" opacity="0.8"/>
+          <line x1="82" y1="15" x2="102" y2="47" stroke="#10b981" stroke-width="1.5" opacity="0.7"/>
+          <line x1="138" y1="15" x2="118" y2="47" stroke="#10b981" stroke-width="1.5" opacity="0.7"/>
+          <line x1="82" y1="85" x2="102" y2="63" stroke="#10b981" stroke-width="1.5" opacity="0.7"/>
+          <line x1="138" y1="85" x2="118" y2="63" stroke="#10b981" stroke-width="1.5" opacity="0.7"/>
+          <text x="110" y="100" text-anchor="middle" fill="#6b7280" font-size="7.5" font-family="Inter,sans-serif">Microtúbulos</text>
+          <text x="110" y="110" text-anchor="middle" fill="#6b7280" font-size="7.5" font-family="Inter,sans-serif">→ cinetocoros</text>
+
+          <!-- Metafase -->
+          <rect x="150" y="10" width="68" height="80" rx="8" fill="#3b1f00" stroke="#f59e0b" stroke-width="1.5"/>
+          <text x="184" y="28" text-anchor="middle" fill="#fcd34d" font-size="8.5" font-weight="800" font-family="Inter,sans-serif">METAFASE</text>
+          <ellipse cx="184" cy="55" rx="7" ry="14" fill="#3b82f6" opacity="0.9"/>
+          <ellipse cx="184" cy="55" rx="5" ry="12" fill="#ef4444" opacity="0.7"/>
+          <line x1="156" y1="15" x2="184" y2="42" stroke="#f59e0b" stroke-width="1.5"/>
+          <line x1="212" y1="15" x2="184" y2="42" stroke="#f59e0b" stroke-width="1.5"/>
+          <line x1="156" y1="85" x2="184" y2="68" stroke="#f59e0b" stroke-width="1.5"/>
+          <line x1="212" y1="85" x2="184" y2="68" stroke="#f59e0b" stroke-width="1.5"/>
+          <line x1="156" y1="55" x2="179" y2="55" stroke="#fcd34d" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="184" y="100" text-anchor="middle" fill="#6b7280" font-size="7.5" font-family="Inter,sans-serif">Placa</text>
+          <text x="184" y="110" text-anchor="middle" fill="#6b7280" font-size="7.5" font-family="Inter,sans-serif">metafásica</text>
+
+          <!-- Anafase -->
+          <rect x="224" y="10" width="68" height="80" rx="8" fill="#3b0a0a" stroke="#ef4444" stroke-width="1.5"/>
+          <text x="258" y="28" text-anchor="middle" fill="#fca5a5" font-size="8.5" font-weight="800" font-family="Inter,sans-serif">ANAFASE</text>
+          <ellipse cx="244" cy="38" rx="6" ry="11" fill="#3b82f6" opacity="0.9"/>
+          <ellipse cx="272" cy="38" rx="6" ry="11" fill="#3b82f6" opacity="0.9"/>
+          <ellipse cx="244" cy="73" rx="6" ry="11" fill="#ef4444" opacity="0.9"/>
+          <ellipse cx="272" cy="73" rx="6" ry="11" fill="#ef4444" opacity="0.9"/>
+          <text x="258" y="100" text-anchor="middle" fill="#6b7280" font-size="7.5" font-family="Inter,sans-serif">Separación</text>
+          <text x="258" y="110" text-anchor="middle" fill="#6b7280" font-size="7.5" font-family="Inter,sans-serif">cromátidas</text>
+
+          <!-- Telofase -->
+          <rect x="298" y="10" width="68" height="80" rx="8" fill="#1e1f3a" stroke="#8b5cf6" stroke-width="1.5"/>
+          <text x="332" y="28" text-anchor="middle" fill="#c4b5fd" font-size="8.5" font-weight="800" font-family="Inter,sans-serif">TELOFASE</text>
+          <ellipse cx="313" cy="45" rx="10" ry="18" fill="none" stroke="#8b5cf6" stroke-width="1.5" opacity="0.7"/>
+          <ellipse cx="351" cy="45" rx="10" ry="18" fill="none" stroke="#8b5cf6" stroke-width="1.5" opacity="0.7"/>
+          <ellipse cx="318" cy="42" rx="5" ry="9" fill="#3b82f6" opacity="0.6"/>
+          <ellipse cx="346" cy="42" rx="5" ry="9" fill="#ef4444" opacity="0.6"/>
+          <text x="332" y="100" text-anchor="middle" fill="#6b7280" font-size="7.5" font-family="Inter,sans-serif">Nueva envoltura</text>
+          <text x="332" y="110" text-anchor="middle" fill="#6b7280" font-size="7.5" font-family="Inter,sans-serif">nuclear</text>
+
+          <!-- Citocinesis -->
+          <rect x="372" y="10" width="66" height="80" rx="8" fill="#0f2318" stroke="#34d399" stroke-width="1.5"/>
+          <text x="405" y="28" text-anchor="middle" fill="#6ee7b7" font-size="7.5" font-weight="800" font-family="Inter,sans-serif">CITOCINESIS</text>
+          <ellipse cx="390" cy="50" rx="10" ry="20" fill="#111827" stroke="#34d399" stroke-width="1.5"/>
+          <ellipse cx="420" cy="50" rx="10" ry="20" fill="#111827" stroke="#34d399" stroke-width="1.5"/>
+          <line x1="405" y1="30" x2="405" y2="70" stroke="#34d399" stroke-width="2" stroke-dasharray="4,2"/>
+          <text x="405" y="100" text-anchor="middle" fill="#6b7280" font-size="7.5" font-family="Inter,sans-serif">2 células</text>
+          <text x="405" y="110" text-anchor="middle" fill="#6b7280" font-size="7.5" font-family="Inter,sans-serif">idénticas</text>
+        </svg>
+      </div>
+      <div class="diag-caption">Desliza para ver todas las fases. Los colores representan cromosomas de origen materno (azul) y paterno (rojo).</div>
+    </div>
+
+    <div class="info-card mb14">
+      <div class="info-card-title">Profase</div>
+      <ul>
+        <li><strong>Condensación cromosómica:</strong> la cromatina se compacta formando cromosomas visibles (cada uno con 2 cromátidas hermanas unidas por cohesinas).</li>
+        <li><strong>Desintegración de la envoltura nuclear</strong> y del nucléolo.</li>
+        <li><strong>Formación del huso mitótico:</strong> los centrosomas migran a polos opuestos y se forman microtúbulos de tubulina.</li>
+      </ul>
+    </div>
+
+    <div class="info-card mb14">
+      <div class="info-card-title">Prometafase</div>
+      <ul>
+        <li>La envoltura nuclear se fragmenta completamente.</li>
+        <li>Los microtúbulos del huso se unen a los <strong>cinetocoros</strong> (estructuras proteicas en el centrómero de cada cromátida).</li>
+        <li>Los cromosomas comienzan a moverse hacia el ecuador de la célula.</li>
+      </ul>
+    </div>
+
+    <div class="info-card mb14">
+      <div class="info-card-title">Metafase</div>
+      <ul>
+        <li>Los cromosomas se alinean en la <strong>placa metafásica</strong> (plano ecuatorial de la célula).</li>
+        <li>Cada cromátida hermana está unida a un polo opuesto por microtúbulos cinetocóricos.</li>
+        <li>Es el mejor momento para visualizar y contar cromosomas al microscopio (cariotipo).</li>
+      </ul>
+    </div>
+
+    <div class="info-card mb14">
+      <div class="info-card-title">Anafase</div>
+      <ul>
+        <li><strong>Degradación de las cohesinas:</strong> la separasa (enzima) corta las cohesinas del centrómero.</li>
+        <li>Las cromátidas hermanas se separan y cada una migra hacia polos opuestos (ahora son cromosomas independientes).</li>
+        <li>Los microtúbulos astrales elongan la célula.</li>
+      </ul>
+    </div>
+
+    <div class="info-card mb14">
+      <div class="info-card-title">Telofase</div>
+      <ul>
+        <li>Se forma una <strong>nueva envoltura nuclear</strong> alrededor de cada grupo de cromosomas en los polos.</li>
+        <li>Los cromosomas se descondensan volviendo a cromatina.</li>
+        <li>Reaparece el nucléolo.</li>
+        <li>El huso mitótico se desintegra.</li>
+      </ul>
+    </div>
+
+    <div class="info-card mb20">
+      <div class="info-card-title">Citocinesis</div>
+      <p>División del citoplasma. Ocurre diferente según el tipo de célula:</p>
+      <div class="comp-table" style="margin-top:10px;">
+        <div class="comp-row">
+          <div class="comp-cell head">Característica</div>
+          <div class="comp-cell head">Célula Animal</div>
+          <div class="comp-cell head">Célula Vegetal</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-cell"><strong>Mecanismo</strong></div>
+          <div class="comp-cell acc">Anillo contráctil</div>
+          <div class="comp-cell acc">Fragmoplasto</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-cell"><strong>Proteínas</strong></div>
+          <div class="comp-cell">Actina + miosina</div>
+          <div class="comp-cell">Microtúbulos</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-cell"><strong>Resultado</strong></div>
+          <div class="comp-cell">Constricción hasta dividir</div>
+          <div class="comp-cell">Placa celular (nueva pared)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONCEPTOS CLAVE -->
+    <p class="sec-hd">Conceptos Clave</p>
+    <div class="kp-list mb20">
+      <div class="kp-item">
+        <div class="kp-n">🔗</div>
+        <div class="kp-t"><strong>Cohesinas:</strong> proteínas que mantienen unidas las cromátidas hermanas desde la fase S hasta la anafase. Son degradadas por la separasa cuando llega el momento de separar.</div>
+      </div>
+      <div class="kp-item">
+        <div class="kp-n">🎯</div>
+        <div class="kp-t"><strong>Cinetocoro:</strong> complejo proteico que se ensambla en la región del centrómero de cada cromátida. Sirve de punto de anclaje para los microtúbulos del huso mitótico.</div>
+      </div>
+      <div class="kp-item">
+        <div class="kp-n">🌀</div>
+        <div class="kp-t"><strong>Huso mitótico (acromático):</strong> estructura formada por microtúbulos que separa los cromosomas durante la mitosis. Se origina en los centrosomas (Células animales) o en los centros de organización de microtúbulos (Células vegetales).</div>
+      </div>
+      <div class="kp-item">
+        <div class="kp-n">🧵</div>
+        <div class="kp-t"><strong>Cromátidas hermanas:</strong> las dos copias idénticas de un cromosoma después de la replicación del ADN. Son genéticamente idénticas y permanecen unidas por cohesinas en el centrómero hasta la anafase.</div>
+      </div>
+      <div class="kp-item">
+        <div class="kp-n">✂️</div>
+        <div class="kp-t"><strong>Separasa:</strong> enzima proteolítica que corta las cohesinas del centrómero en la transición metafase→anafase, permitiendo la separación de cromátidas. Es activada por el complejo APC/C.</div>
+      </div>
+    </div>
+
+  </div><!-- /panel estudiar -->
+
+  <!-- ══════════ PRACTICAR ══════════ -->
+  <div class="panel" id="panel-practicar">
+
+    <div class="quiz-top">
+      <div class="sc-group">
+        <div class="sc-item">
+          <div class="sc-val s-ok" id="sc-ok">0</div>
+          <div class="sc-lbl">Correctas</div>
+        </div>
+        <div class="sc-div"></div>
+        <div class="sc-item">
+          <div class="sc-val s-fail" id="sc-fail">0</div>
+          <div class="sc-lbl">Incorrectas</div>
+        </div>
+        <div class="sc-div"></div>
+        <div class="sc-item">
+          <div class="sc-val s-pend" id="sc-pend">10</div>
+          <div class="sc-lbl">Pendientes</div>
+        </div>
+        <button class="reset-btn" onclick="resetQuiz()">↺ Reiniciar</button>
+      </div>
+    </div>
+
+    <div id="quiz-container"></div>
+
+  </div><!-- /panel practicar -->
+
+</div><!-- /page -->
+
+<script>
+const QUESTIONS = [
+  {
+    q: "¿En qué fase del ciclo celular se produce la replicación del ADN?",
+    opts: ["Fase G1","Fase S","Fase G2","Profase de la mitosis"],
+    correct: 1,
+    fb: "La replicación del ADN ocurre en la Fase S (Síntesis). Durante esta fase, cada cromosoma se duplica formando dos cromátidas hermanas unidas por cohesinas."
+  },
+  {
+    q: "¿Qué son las cohesinas?",
+    opts: ["Proteínas que forman el huso mitótico","Proteínas que mantienen unidas las cromátidas hermanas","Enzimas que replican el ADN","Proteínas del cinetocoro"],
+    correct: 1,
+    fb: "Las cohesinas son proteínas que mantienen unidas las cromátidas hermanas desde la fase S hasta la anafase. Son degradadas por la separasa durante la anafase."
+  },
+  {
+    q: "¿En qué fase de la mitosis los cromosomas se alinean en la placa ecuatorial?",
+    opts: ["Profase","Prometafase","Metafase","Anafase"],
+    correct: 2,
+    fb: "En la Metafase, los cromosomas se alinean en la placa metafásica (plano ecuatorial). Este es el mejor momento para observar y contar cromosomas al microscopio."
+  },
+  {
+    q: "¿Qué evento caracteriza a la Anafase?",
+    opts: ["Condensación de cromosomas","Formación del huso mitótico","Separación de cromátidas hermanas","Alineación en la placa metafásica"],
+    correct: 2,
+    fb: "En la Anafase, la separasa degrada las cohesinas del centrómero, separando las cromátidas hermanas que migran a polos opuestos de la célula."
+  },
+  {
+    q: "¿Cuál es la diferencia principal en la citocinesis entre células animales y vegetales?",
+    opts: [
+      "Las células vegetales usan anillo contráctil y las animales fragmoplasto",
+      "Las células animales usan anillo contráctil de actina-miosina; las vegetales forman un fragmoplasto",
+      "Ambas usan el mismo mecanismo de constricción",
+      "Solo las células animales realizan citocinesis"
+    ],
+    correct: 1,
+    fb: "Las células animales se dividen mediante un anillo contráctil de actina y miosina que constricta la célula. Las células vegetales forman un fragmoplasto (estructura de microtúbulos) que origina la placa celular, construyendo una nueva pared entre las células hijas."
+  },
+  {
+    q: "¿Qué ocurre durante la Telofase?",
+    opts: [
+      "Los cromosomas se condensan y desaparece la envoltura nuclear",
+      "Los microtúbulos se unen a los cinetocoros",
+      "Se forman nuevas envolturas nucleares y los cromosomas se descondensan",
+      "Las cromátidas hermanas se separan hacia los polos"
+    ],
+    correct: 2,
+    fb: "En la Telofase se reconforma la envoltura nuclear alrededor de los cromosomas en cada polo, los cromosomas se descondensan volviendo a ser cromatina, y reaparece el nucléolo."
+  },
+  {
+    q: "¿Cuál es la función del cinetocoro?",
+    opts: [
+      "Sintetizar ADN durante la fase S",
+      "Servir de punto de anclaje para los microtúbulos del huso",
+      "Unir las dos cromátidas hermanas",
+      "Iniciar la citocinesis"
+    ],
+    correct: 1,
+    fb: "El cinetocoro es un complejo proteico en el centrómero de cada cromátida que sirve de punto de anclaje para los microtúbulos cinetocóricos del huso mitótico. Sin él, los cromosomas no pueden ser separados correctamente."
+  },
+  {
+    q: "¿Qué es la fase G0 del ciclo celular?",
+    opts: [
+      "Una subfase de la mitosis",
+      "La fase en que el ADN se replica",
+      "Un estado de quiescencia fuera del ciclo activo",
+      "La fase previa a la división"
+    ],
+    correct: 2,
+    fb: "G0 es un estado de quiescencia en que las células salen del ciclo activo. Algunas células lo hacen temporalmente (muchas células adultas) y otras permanentemente (neuronas maduras, músculo cardíaco)."
+  },
+  {
+    q: "¿Cuántas células hijas y con qué ploidía resultan de una mitosis normal?",
+    opts: [
+      "4 células haploides (n)",
+      "2 células diploides (2n)",
+      "2 células haploides (n)",
+      "4 células diploides (2n)"
+    ],
+    correct: 1,
+    fb: "La mitosis produce 2 células hijas diploides (2n), genéticamente idénticas a la célula madre. Esto es fundamental para el crecimiento y la reparación de tejidos."
+  },
+  {
+    q: "¿Qué ocurre en la Prometafase?",
+    opts: [
+      "Los cromosomas se condensan por primera vez",
+      "La envoltura nuclear se fragmenta y los microtúbulos se unen a los cinetocoros",
+      "Se forma el anillo contráctil",
+      "Los cromosomas se descondensan en los polos"
+    ],
+    correct: 1,
+    fb: "En la Prometafase la envoltura nuclear se fragmenta completamente, permitiendo a los microtúbulos del huso acceder y unirse a los cinetocoros de los cromosomas, iniciando su movimiento hacia la placa metafásica."
+  }
+];
+
+let scores = { ok: 0, fail: 0, answered: [] };
+
+function buildQuiz() {
+  const c = document.getElementById('quiz-container');
+  c.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = 'qcard-' + i;
+    card.innerHTML = `
+      <div class="q-num">Pregunta ${i+1} de ${QUESTIONS.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="opts">
+        ${q.opts.map((o,j) => `
+          <button class="opt-btn" onclick="answer(${i},${j})">
+            <span class="opt-lbl">${String.fromCharCode(65+j)}</span>${o}
+          </button>`).join('')}
+      </div>
+      <div class="feedback" id="fb-${i}"></div>
+    `;
+    c.appendChild(card);
+  });
+}
+
+function answer(qi, chosen) {
+  if (scores.answered.includes(qi)) return;
+  scores.answered.push(qi);
+  const q = QUESTIONS[qi];
+  const card = document.getElementById('qcard-' + qi);
+  const btns = card.querySelectorAll('.opt-btn');
+  const fb = document.getElementById('fb-' + qi);
+
+  btns.forEach((b, j) => {
+    b.disabled = true;
+    if (j === q.correct) b.classList.add('correct');
+    else if (j === chosen) b.classList.add('wrong');
+    else b.classList.add('dimmed');
+  });
+
+  if (chosen === q.correct) {
+    scores.ok++;
+    fb.className = 'feedback show ok';
+    fb.innerHTML = '✅ ' + q.fb;
+  } else {
+    scores.fail++;
+    fb.className = 'feedback show fail';
+    fb.innerHTML = '❌ ' + q.fb;
+  }
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('sc-ok').textContent = scores.ok;
+  document.getElementById('sc-fail').textContent = scores.fail;
+  document.getElementById('sc-pend').textContent = QUESTIONS.length - scores.answered.length;
+}
+
+function resetQuiz() {
+  scores = { ok: 0, fail: 0, answered: [] };
+  updateScore();
+  buildQuiz();
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+buildQuiz();
+</script>
+</body>
+</html>

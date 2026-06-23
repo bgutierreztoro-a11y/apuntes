@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guerra Fría en América Latina — Historia 2° Medio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #f9fafb; color: #111827; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    .page { max-width: 480px; margin: 0 auto; padding-bottom: 60px; }
+
+    .top-nav { background: #0f172a; padding: 12px 16px; display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 30; }
+    .nav-back { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); color: #94a3b8; border-radius: 8px; padding: 5px 12px; font-family: inherit; font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; }
+    .nav-crumb { font-size: 0.72rem; color: #475569; }
+
+    .page-header { background: #111827; padding: 28px 20px 30px; }
+    .header-chip { display: inline-flex; align-items: center; gap: 5px; background: rgba(13,148,136,0.18); border: 1px solid rgba(13,148,136,0.35); border-radius: 20px; padding: 4px 12px; font-size: 0.68rem; font-weight: 700; color: #5eead4; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+    .page-header h1 { font-size: 1.9rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1.1; color: #fff; margin-bottom: 8px; }
+    .header-sub { font-size: 0.84rem; color: #6b7280; font-weight: 500; }
+
+    .prueba-banner { background: #fffbeb; border: 1px solid #fcd34d; border-left: 4px solid #f59e0b; border-radius: 12px; margin: 16px 16px 0; padding: 12px 16px; display: flex; align-items: flex-start; gap: 10px; }
+    .prueba-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .prueba-title { font-size: 0.84rem; font-weight: 800; color: #92400e; margin-bottom: 3px; }
+    .prueba-sub { font-size: 0.74rem; color: #b45309; line-height: 1.4; }
+
+    .tab-bar { display: flex; gap: 8px; padding: 14px 16px 12px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 45px; z-index: 20; }
+    .tab-btn { flex: 1; padding: 9px 0; font-size: 0.83rem; font-weight: 700; border: none; border-radius: 9px; background: #f3f4f6; color: #6b7280; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .tab-btn.active { background: #0d9488; color: #fff; }
+
+    .panel { display: none; padding: 20px 16px; }
+    .panel.active { display: block; }
+
+    .sec-h { font-size: 0.97rem; font-weight: 800; color: #111827; margin: 28px 0 12px; padding-left: 12px; border-left: 3px solid #0d9488; line-height: 1.3; }
+    .sec-h:first-child { margin-top: 0; }
+
+    .car-block { background: #1e293b; border-radius: 16px; overflow: hidden; margin-bottom: 16px; }
+    .car-header { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .car-type { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #5eead4; }
+    .car-date { font-size: 0.72rem; font-weight: 600; color: #94a3b8; }
+    .car-body { padding: 16px; }
+    .car-caption { font-size: 0.71rem; color: #64748b; padding: 8px 16px 14px; line-height: 1.45; }
+
+    .timeline { display: flex; flex-direction: column; position: relative; padding-left: 26px; }
+    .timeline::before { content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(to bottom, #0d9488, #0f766e); }
+    .tl-item { position: relative; padding: 4px 0 22px; }
+    .tl-item:last-child { padding-bottom: 4px; }
+    .tl-dot { position: absolute; left: -22px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: #0d9488; border: 2px solid #1e293b; box-shadow: 0 0 0 2px #0d9488; }
+    .tl-date { font-size: 0.67rem; font-weight: 800; color: #5eead4; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+    .tl-title { font-size: 0.88rem; font-weight: 700; color: #f1f5f9; margin-bottom: 5px; }
+    .tl-body { font-size: 0.78rem; color: #94a3b8; line-height: 1.5; }
+
+    .kp-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .kp-list li { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 11px 14px; font-size: 0.82rem; color: #374151; line-height: 1.5; }
+    .kp-list li strong { color: #0d9488; font-weight: 700; }
+
+    .info-box { background: #f0fdfa; border: 1px solid rgba(13,148,136,0.25); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
+    .info-box h4 { font-size: 0.78rem; font-weight: 800; color: #065f46; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .info-box p { font-size: 0.81rem; color: #047857; line-height: 1.5; }
+
+    .dual-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .dual-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; }
+    .dual-card-head { padding: 9px 12px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+    .dual-card-head.tiar { background: rgba(13,148,136,0.12); color: #0d9488; }
+    .dual-card-head.oea { background: rgba(79,70,229,0.1); color: #4f46e5; }
+    .dual-card-body { padding: 10px 12px; font-size: 0.76rem; color: #374151; line-height: 1.5; }
+    .dual-card-body p { font-weight: 700; color: #111827; margin-bottom: 6px; font-size: 0.77rem; }
+    .dual-card-body ul { padding-left: 14px; }
+    .dual-card-body li { margin-bottom: 4px; }
+
+    .event-highlight { display: flex; align-items: center; gap: 12px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.25); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; }
+    .event-icon { font-size: 1.8rem; flex-shrink: 0; }
+    .event-title { font-size: 0.88rem; font-weight: 800; color: #f1f5f9; margin-bottom: 3px; }
+    .event-sub { font-size: 0.74rem; color: #94a3b8; }
+    .arrow-connector { text-align: center; font-size: 1.4rem; color: #5eead4; margin: 6px 0; }
+    .effect-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .effect-item { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; }
+    .effect-label { font-size: 0.62rem; font-weight: 800; color: #5eead4; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+    .effect-text { font-size: 0.75rem; color: #cbd5e1; line-height: 1.4; }
+
+    .two-face-table { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .two-face-col { border-radius: 12px; overflow: hidden; }
+    .two-face-col.soft { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.25); }
+    .two-face-col.hard { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.25); }
+    .two-face-head { padding: 10px 12px; font-size: 0.69rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; }
+    .two-face-col.soft .two-face-head { background: rgba(16,185,129,0.18); color: #065f46; }
+    .two-face-col.hard .two-face-head { background: rgba(239,68,68,0.18); color: #b91c1c; }
+    .two-face-sub { padding: 6px 12px 8px; font-size: 0.69rem; font-weight: 700; color: #6b7280; text-align: center; }
+    .two-face-list { padding: 0 12px 8px; font-size: 0.74rem; color: #374151; list-style: none; }
+    .two-face-list li { padding: 2px 0; }
+    .two-face-list li::before { content: '· '; }
+    .two-face-goal { padding: 8px 12px 10px; font-size: 0.7rem; font-weight: 700; line-height: 1.4; }
+    .two-face-col.soft .two-face-goal { color: #065f46; background: rgba(16,185,129,0.1); }
+    .two-face-col.hard .two-face-goal { color: #b91c1c; background: rgba(239,68,68,0.1); }
+
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .stat-item { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; text-align: center; }
+    .stat-val { font-size: 1.25rem; font-weight: 900; color: #0d9488; line-height: 1; margin-bottom: 4px; }
+    .stat-lbl { font-size: 0.67rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .quote-block { background: #1e293b; border-radius: 14px; padding: 20px 18px; margin-bottom: 16px; border-left: 4px solid #0d9488; }
+    .quote-text { font-size: 0.88rem; font-style: italic; color: #e2e8f0; line-height: 1.55; margin-bottom: 10px; }
+    .quote-source { font-size: 0.71rem; font-weight: 700; color: #5eead4; }
+
+    .golpes-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .golpe-item { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px; }
+    .golpe-flag { font-size: 1.7rem; flex-shrink: 0; }
+    .golpe-year { font-size: 0.67rem; font-weight: 800; color: #ef4444; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
+    .golpe-country { font-size: 0.9rem; font-weight: 800; color: #111827; margin-bottom: 4px; }
+    .golpe-text { font-size: 0.79rem; color: #6b7280; line-height: 1.4; }
+
+    /* QUIZ */
+    .quiz-score { background: #fff; border-radius: 12px; padding: 16px; border: 1px solid #e5e7eb; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    .score-group { }
+    .score-label { font-size: 0.7rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+    .score-val { font-size: 1.5rem; font-weight: 900; color: #0d9488; }
+    .quiz-item { background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; overflow: hidden; margin-bottom: 12px; }
+    .quiz-q-header { padding: 14px 16px 10px; }
+    .quiz-num { font-size: 0.63rem; font-weight: 800; color: #0d9488; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .quiz-q-text { font-size: 0.86rem; font-weight: 700; color: #111827; line-height: 1.4; }
+    .quiz-opts { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 6px; }
+    .opt { border: 1.5px solid #e5e7eb; border-radius: 8px; padding: 10px 14px; font-size: 0.81rem; background: #fff; color: #374151; text-align: left; cursor: pointer; font-family: inherit; font-weight: 500; transition: border-color 0.15s, background 0.15s; line-height: 1.35; }
+    .opt:hover:not(.disabled) { border-color: #0d9488; background: #f0fdfa; }
+    .opt.correct { border-color: #10b981 !important; background: #ecfdf5 !important; color: #065f46 !important; font-weight: 700; }
+    .opt.wrong { border-color: #ef4444 !important; background: #fef2f2 !important; color: #b91c1c !important; }
+    .opt.disabled { pointer-events: none; }
+    .quiz-fb { margin: 0 12px 12px; padding: 10px 12px; border-radius: 8px; font-size: 0.79rem; line-height: 1.45; display: none; font-weight: 600; }
+    .quiz-fb.show { display: block; }
+    .quiz-fb.correct { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .quiz-fb.wrong { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+    .reset-btn { display: block; width: 100%; padding: 14px; background: #0d9488; color: #fff; border: none; border-radius: 12px; font-size: 0.9rem; font-weight: 800; cursor: pointer; margin-top: 8px; font-family: inherit; }
+    .reset-btn:hover { opacity: 0.9; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="top-nav">
+    <a href="historia.html" class="nav-back">← Historia</a>
+    <span class="nav-crumb">/ Guerra Fría en Latam</span>
+  </nav>
+
+  <div class="page-header">
+    <div class="header-chip">🌎 Historia · 2° Medio</div>
+    <h1>América Latina<br>en la Mira</h1>
+    <p class="header-sub">La Guerra Fría en América Latina (1940–1970)</p>
+  </div>
+
+  <div class="prueba-banner">
+    <span class="prueba-icon">⚠️</span>
+    <div>
+      <div class="prueba-title">Esto entra en la prueba</div>
+      <div class="prueba-sub">TIAR · OEA · Alianza para el Progreso · Doctrina de Seguridad Nacional · Guerrillas · Golpes de Estado</div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(event,'estudiar')">📖 Estudiar</button>
+    <button class="tab-btn" onclick="switchTab(event,'practicar')">✏️ Practicar</button>
+  </div>
+
+  <!-- ═══════════════ ESTUDIAR ═══════════════ -->
+  <div id="estudiar" class="panel active">
+
+    <h2 class="sec-h">Relaciones EEUU – América Latina: Tres Etapas</h2>
+
+    <div class="car-block">
+      <div class="car-header">
+        <span class="car-type">Timeline histórico</span>
+        <span class="car-date">1933 — 1970</span>
+      </div>
+      <div class="car-body">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">1933 – 1945</div>
+            <div class="tl-title">Política del Buen Vecino</div>
+            <div class="tl-body">Roosevelt renuncia a la intervención directa. Busca cooperación hemisférica. Latinoamérica es tratada como socio. La democracia y las reformas son toleradas e incluso alentadas.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">1947 – 1959</div>
+            <div class="tl-title">Contención y Seguridad Colectiva</div>
+            <div class="tl-body">Doctrina Truman: el mundo se divide en dos bloques. TIAR (1947): defensa colectiva. OEA (1948): cooperación hemisférica. El anticomunismo reemplaza a la democracia como prioridad de EEUU.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-date">1959 – 1970</div>
+            <div class="tl-title">La Encrucijada: Soft Power + Hard Power</div>
+            <div class="tl-body">La Revolución Cubana obliga a EEUU a actuar con urgencia. Kennedy lanza la Alianza para el Progreso (reformas) mientras simultáneamente apoya golpes militares y forma a contrainsurgentes (Doctrina de Seguridad Nacional).</div>
+          </div>
+        </div>
+      </div>
+      <div class="car-caption">Latinoamérica no fue solo un "tablero de ajedrez": sus pueblos tomaron decisiones propias. EEUU reaccionó, no controló completamente.</div>
+    </div>
+
+    <h2 class="sec-h">La "Primavera Democrática" de los años 40</h2>
+
+    <ul class="kp-list">
+      <li><strong>Contexto favorable:</strong> Con la Política del Buen Vecino, en los años 40 varios países latinoamericanos vivieron períodos de democratización, reformas laborales y ampliación de derechos.</li>
+      <li><strong>Reformas sociales:</strong> Surgieron gobiernos reformistas con programas de bienestar, sindicatos más fuertes e incluso algunos partidos comunistas que actuaban legalmente.</li>
+      <li><strong>El quiebre (1947):</strong> Con la Doctrina Truman y el inicio formal de la Guerra Fría, EEUU empezó a ver todo gobierno reformista como sospechoso de ser "pro-comunista".</li>
+      <li><strong>Consecuencia:</strong> Se cayeron gobiernos democráticos de orientación reformista. El anticomunismo se convirtió en la nueva vara con que EEUU medía a sus aliados.</li>
+    </ul>
+
+    <h2 class="sec-h">TIAR (1947) y OEA (1948)</h2>
+
+    <div class="dual-card-grid">
+      <div class="dual-card">
+        <div class="dual-card-head tiar">TIAR — 1947</div>
+        <div class="dual-card-body">
+          <p>Tratado Interamericano de Asistencia Recíproca</p>
+          <ul>
+            <li>Defensa militar colectiva del hemisferio</li>
+            <li>Ataque a uno = ataque a todos</li>
+            <li>Modelo NATO para las Américas</li>
+            <li>Cuba excluida en 1962</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dual-card">
+        <div class="dual-card-head oea">OEA — 1948</div>
+        <div class="dual-card-body">
+          <p>Organización de Estados Americanos (Bogotá)</p>
+          <ul>
+            <li>Resolución pacífica de conflictos</li>
+            <li>Seguridad colectiva</li>
+            <li>Cooperación hemisférica</li>
+            <li>Usada para aislar a Cuba (1962)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h4>Clave para entender</h4>
+      <p>TIAR y OEA fueron las instituciones que EEUU usó para darle un marco "legal" a su hegemonía en América Latina. Cuando Cuba se convirtió en aliada de la URSS, fue expulsada de la OEA usando estas mismas instituciones.</p>
+    </div>
+
+    <h2 class="sec-h">La Revolución Cubana y el "Efecto Cuba" (1959)</h2>
+
+    <div class="car-block">
+      <div class="car-header">
+        <span class="car-type">Evento clave</span>
+        <span class="car-date">1 enero 1959</span>
+      </div>
+      <div class="car-body">
+        <div class="event-highlight">
+          <div class="event-icon">🇨🇺</div>
+          <div>
+            <div class="event-title">Fidel Castro toma el poder en Cuba</div>
+            <div class="event-sub">Primer gobierno marxista en el hemisferio occidental · a 90 millas de Miami</div>
+          </div>
+        </div>
+        <div class="arrow-connector">↓</div>
+        <div class="effect-grid">
+          <div class="effect-item">
+            <div class="effect-label">Impacto en EEUU</div>
+            <div class="effect-text">Pánico. ¿Qué sigue? Urgencia máxima. Rediseño total de política hacia Latam.</div>
+          </div>
+          <div class="effect-item">
+            <div class="effect-label">Impacto en Latam</div>
+            <div class="effect-text">Demostró que una revolución era posible. Surgieron guerrillas en casi todos los países.</div>
+          </div>
+        </div>
+      </div>
+      <div class="car-caption">Cuba demostró que con voluntad política y apoyo popular se podía derrocar a un dictador y construir un Estado socialista. Eso aterró a EEUU y emocionó a la izquierda latinoamericana.</div>
+    </div>
+
+    <h2 class="sec-h">Los Movimientos Guerrilleros</h2>
+
+    <ul class="kp-list">
+      <li><strong>ELN — Colombia (1964):</strong> Ejército de Liberación Nacional. Inspirado en la Revolución Cubana y el Che Guevara. Operó en zonas rurales.</li>
+      <li><strong>FARC — Colombia (1964):</strong> Fuerzas Armadas Revolucionarias de Colombia. De base campesina y orientación comunista. El mayor movimiento guerrillero de Latam.</li>
+      <li><strong>MIR — Chile (1965):</strong> Movimiento de Izquierda Revolucionaria. Rechazó la vía electoral. Apoyó a Allende pero desde la autonomía.</li>
+      <li><strong>FSLN — Nicaragua (1961):</strong> Frente Sandinista de Liberación Nacional. Logró derrocar a Somoza y tomar el poder en 1979.</li>
+      <li><strong>Montoneros — Argentina (1970):</strong> Guerrilla peronista de izquierda. Secuestros de empresarios y ataques armados.</li>
+      <li><strong>El Che Guevara:</strong> Ícono continental. Intentó exportar la revolución a Bolivia, donde fue capturado y ejecutado en 1967. Símbolo del ideal revolucionario.</li>
+    </ul>
+
+    <div class="info-box">
+      <h4>¿Por qué surgieron tantas guerrillas?</h4>
+      <p>La Revolución Cubana demostró que era posible. Combinado con la pobreza extrema, la desigualdad estructural y la represión de canales políticos democráticos, muchos jóvenes latinoamericanos optaron por la vía armada como único camino de cambio.</p>
+    </div>
+
+    <h2 class="sec-h">La Encrucijada de Washington: Las Dos Caras</h2>
+
+    <div class="car-block">
+      <div class="car-header">
+        <span class="car-type">Análisis estratégico</span>
+        <span class="car-date">Las Dos Caras de la Contención</span>
+      </div>
+      <div class="car-body">
+        <div class="two-face-table">
+          <div class="two-face-col soft">
+            <div class="two-face-head">SOFT POWER</div>
+            <div class="two-face-sub">Alianza para el Progreso</div>
+            <ul class="two-face-list">
+              <li>Reforma agraria</li>
+              <li>Alfabetización</li>
+              <li>Salud y vivienda</li>
+              <li>Libre comercio</li>
+              <li>US$20.000 millones</li>
+              <li>Democracia representativa</li>
+            </ul>
+            <div class="two-face-goal">Meta: quitar base social a las guerrillas</div>
+          </div>
+          <div class="two-face-col hard">
+            <div class="two-face-head">HARD POWER</div>
+            <div class="two-face-sub">Doctrina de Seg. Nacional</div>
+            <ul class="two-face-list">
+              <li>Enemigo interno</li>
+              <li>Contrainsurgencia</li>
+              <li>Escuela de las Américas</li>
+              <li>Apoyo a golpes</li>
+              <li>Brasil 1964, Chile 1973</li>
+              <li>Torturas / desapariciones</li>
+            </ul>
+            <div class="two-face-goal">Meta: eliminar militarmente el comunismo</div>
+          </div>
+        </div>
+      </div>
+      <div class="car-caption">EEUU usó ambas estrategias en paralelo — no eran contradictorias para ellos, sino complementarias. El azúcar y el palo al mismo tiempo.</div>
+    </div>
+
+    <h2 class="sec-h">La Alianza para el Progreso (1961–1970)</h2>
+
+    <div class="stat-grid">
+      <div class="stat-item">
+        <div class="stat-val">US$20.000M</div>
+        <div class="stat-lbl">Prometidos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">10 años</div>
+        <div class="stat-lbl">Duración</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">1961</div>
+        <div class="stat-lbl">Inicio (Kennedy)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">20 países</div>
+        <div class="stat-lbl">Latinoamérica</div>
+      </div>
+    </div>
+
+    <ul class="kp-list">
+      <li><strong>Motivación real:</strong> Evitar que se repita Cuba. Kennedy entendió que sin mejoras sociales, el comunismo era atractivo para los pobres latinoamericanos.</li>
+      <li><strong>Reformas prometidas:</strong> Reforma agraria, alfabetización masiva, salud, vivienda e infraestructura.</li>
+      <li><strong>El límite contradictorio:</strong> Las reformas no podían amenazar los intereses de las élites locales ni de las empresas estadounidenses. Esto limitó profundamente su alcance.</li>
+      <li><strong>Libre comercio:</strong> Las empresas norteamericanas se beneficiaron enormemente. ¿Era desarrollo mutuo o una forma de dependencia económica?</li>
+      <li><strong>Balance (1970):</strong> Resultados desiguales. La brecha social no se cerró. No logró detener la radicalización ni las guerrillas. Fue más eficaz como propaganda que como programa social real.</li>
+    </ul>
+
+    <h2 class="sec-h">La Doctrina de Seguridad Nacional (DSN)</h2>
+
+    <ul class="kp-list">
+      <li><strong>El "Enemigo Interno":</strong> La amenaza ya no venía de afuera, sino de dentro: sindicalistas, estudiantes, intelectuales, sacerdotes progresistas, campesinos organizados. Todos eran potenciales "subversivos".</li>
+      <li><strong>Nuevo rol de las FF.AA.:</strong> Las fuerzas armadas dejaron de defender fronteras externas para combatir al "enemigo dentro" del propio país.</li>
+      <li><strong>Escuela de las Américas (Panamá):</strong> Centro de entrenamiento estadounidense donde miles de militares latinoamericanos aprendieron técnicas de contrainsurgencia, interrogación y represión. Muchos golpistas la cursaron.</li>
+      <li><strong>Legitimación ideológica:</strong> Los militares que derrocaron gobiernos se presentaban como "salvadores de Occidente" frente al comunismo. La DSN les dio ese marco ideológico.</li>
+      <li><strong>Consecuencias:</strong> Dictaduras militares en casi toda la región. Desapariciones forzadas. Tortura sistemática. Operación Cóndor: coordinación represiva entre las dictaduras del Cono Sur.</li>
+    </ul>
+
+    <div class="quote-block">
+      <div class="quote-text">"No me importa si la economía chilena se hunde. La preocupación principal es que no nos convenga ser responsables de ello. Si hay problemas económicos en Chile, es culpa de ellos, no nuestra."</div>
+      <div class="quote-source">— Henry Kissinger, Secretario de Estado de Nixon, sobre Chile (1973)</div>
+    </div>
+
+    <h2 class="sec-h">Los Golpes de Estado: Caída de la Democracia</h2>
+
+    <div class="golpes-list">
+      <div class="golpe-item">
+        <div class="golpe-flag">🇧🇷</div>
+        <div>
+          <div class="golpe-year">1964 — Primer gran domino</div>
+          <div class="golpe-country">Brasil</div>
+          <div class="golpe-text">Derrocamiento de João Goulart (reformista). El ejército asumió el poder con apoyo activo de EEUU. Inicio de 20 años de dictadura militar.</div>
+        </div>
+      </div>
+      <div class="golpe-item">
+        <div class="golpe-flag">🇧🇴</div>
+        <div>
+          <div class="golpe-year">1971</div>
+          <div class="golpe-country">Bolivia</div>
+          <div class="golpe-text">Hugo Banzer derroca al gobierno de izquierda de Juan José Torres. Represión de movimientos obreros y campesinos.</div>
+        </div>
+      </div>
+      <div class="golpe-item">
+        <div class="golpe-flag">🇨🇱</div>
+        <div>
+          <div class="golpe-year">1973 — El caso emblemático</div>
+          <div class="golpe-country">Chile</div>
+          <div class="golpe-text">Pinochet derroca a Salvador Allende (gobierno electo democráticamente). La CIA y Kissinger tuvieron rol activo en el desestabilización previa. Allende muere en La Moneda.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h4>Síntesis: ¿Qué nos deja este período?</h4>
+      <p>América Latina vivió una contradicción brutal: EEUU predicaba democracia y libertad mientras apoyaba dictaduras que torturaban y desaparecían a miles de personas. El anticomunismo fue la justificación que lo hizo "aceptable" para Washington.</p>
+    </div>
+
+  </div><!-- fin panel estudiar -->
+
+  <!-- ═══════════════ PRACTICAR ═══════════════ -->
+  <div id="practicar" class="panel">
+
+    <div class="quiz-score">
+      <div class="score-group">
+        <div class="score-label">Puntaje</div>
+        <div class="score-val"><span id="score">0</span> / 10</div>
+      </div>
+      <div class="score-group" style="text-align:right">
+        <div class="score-label">Respondidas</div>
+        <div class="score-val"><span id="answered">0</span></div>
+      </div>
+    </div>
+
+    <div class="quiz-item" id="q1">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 1 de 10</div>
+        <div class="quiz-q-text">¿Qué fue el TIAR (Tratado Interamericano de Asistencia Recíproca, 1947)?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q1',false)">A) Un tratado de libre comercio entre EEUU y América Latina</button>
+        <button class="opt" onclick="answer(this,'q1',true)">B) Un tratado de defensa militar hemisférica colectiva</button>
+        <button class="opt" onclick="answer(this,'q1',false)">C) La creación de la Organización de Estados Americanos</button>
+        <button class="opt" onclick="answer(this,'q1',false)">D) Un programa de ayuda económica lanzado por Kennedy</button>
+      </div>
+      <div class="quiz-fb" id="fb-q1"></div>
+    </div>
+
+    <div class="quiz-item" id="q2">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 2 de 10</div>
+        <div class="quiz-q-text">¿Qué fue la "Primavera Democrática" latinoamericana de los años 40?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q2',false)">A) Un movimiento guerrillero inspirado en Cuba</button>
+        <button class="opt" onclick="answer(this,'q2',false)">B) El programa de reformas sociales de Kennedy</button>
+        <button class="opt" onclick="answer(this,'q2',true)">C) Un período de democratización y reformas sociales durante el gobierno de Roosevelt</button>
+        <button class="opt" onclick="answer(this,'q2',false)">D) La era de los golpes militares apoyados por EEUU</button>
+      </div>
+      <div class="quiz-fb" id="fb-q2"></div>
+    </div>
+
+    <div class="quiz-item" id="q3">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 3 de 10</div>
+        <div class="quiz-q-text">¿Cuál fue el principal impacto de la Revolución Cubana (1959) en América Latina?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q3',false)">A) La creación inmediata de la OEA</button>
+        <button class="opt" onclick="answer(this,'q3',true)">B) El surgimiento de numerosos movimientos guerrilleros de inspiración marxista</button>
+        <button class="opt" onclick="answer(this,'q3',false)">C) La firma del TIAR hemisférico</button>
+        <button class="opt" onclick="answer(this,'q3',false)">D) La caída de la economía latinoamericana</button>
+      </div>
+      <div class="quiz-fb" id="fb-q3"></div>
+    </div>
+
+    <div class="quiz-item" id="q4">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 4 de 10</div>
+        <div class="quiz-q-text">¿Qué fue la Alianza para el Progreso (1961) y quién la impulsó?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q4',false)">A) Un tratado militar de defensa impulsado por Eisenhower</button>
+        <button class="opt" onclick="answer(this,'q4',false)">B) La creación de la Escuela de las Américas</button>
+        <button class="opt" onclick="answer(this,'q4',true)">C) Un programa de ayuda económica y social de Kennedy para evitar que se repita Cuba en otros países</button>
+        <button class="opt" onclick="answer(this,'q4',false)">D) El plan económico de la OEA para combatir la pobreza</button>
+      </div>
+      <div class="quiz-fb" id="fb-q4"></div>
+    </div>
+
+    <div class="quiz-item" id="q5">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 5 de 10</div>
+        <div class="quiz-q-text">Según la Doctrina de Seguridad Nacional (DSN), ¿cuál era la principal amenaza para los países latinoamericanos?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q5',false)">A) La pobreza y el subdesarrollo económico</button>
+        <button class="opt" onclick="answer(this,'q5',true)">B) El comunismo como "enemigo interno" dentro del propio país (sindicalistas, estudiantes, intelectuales)</button>
+        <button class="opt" onclick="answer(this,'q5',false)">C) Las dictaduras militares de otros países</button>
+        <button class="opt" onclick="answer(this,'q5',false)">D) La intervención militar soviética directa</button>
+      </div>
+      <div class="quiz-fb" id="fb-q5"></div>
+    </div>
+
+    <div class="quiz-item" id="q6">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 6 de 10</div>
+        <div class="quiz-q-text">¿Qué fue la Escuela de las Américas?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q6',false)">A) Un centro de educación superior auspiciado por la OEA</button>
+        <button class="opt" onclick="answer(this,'q6',false)">B) Un programa de intercambio estudiantil creado por la Alianza para el Progreso</button>
+        <button class="opt" onclick="answer(this,'q6',true)">C) Un centro de entrenamiento en contrainsurgencia donde EEUU formaba a militares latinoamericanos</button>
+        <button class="opt" onclick="answer(this,'q6',false)">D) La sede de la OEA en Panamá</button>
+      </div>
+      <div class="quiz-fb" id="fb-q6"></div>
+    </div>
+
+    <div class="quiz-item" id="q7">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 7 de 10</div>
+        <div class="quiz-q-text">¿En qué año ocurrió el primer gran golpe de Estado latinoamericano enmarcado en la Doctrina de Seguridad Nacional?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q7',false)">A) 1959 (Cuba)</button>
+        <button class="opt" onclick="answer(this,'q7',false)">B) 1961 (inicio Alianza para el Progreso)</button>
+        <button class="opt" onclick="answer(this,'q7',true)">C) 1964 (Brasil, derroca a João Goulart)</button>
+        <button class="opt" onclick="answer(this,'q7',false)">D) 1973 (Chile, derroca a Allende)</button>
+      </div>
+      <div class="quiz-fb" id="fb-q7"></div>
+    </div>
+
+    <div class="quiz-item" id="q8">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 8 de 10</div>
+        <div class="quiz-q-text">¿Qué representa el "Hard Power" en la estrategia de EEUU hacia América Latina?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q8',false)">A) El apoyo económico a través de la Alianza para el Progreso</button>
+        <button class="opt" onclick="answer(this,'q8',false)">B) La diplomacia y los intercambios culturales</button>
+        <button class="opt" onclick="answer(this,'q8',true)">C) El apoyo a golpes de Estado y el entrenamiento militar contrainsurgente (DSN)</button>
+        <button class="opt" onclick="answer(this,'q8',false)">D) Las negociaciones comerciales multilaterales</button>
+      </div>
+      <div class="quiz-fb" id="fb-q8"></div>
+    </div>
+
+    <div class="quiz-item" id="q9">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 9 de 10</div>
+        <div class="quiz-q-text">¿Cuántos millones de dólares prometió Kennedy para la Alianza para el Progreso durante la década del 60?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q9',false)">A) US$1.000 millones</button>
+        <button class="opt" onclick="answer(this,'q9',false)">B) US$5.000 millones</button>
+        <button class="opt" onclick="answer(this,'q9',true)">C) US$20.000 millones</button>
+        <button class="opt" onclick="answer(this,'q9',false)">D) US$100.000 millones</button>
+      </div>
+      <div class="quiz-fb" id="fb-q9"></div>
+    </div>
+
+    <div class="quiz-item" id="q10">
+      <div class="quiz-q-header">
+        <div class="quiz-num">Pregunta 10 de 10</div>
+        <div class="quiz-q-text">¿Cuál de estos movimientos guerrilleros NO operó en América Latina durante los años 60 y 70?</div>
+      </div>
+      <div class="quiz-opts">
+        <button class="opt" onclick="answer(this,'q10',false)">A) MIR (Chile)</button>
+        <button class="opt" onclick="answer(this,'q10',false)">B) FARC (Colombia)</button>
+        <button class="opt" onclick="answer(this,'q10',true)">C) ETA (España)</button>
+        <button class="opt" onclick="answer(this,'q10',false)">D) FSLN (Nicaragua)</button>
+      </div>
+      <div class="quiz-fb" id="fb-q10"></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetQuiz()">↺ Reiniciar preguntas</button>
+
+  </div><!-- fin panel practicar -->
+
+</div><!-- fin page -->
+
+<script>
+  let score = 0, answered = 0;
+
+  const feedbacks = {
+    q1:  { ok: '✓ Correcto. El TIAR (1947) fue un tratado de defensa militar colectiva hemisférica, similar a la OTAN pero para las Américas.', no: '✗ Incorrecto. El TIAR (1947) fue un Tratado de defensa militar hemisférica colectiva — no de libre comercio ni la OEA.' },
+    q2:  { ok: '✓ Correcto. En los años 40, bajo la Política del Buen Vecino de Roosevelt, varios países vivieron una ola de democratización y reformas sociales.', no: '✗ Incorrecto. La "Primavera Democrática" fue el período de democratización latinoamericana en los años 40, durante el gobierno de Roosevelt.' },
+    q3:  { ok: '✓ Correcto. La Revolución Cubana de 1959 inspiró el surgimiento de movimientos guerrilleros marxistas en casi todos los países latinoamericanos.', no: '✗ Incorrecto. El principal impacto fue el surgimiento de guerrillas de inspiración marxista (FARC, ELN, MIR, FSLN) que buscaban replicar el modelo cubano.' },
+    q4:  { ok: '✓ Correcto. La Alianza para el Progreso fue el programa de Kennedy (1961) con US$20.000 millones para reformas sociales en Latam, con el fin de evitar que se repita Cuba.', no: '✗ Incorrecto. Fue una iniciativa de Kennedy (1961) de ayuda económica y social destinada a evitar nuevas revoluciones como la cubana.' },
+    q5:  { ok: '✓ Correcto. La DSN identificaba al comunismo como "enemigo interno": sindicalistas, estudiantes, intelectuales y cualquier opositor eran potenciales subversivos.', no: '✗ Incorrecto. La DSN señalaba al comunismo como enemigo interno: sindicalistas, estudiantes e intelectuales eran vistos como subversivos dentro del propio país.' },
+    q6:  { ok: '✓ Correcto. La Escuela de las Américas (en Panamá) fue el centro de entrenamiento en contrainsurgencia donde EEUU formó a miles de militares latinoamericanos.', no: '✗ Incorrecto. Fue un centro de entrenamiento en contrainsurgencia en Panamá donde EEUU formaba a militares latinoamericanos en técnicas de represión.' },
+    q7:  { ok: '✓ Correcto. El golpe en Brasil en 1964 (que derrocó a João Goulart) fue el primer gran domino de la Doctrina de Seguridad Nacional en América Latina.', no: '✗ Incorrecto. El primer gran golpe de la DSN fue en Brasil en 1964, cuando el ejército derrocó al presidente reformista João Goulart.' },
+    q8:  { ok: '✓ Correcto. El Hard Power de EEUU incluía el apoyo a golpes militares y el entrenamiento de contrainsurgentes vía la Doctrina de Seguridad Nacional.', no: '✗ Incorrecto. El Hard Power representaba el apoyo a golpes de Estado y el entrenamiento militar contrainsurgente, no la diplomacia ni los programas económicos.' },
+    q9:  { ok: '✓ Correcto. Kennedy prometió US$20.000 millones para la Alianza para el Progreso a lo largo de 10 años (1961-1970).', no: '✗ Incorrecto. Kennedy prometió US$20.000 millones para la Alianza para el Progreso durante 10 años (1961-1970).' },
+    q10: { ok: '✓ Correcto. ETA fue una organización vasca que operó en España, no en América Latina. Los otros tres sí fueron guerrillas latinoamericanas.', no: '✗ Incorrecto. ETA operó en España (País Vasco), no en América Latina. MIR (Chile), FARC (Colombia) y FSLN (Nicaragua) sí fueron guerrillas latinoamericanas.' }
+  };
+
+  function answer(btn, qId, isCorrect) {
+    const qEl = document.getElementById(qId);
+    const opts = qEl.querySelectorAll('.opt');
+    const fb = document.getElementById('fb-' + qId);
+    opts.forEach(o => o.classList.add('disabled'));
+    btn.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (isCorrect) {
+      score++;
+      document.getElementById('score').textContent = score;
+      fb.textContent = feedbacks[qId].ok;
+      fb.className = 'quiz-fb show correct';
+    } else {
+      fb.textContent = feedbacks[qId].no;
+      fb.className = 'quiz-fb show wrong';
+    }
+    answered++;
+    document.getElementById('answered').textContent = answered;
+  }
+
+  function resetQuiz() {
+    score = 0; answered = 0;
+    document.getElementById('score').textContent = '0';
+    document.getElementById('answered').textContent = '0';
+    document.querySelectorAll('.opt').forEach(o => { o.className = 'opt'; });
+    document.querySelectorAll('.quiz-fb').forEach(fb => { fb.className = 'quiz-fb'; fb.textContent = ''; });
+  }
+
+  function switchTab(e, tab) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    e.target.classList.add('active');
+  }
+</script>
+</body>
+</html>

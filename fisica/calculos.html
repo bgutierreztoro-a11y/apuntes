@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cálculo y Fórmulas — Física 2° Medio</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    :root { --ac: #3d35c0; --ac-bg: rgba(61,53,192,.07); --ac-lt: #5b52d8; --ac-br: rgba(61,53,192,.18); }
+  </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../supabase-client.js"></script>
+<script src="../auth-guard.js"></script>
+
+<nav class="site-nav">
+  <div class="nav-left">
+    <a href="index.html" class="back-btn" aria-label="Volver a Física">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3L6 8l4 5"/></svg>
+      Física
+    </a>
+    <span class="breadcrumb" aria-current="page">/ Cálculo y Fórmulas</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="nav-user"></span>
+    <button class="nav-logout" onclick="AppAuth.signOut()">Salir</button>
+  </div>
+</nav>
+
+<div class="content-wrap">
+
+  <header class="pg-header">
+    <div class="pg-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Física · Mecánica
+    </div>
+    <h1 class="pg-title">Cálculo y<br>Fórmulas</h1>
+    <p class="pg-sub">Cómo aplicar cada fórmula paso a paso</p>
+    <div class="tab-wrap">
+      <button class="tab-btn active" onclick="showTab('formulas',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Fórmulas
+      </button>
+      <button class="tab-btn" onclick="showTab('practicar',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Practicar
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════ FÓRMULAS ═══════ -->
+  <div class="panel active" id="panel-formulas">
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-l">Fuerza neta — 2° Principio</span><span class="sec-hr"></span></div>
+
+      <div class="formula-card">
+        <div class="f-name">Fórmula principal</div>
+        <div class="f-formula">Fn = m × a</div>
+        <div class="f-vars">
+          <div class="f-var"><span class="f-var-name">Fn</span><span class="f-var-desc">Fuerza neta — la fuerza resultante que actúa sobre el cuerpo <span class="f-unit">Newton (N)</span></span></div>
+          <div class="f-var"><span class="f-var-name">m</span><span class="f-var-desc">Masa del cuerpo — cantidad de materia <span class="f-unit">kilogramo (kg)</span></span></div>
+          <div class="f-var"><span class="f-var-name">a</span><span class="f-var-desc">Aceleración — cambio de velocidad por unidad de tiempo <span class="f-unit">m/s²</span></span></div>
+        </div>
+        <div class="f-tip">⚠️ <strong>Ojo:</strong> Fn se relaciona con la <strong>aceleración</strong>, no con la velocidad. Un objeto puede ir a 100 km/h con Fn = 0 si va a velocidad constante.</div>
+      </div>
+
+      <div class="formula-card">
+        <div class="f-name">Fórmulas derivadas</div>
+        <div class="f-formula">a = Fn / m</div>
+        <p style="text-align:center;font-size:.79rem;color:var(--ink-3);margin:-4px 0 12px;">— para calcular aceleración —</p>
+        <div class="f-formula">m = Fn / a</div>
+        <p style="text-align:center;font-size:.79rem;color:var(--ink-3);margin:-4px 0 0;">— para calcular masa —</p>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-l">Peso (fuerza gravitacional)</span><span class="sec-hr"></span></div>
+      <div class="formula-card">
+        <div class="f-name">Fórmula del peso</div>
+        <div class="f-formula">P = m × g</div>
+        <div class="f-vars">
+          <div class="f-var"><span class="f-var-name">P</span><span class="f-var-desc">Peso — fuerza que ejerce la gravedad sobre el cuerpo <span class="f-unit">Newton (N)</span></span></div>
+          <div class="f-var"><span class="f-var-name">m</span><span class="f-var-desc">Masa del cuerpo <span class="f-unit">kg</span></span></div>
+          <div class="f-var"><span class="f-var-name">g</span><span class="f-var-desc">Aceleración de gravedad terrestre = <strong>9,8 m/s²</strong> (constante)</span></div>
+        </div>
+        <div class="f-tip">⚠️ <strong>Peso ≠ Masa.</strong> La masa es la cantidad de materia (kg). El peso es la fuerza gravitacional (N). "Tengo 70 kg de peso" tiene DOS errores: el peso va en N y 70 kg es la masa.</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-l">Fuerza normal</span><span class="sec-hr"></span></div>
+      <div class="formula-card">
+        <div class="f-name">Un cuerpo sobre una superficie</div>
+        <div class="f-formula">N = m × g</div>
+        <p style="font-size:.79rem;color:var(--ink-3);margin:-4px 0 14px;text-align:center;">En plano horizontal: la Normal anula el Peso</p>
+        <div class="f-name">Dos cuerpos apilados</div>
+        <div class="f-formula">N = (m₁ + m₂) × g</div>
+        <div class="f-vars" style="margin-top:10px;">
+          <div class="f-var"><span class="f-var-name">N</span><span class="f-var-desc">Fuerza Normal — perpendicular a la superficie <span class="f-unit">Newton (N)</span></span></div>
+        </div>
+        <div class="f-tip">⚠️ La Normal <strong>no siempre</strong> iguala al Peso. En planos inclinados o con fuerzas externas, cambia.</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-l">Tabla de referencia rápida</span><span class="sec-hr"></span></div>
+      <div class="formula-card" style="padding:0;overflow:hidden;">
+        <table class="ref-table">
+          <thead><tr><th>Fórmula</th><th>¿Para qué?</th><th>Unidad</th></tr></thead>
+          <tbody>
+            <tr><td>Fn = m × a</td><td>Calcular la fuerza neta</td><td>Newton (N)</td></tr>
+            <tr><td>a = Fn / m</td><td>Calcular la aceleración</td><td>m/s²</td></tr>
+            <tr><td>m = Fn / a</td><td>Calcular la masa</td><td>kg</td></tr>
+            <tr><td>P = m × g</td><td>Calcular el peso</td><td>Newton (N)</td></tr>
+            <tr><td>N = m × g</td><td>Normal en plano horizontal</td><td>Newton (N)</td></tr>
+            <tr><td>N = (m₁+m₂)×g</td><td>Normal con dos cuerpos</td><td>Newton (N)</td></tr>
+            <tr><td>g = 9,8 m/s²</td><td>Gravedad terrestre (constante)</td><td>m/s²</td></tr>
+            <tr><td>1 kg → 9,8 N</td><td>Conversión masa → peso</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-l">Ejemplos paso a paso</span><span class="sec-hr"></span></div>
+
+      <div class="step-card">
+        <div class="step-title">Ejemplo 1 — Calcular el peso</div>
+        <p class="step-intro">Una persona tiene una masa de 70 kg. ¿Cuál es su peso en la Tierra?</p>
+        <div class="step-item"><div class="step-n">1</div><div class="step-body"><strong>Identificar los datos:</strong> m = 70 kg · g = 9,8 m/s²</div></div>
+        <div class="step-item"><div class="step-n">2</div><div class="step-body"><strong>Elegir la fórmula:</strong><div class="step-formula">P = m × g</div></div></div>
+        <div class="step-item"><div class="step-n">3</div><div class="step-body"><strong>Sustituir y calcular:</strong><div class="step-formula">P = 70 × 9,8</div></div></div>
+        <div class="step-item"><div class="step-n">4</div><div class="step-body"><strong>Resultado:</strong><div class="step-result">P = 686 Newton (N)</div></div></div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-title">Ejemplo 2 — Calcular la aceleración</div>
+        <p class="step-intro">Un objeto de masa 5 kg tiene una fuerza neta de 20 N. ¿Cuál es su aceleración?</p>
+        <div class="step-item"><div class="step-n">1</div><div class="step-body"><strong>Datos:</strong> Fn = 20 N · m = 5 kg</div></div>
+        <div class="step-item"><div class="step-n">2</div><div class="step-body"><strong>Fórmula:</strong><div class="step-formula">a = Fn / m</div></div></div>
+        <div class="step-item"><div class="step-n">3</div><div class="step-body"><strong>Cálculo:</strong><div class="step-formula">a = 20 / 5</div></div></div>
+        <div class="step-item"><div class="step-n">4</div><div class="step-body"><strong>Resultado:</strong><div class="step-result">a = 4 m/s²</div></div></div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-title">Ejemplo 3 — Calcular la fuerza neta</div>
+        <p class="step-intro">Un automóvil de 1.200 kg acelera a 3 m/s². ¿Cuál es la fuerza neta sobre el auto?</p>
+        <div class="step-item"><div class="step-n">1</div><div class="step-body"><strong>Datos:</strong> m = 1.200 kg · a = 3 m/s²</div></div>
+        <div class="step-item"><div class="step-n">2</div><div class="step-body"><strong>Fórmula:</strong><div class="step-formula">Fn = m × a</div></div></div>
+        <div class="step-item"><div class="step-n">3</div><div class="step-body"><strong>Cálculo:</strong><div class="step-formula">Fn = 1.200 × 3</div></div></div>
+        <div class="step-item"><div class="step-n">4</div><div class="step-body"><strong>Resultado:</strong><div class="step-result">Fn = 3.600 Newton (N)</div></div></div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-title">Ejemplo 4 — Normal con dos cuerpos</div>
+        <p class="step-intro">Un libro de 2 kg está sobre una mesa. Sobre el libro se apoya un lápiz de 0,1 kg. ¿Cuál es la fuerza normal de la mesa?</p>
+        <div class="step-item"><div class="step-n">1</div><div class="step-body"><strong>Datos:</strong> m₁ = 2 kg (libro) · m₂ = 0,1 kg (lápiz) · g = 9,8 m/s²</div></div>
+        <div class="step-item"><div class="step-n">2</div><div class="step-body"><strong>Fórmula:</strong><div class="step-formula">N = (m₁ + m₂) × g</div></div></div>
+        <div class="step-item"><div class="step-n">3</div><div class="step-body"><strong>Cálculo:</strong><div class="step-formula">N = (2 + 0,1) × 9,8 = 2,1 × 9,8</div></div></div>
+        <div class="step-item"><div class="step-n">4</div><div class="step-body"><strong>Resultado:</strong><div class="step-result">N = 20,58 Newton (N)</div></div></div>
+      </div>
+    </div>
+
+    <div class="pg-footer"><strong>Física · 2° Medio · Cálculo y Fórmulas</strong></div>
+  </div>
+
+  <!-- ═══════ PRACTICAR ═══════ -->
+  <div class="panel" id="panel-practicar">
+
+    <div class="quiz-top">
+      <div class="qt-row">
+        <div class="sc-group">
+          <div class="sc-item s-ok"><span class="sc-val" id="sc-ok">0</span><span class="sc-lbl">Correctas</span></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-fail"><span class="sc-val" id="sc-fail">0</span><span class="sc-lbl">Incorrectas</span></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-pend"><span class="sc-val" id="sc-pend">—</span><span class="sc-lbl">Pendientes</span></div>
+        </div>
+        <button class="reset-btn" onclick="resetQuiz()">Reiniciar</button>
+      </div>
+    </div>
+
+    <div class="q-card"><div class="q-num">Ejercicio 01</div><div class="q-text">Un objeto de masa 8 kg experimenta una fuerza neta de 40 N. ¿Cuál es su aceleración?</div><div class="q-data"><strong>Datos:</strong> m = 8 kg · Fn = 40 N &nbsp;·&nbsp; <strong>Fórmula:</strong> a = Fn / m</div><div class="opts" id="q1"><button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">A</span>a = 320 m/s²</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">B</span>a = 0,2 m/s²</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q1')"><span class="opt-lbl">C</span>a = 5 m/s²</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">D</span>a = 48 m/s²</button></div><div class="feedback" id="fb-q1"></div></div>
+
+    <div class="q-card"><div class="q-num">Ejercicio 02</div><div class="q-text">¿Cuánto pesa (en Newton) una mochila de 3 kg en la Tierra?</div><div class="q-data"><strong>Datos:</strong> m = 3 kg · g = 9,8 m/s² &nbsp;·&nbsp; <strong>Fórmula:</strong> P = m × g</div><div class="opts" id="q2"><button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">A</span>P = 3 Newton</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q2')"><span class="opt-lbl">B</span>P = 29,4 Newton</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">C</span>P = 9,8 Newton</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">D</span>P = 0,31 Newton</button></div><div class="feedback" id="fb-q2"></div></div>
+
+    <div class="q-card"><div class="q-num">Ejercicio 03</div><div class="q-text">Un camión de 5.000 kg acelera a 2 m/s². ¿Cuál es la fuerza neta sobre el camión?</div><div class="q-data"><strong>Datos:</strong> m = 5.000 kg · a = 2 m/s² &nbsp;·&nbsp; <strong>Fórmula:</strong> Fn = m × a</div><div class="opts" id="q3"><button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">A</span>Fn = 2.500 N</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q3')"><span class="opt-lbl">B</span>Fn = 10.000 N</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">C</span>Fn = 5.002 N</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">D</span>Fn = 0,0004 N</button></div><div class="feedback" id="fb-q3"></div></div>
+
+    <div class="q-card"><div class="q-num">Ejercicio 04</div><div class="q-text">Dos bloques, uno de 4 kg y otro de 6 kg, están apilados sobre una mesa. ¿Cuál es la fuerza Normal que ejerce la mesa?</div><div class="q-data"><strong>Datos:</strong> m₁ = 4 kg · m₂ = 6 kg · g = 9,8 m/s² &nbsp;·&nbsp; <strong>Fórmula:</strong> N = (m₁ + m₂) × g</div><div class="opts" id="q4"><button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">A</span>N = 39,2 N (solo el bloque de 4 kg)</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">B</span>N = 58,8 N (solo el bloque de 6 kg)</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q4')"><span class="opt-lbl">C</span>N = 98 N (suma de ambas masas)</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">D</span>N = 10 N (solo la masa total sin gravedad)</button></div><div class="feedback" id="fb-q4"></div></div>
+
+    <div class="q-card"><div class="q-num">Ejercicio 05 — Conceptual</div><div class="q-text">Un ascensor sube con velocidad constante de 5 m/s. ¿Cuánto vale su fuerza neta (Fn)?</div><div class="opts" id="q5"><button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">A</span>Fn es grande y positiva (para mantener la velocidad constante)</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">B</span>Fn es igual al peso del ascensor multiplicado por 5</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q5')"><span class="opt-lbl">C</span>Fn = 0, porque velocidad constante significa aceleración = 0</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">D</span>Fn es negativa, porque el ascensor va en contra de la gravedad</button></div><div class="feedback" id="fb-q5"></div></div>
+
+    <div class="pg-footer"><strong>Física · 2° Medio · Cálculo y Fórmulas</strong></div>
+  </div>
+
+</div>
+
+<script>
+var FBK = {
+  q1: { ok: 'Correcto. a = Fn / m = 40 / 8 = 5 m/s². División directa entre fuerza y masa.', fail: 'Usa a = Fn / m: 40 ÷ 8 = 5 m/s². No multipliques (eso daría Fn, no a). No confundas la fórmula.' },
+  q2: { ok: 'Correcto. P = m × g = 3 × 9,8 = 29,4 N. El peso siempre va en Newton, nunca en kg.', fail: 'P = m × g = 3 × 9,8 = 29,4 N. La mochila tiene masa 3 kg, pero su peso (fuerza gravitacional) es 29,4 Newton.' },
+  q3: { ok: 'Correcto. Fn = m × a = 5.000 × 2 = 10.000 N. La masa grande genera fuerza grande.', fail: 'Fn = m × a = 5.000 × 2 = 10.000 N. Es multiplicación directa entre masa y aceleración.' },
+  q4: { ok: 'Correcto. N = (m₁ + m₂) × g = (4 + 6) × 9,8 = 10 × 9,8 = 98 N. La Normal soporta el peso total de todo lo apilado.', fail: 'N = (m₁ + m₂) × g = (4 + 6) × 9,8 = 10 × 9,8 = 98 N. La Normal debe soportar el peso de ambos bloques juntos, no solo uno.' },
+  q5: { ok: 'Correcto. Fn = m × a. Si la velocidad es constante → a = 0 → Fn = m × 0 = 0. El 2° Principio: fuerza se relaciona con aceleración, no con velocidad.', fail: 'Velocidad constante significa que NO hay aceleración. Y si a = 0, entonces Fn = m × 0 = 0. El 2° Principio de Newton: la Fn se relaciona con la aceleración, no con la velocidad.' }
+};
+var totalQ = 0, answered = 0, correct = 0, wrong = 0;
+
+function showTab(tab, btn) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('panel-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+function answer(btn, qid) {
+  var group = document.getElementById(qid), fb = document.getElementById('fb-' + qid);
+  var buttons = group.querySelectorAll('.opt-btn'), isOk = btn.getAttribute('data-correct') === 'true';
+  buttons.forEach(function(b){ b.disabled = true; b.classList.add('dimmed'); });
+  if (isOk) {
+    btn.classList.remove('dimmed'); btn.classList.add('correct');
+    fb.className = 'feedback show ok'; fb.textContent = '✓ ' + FBK[qid].ok;
+    correct++; document.getElementById('sc-ok').textContent = correct;
+  } else {
+    btn.classList.remove('dimmed'); btn.classList.add('wrong');
+    buttons.forEach(function(b){ if (b.getAttribute('data-correct') === 'true') { b.classList.remove('dimmed'); b.classList.add('correct'); } });
+    fb.className = 'feedback show fail'; fb.textContent = '✗ ' + FBK[qid].fail;
+    wrong++; document.getElementById('sc-fail').textContent = wrong;
+  }
+  answered++; document.getElementById('sc-pend').textContent = totalQ - answered;
+}
+function resetQuiz() {
+  answered = 0; correct = 0; wrong = 0;
+  document.getElementById('sc-ok').textContent = '0';
+  document.getElementById('sc-fail').textContent = '0';
+  document.getElementById('sc-pend').textContent = totalQ;
+  document.querySelectorAll('.opt-btn').forEach(function(b){ b.disabled = false; b.classList.remove('correct','wrong','dimmed'); });
+  document.querySelectorAll('.feedback').forEach(function(f){ f.className = 'feedback'; f.textContent = ''; });
+}
+window.onload = function() { totalQ = document.querySelectorAll('.q-card').length; document.getElementById('sc-pend').textContent = totalQ; };
+</script>
+</body>
+</html>

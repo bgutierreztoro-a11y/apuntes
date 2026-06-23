@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Métodos de Separación · Química</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    :root {
+      --ac:    #b85c0a;
+      --ac-bg: rgba(184,92,10,.07);
+      --ac-lt: #c96d1a;
+      --ac-br: rgba(184,92,10,.18);
+    }
+    .guide-card {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 14px 18px; margin-bottom: 8px;
+    }
+    .guide-q { font-size: .84rem; color: var(--ink-2); line-height: 1.5; flex: 1; }
+    .guide-q strong { color: var(--ink); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../supabase-client.js"></script>
+<script src="../auth-guard.js"></script>
+<script>
+(function(){
+  /* legacy placeholder — auth now handled by auth-guard.js */
+})();
+</script>
+
+<nav class="site-nav">
+  <div class="nav-left">
+    <a href="index.html" class="back-btn">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13L5 8l5-5"/></svg>
+      Química
+    </a>
+    <span class="breadcrumb">/ Métodos de Separación</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="nav-user"></span>
+    <button class="nav-logout" onclick="AppAuth.signOut()">Salir</button>
+  </div>
+</nav>
+
+<div class="content-wrap">
+
+  <header class="pg-header">
+    <div class="pg-chip">
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L4 5h4l2 5M2 8h8"/></svg>
+      Química
+    </div>
+    <h1 class="pg-title">Métodos de<br>Separación</h1>
+    <p class="pg-sub">7 métodos físicos · Propiedades de mezclas</p>
+    <div class="tab-wrap">
+      <button class="tab-btn active" onclick="showTab('estudiar',this)">Estudiar</button>
+      <button class="tab-btn" onclick="showTab('practicar',this)">Practicar</button>
+    </div>
+  </header>
+
+  <!-- ══════════════════ ESTUDIAR ══════════════════ -->
+  <div class="panel active" id="panel-estudiar">
+
+    <!-- 01 TABLA RESUMEN -->
+    <div class="sec">
+      <div class="sec-hd">
+        <span class="sec-n">01</span>
+        <span class="sec-l">Los 7 métodos — resumen</span>
+        <span class="sec-hr"></span>
+      </div>
+      <div class="formula-card" style="padding:0;overflow:hidden;">
+        <table class="ref-table" style="border:none;border-radius:0;margin-top:0;">
+          <thead>
+            <tr>
+              <th>Método</th>
+              <th>Propiedad usada</th>
+              <th>Ejemplo clásico</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Imantación</td><td>Magnetismo</td><td>Fe + arroz</td></tr>
+            <tr><td>Sublimación</td><td>Sólido → gas directo</td><td>Yodo + arena</td></tr>
+            <tr><td>Decantación</td><td>Densidad diferencial</td><td>Agua + aceite</td></tr>
+            <tr><td>Filtración</td><td>Tamaño de partícula</td><td>Arena + agua</td></tr>
+            <tr><td>Tamizado</td><td>Tamaño de partícula</td><td>Piedras + arena</td></tr>
+            <tr><td>Cromatografía</td><td>Solubilidad diferencial</td><td>Tinta + alcohol</td></tr>
+            <tr><td>Evaporación</td><td>Punto de ebullición</td><td>NaCl + agua</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 02 CÓMO ELEGIR -->
+    <div class="sec">
+      <div class="sec-hd">
+        <span class="sec-n">02</span>
+        <span class="sec-l">¿Cómo elegir el método?</span>
+        <span class="sec-hr"></span>
+      </div>
+      <div class="guide-card">
+        <span class="guide-q">¿Algún componente es <strong>magnético</strong> (Fe, Ni, Co)?</span>
+        <span class="mc-tag">Imantación</span>
+      </div>
+      <div class="guide-card">
+        <span class="guide-q">¿Algún sólido <strong>sublima</strong> (pasa a gas sin fundirse)?</span>
+        <span class="mc-tag">Sublimación</span>
+      </div>
+      <div class="guide-card">
+        <span class="guide-q">¿Son <strong>dos líquidos inmiscibles</strong> (no se mezclan)?</span>
+        <span class="mc-tag">Decantación</span>
+      </div>
+      <div class="guide-card">
+        <span class="guide-q">¿Hay un <strong>sólido insoluble en un líquido</strong>?</span>
+        <span class="mc-tag">Filtración</span>
+      </div>
+      <div class="guide-card">
+        <span class="guide-q">¿Son <strong>sólidos de distintos tamaños</strong>?</span>
+        <span class="mc-tag">Tamizado</span>
+      </div>
+      <div class="guide-card">
+        <span class="guide-q">¿Hay una <strong>mezcla de pigmentos</strong> a identificar?</span>
+        <span class="mc-tag">Cromatografía</span>
+      </div>
+      <div class="guide-card">
+        <span class="guide-q">¿Hay un <strong>sólido disuelto en un líquido</strong> (solución)?</span>
+        <span class="mc-tag">Evaporación</span>
+      </div>
+    </div>
+
+    <!-- 03 DEFINICIONES DETALLADAS -->
+    <div class="sec">
+      <div class="sec-hd">
+        <span class="sec-n">03</span>
+        <span class="sec-l">Definiciones detalladas</span>
+        <span class="sec-hr"></span>
+      </div>
+
+      <div class="method-card">
+        <div class="mc-head">
+          <span class="mc-num">1</span>
+          <div>
+            <div class="mc-label">Magnéticas</div>
+            <div class="mc-name">Imantación</div>
+          </div>
+        </div>
+        <p class="mc-body">Separación de materiales <strong>ferromagnéticos</strong> (hierro, níquel, cobalto) de no magnéticos mediante un imán. Los metales ferromagnéticos son atraídos; el resto permanece libre en la mezcla.</p>
+        <div class="kp-list" style="margin-top:10px;">
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Base física:</strong> Susceptibilidad magnética diferencial</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Mezcla del lab:</strong> Limadura de Fe + arroz (bolsa Ziploc)</span></div>
+        </div>
+      </div>
+
+      <div class="method-card">
+        <div class="mc-head">
+          <span class="mc-num">2</span>
+          <div>
+            <div class="mc-label">Cambio de estado</div>
+            <div class="mc-name">Sublimación</div>
+          </div>
+        </div>
+        <p class="mc-body">Cambio de estado <strong>directo de sólido a gas</strong> sin pasar por la fase líquida. Al calentar, la sustancia sublimable se volatiliza y se condensa en una superficie fría.</p>
+        <div class="kp-list" style="margin-top:10px;">
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Base física:</strong> Punto de sublimación diferencial</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Yodo (I₂):</strong> Sublima a ~113 °C — vapores característicamente violeta</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Arena:</strong> Refractaria, no sublima — queda en la cápsula</span></div>
+        </div>
+      </div>
+
+      <div class="method-card">
+        <div class="mc-head">
+          <span class="mc-num">3</span>
+          <div>
+            <div class="mc-label">Densidad</div>
+            <div class="mc-name">Decantación</div>
+          </div>
+        </div>
+        <p class="mc-body">Separación de <strong>dos líquidos inmiscibles</strong> aprovechando la diferencia de densidades. El más denso se hunde; el menos denso flota arriba, formando dos fases visibles.</p>
+        <div class="kp-list" style="margin-top:10px;">
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Base física:</strong> Densidad relativa entre fases</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Agua:</strong> 1 g/mL → fase inferior → sale primero por la válvula</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Aceite:</strong> ~0,9 g/mL → fase superior</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Instrumento:</strong> Embudo de decantación (ampolla)</span></div>
+        </div>
+      </div>
+
+      <div class="method-card">
+        <div class="mc-head">
+          <span class="mc-num">4</span>
+          <div>
+            <div class="mc-label">Tamaño de partícula</div>
+            <div class="mc-name">Filtración</div>
+          </div>
+        </div>
+        <p class="mc-body">Separación de <strong>sólidos insolubles de un líquido</strong> haciendo pasar la mezcla por papel filtro. Las partículas sólidas quedan retenidas (residuo); el líquido pasa (filtrado).</p>
+        <div class="kp-list" style="margin-top:10px;">
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Base física:</strong> Tamaño de partícula vs. poro del filtro</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Residuo:</strong> Arena + arroz (partículas mayores que el poro)</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Filtrado:</strong> Agua con posibles finos en suspensión</span></div>
+        </div>
+      </div>
+
+      <div class="method-card">
+        <div class="mc-head">
+          <span class="mc-num">5</span>
+          <div>
+            <div class="mc-label">Tamaño de partícula</div>
+            <div class="mc-name">Tamizado</div>
+          </div>
+        </div>
+        <p class="mc-body">Separación de <strong>sólidos de distintos tamaños</strong> usando una malla o colador. Las partículas menores que la abertura atraviesan; las mayores quedan retenidas encima.</p>
+        <div class="kp-list" style="margin-top:10px;">
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Diferencia clave:</strong> Ambas fases son sólidas — no hay líquido</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Fracción fina:</strong> Arena → cae al vaso por gravedad</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Fracción gruesa:</strong> Piedras → retenidas en el colador</span></div>
+        </div>
+      </div>
+
+      <div class="method-card">
+        <div class="mc-head">
+          <span class="mc-num">6</span>
+          <div>
+            <div class="mc-label">Solubilidad diferencial</div>
+            <div class="mc-name">Cromatografía</div>
+          </div>
+        </div>
+        <p class="mc-body">Separación basada en la <strong>velocidad diferencial</strong> con que cada sustancia se desplaza a través de un medio poroso (fase estacionaria) arrastrada por un solvente (fase móvil).</p>
+        <div class="kp-list" style="margin-top:10px;">
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Base física:</strong> Solubilidad diferencial + afinidad con fase estacionaria</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Rf alto:</strong> Más soluble en solvente → viajó más lejos desde el origen</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Capilaridad:</strong> El solvente asciende por adhesión y cohesión</span></div>
+        </div>
+        <div class="f-formula" style="margin-top:12px;text-align:left;font-size:.88rem;">Rf = distancia pigmento ÷ distancia solvente &nbsp;·&nbsp; siempre Rf &lt; 1</div>
+      </div>
+
+      <div class="method-card">
+        <div class="mc-head">
+          <span class="mc-num">7</span>
+          <div>
+            <div class="mc-label">Punto de ebullición</div>
+            <div class="mc-name">Evaporación</div>
+          </div>
+        </div>
+        <p class="mc-body">Separación de un <strong>sólido disuelto en un líquido</strong> mediante calentamiento hasta que el solvente se evapora completamente, dejando el soluto como residuo cristalino.</p>
+        <div class="kp-list" style="margin-top:10px;">
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>Agua:</strong> Evapora a 100 °C y escapa al ambiente como vapor</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>NaCl:</strong> Funde a 801 °C → queda como cristales cúbicos blancos</span></div>
+          <div class="kp-item"><span class="kp-n">→</span><span class="kp-t"><strong>≠ Destilación:</strong> En evaporación el solvente se pierde — no se recupera</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 DIFERENCIAS CLAVE -->
+    <div class="sec">
+      <div class="sec-hd">
+        <span class="sec-n">04</span>
+        <span class="sec-l">Diferencias clave — no confundir</span>
+        <span class="sec-hr"></span>
+      </div>
+
+      <div class="f-card">
+        <div class="f-title">Filtración vs. Tamizado</div>
+        <p class="f-body"><strong>Filtración:</strong> separa sólido de <strong>líquido</strong>.<br><strong>Tamizado:</strong> separa <strong>sólidos entre sí</strong> — no hay líquido. Ambas usan diferencia de tamaño pero en fases distintas.</p>
+      </div>
+      <div class="f-card">
+        <div class="f-title">Evaporación vs. Destilación</div>
+        <p class="f-body"><strong>Evaporación:</strong> el solvente se <strong>pierde</strong> (vapor al ambiente).<br><strong>Destilación:</strong> el solvente se <strong>recupera</strong> (vapor condensado en refrigerante).</p>
+      </div>
+      <div class="f-card">
+        <div class="f-title">Decantación vs. Filtración</div>
+        <p class="f-body"><strong>Decantación:</strong> separa líquidos inmiscibles o sólidos pesados que sedimentan por diferencia de densidad.<br><strong>Filtración:</strong> separa sólidos finos en suspensión dentro de un líquido — necesitan papel filtro.</p>
+      </div>
+      <div class="f-card">
+        <div class="f-title">Sublimación vs. Evaporación</div>
+        <p class="f-body"><strong>Sublimación:</strong> sólido → gas directamente, sin pasar por fase líquida.<br><strong>Evaporación:</strong> <em>líquido</em> → gas (el solvente de la solución).</p>
+      </div>
+      <div class="f-card">
+        <div class="f-title">Cromatografía — Rf alto vs. Rf bajo</div>
+        <p class="f-body"><strong>Rf alto:</strong> más soluble en solvente móvil → viajó más lejos desde el origen.<br><strong>Rf bajo:</strong> más afinidad por la fase estacionaria (papel) → se quedó cerca del origen.</p>
+      </div>
+    </div>
+
+    <!-- 05 FÓRMULAS -->
+    <div class="sec">
+      <div class="sec-hd">
+        <span class="sec-n">05</span>
+        <span class="sec-l">Fórmula clave</span>
+        <span class="sec-hr"></span>
+      </div>
+
+      <div class="formula-card">
+        <div class="f-name">Cromatografía · Factor de retención</div>
+        <div class="f-formula">Rf = distancia pigmento ÷ distancia solvente</div>
+        <div class="f-vars">
+          <div class="f-var">
+            <span class="f-var-name">Rf</span>
+            <span class="f-var-desc">Factor de retención (adimensional, siempre &lt; 1)</span>
+          </div>
+          <div class="f-var">
+            <span class="f-var-name">d<sub>p</sub></span>
+            <span class="f-var-desc">Distancia del pigmento desde la línea de origen (cm)</span>
+          </div>
+          <div class="f-var">
+            <span class="f-var-name">d<sub>s</sub></span>
+            <span class="f-var-desc">Distancia del frente del solvente desde la línea de origen (cm)</span>
+          </div>
+        </div>
+        <div class="f-tip">Mayor Rf → más soluble en el solvente móvil → el pigmento viajó más lejos.</div>
+      </div>
+    </div>
+
+    <footer class="pg-footer">
+      <strong>Química · 2° Medio</strong><br>
+      Plataforma de Estudio · Deutsche Schule Chillán
+    </footer>
+
+  </div><!-- /panel-estudiar -->
+
+  <!-- ══════════════════ PRACTICAR ══════════════════ -->
+  <div class="panel" id="panel-practicar">
+
+    <div class="quiz-top">
+      <div class="qt-row">
+        <div class="sc-group">
+          <div class="sc-item s-ok">
+            <span class="sc-val" id="sc-ok">0</span>
+            <span class="sc-lbl">Correctas</span>
+          </div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-fail">
+            <span class="sc-val" id="sc-fail">0</span>
+            <span class="sc-lbl">Incorrectas</span>
+          </div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-pend">
+            <span class="sc-val" id="sc-pend">—</span>
+            <span class="sc-lbl">Pendientes</span>
+          </div>
+        </div>
+        <button class="reset-btn" onclick="resetQuiz()">Reiniciar</button>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">Pregunta 01</div>
+      <div class="q-text">¿Qué método separa la limadura de hierro del arroz?</div>
+      <div class="opts" id="q1">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">A</span>Filtración</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q1')"><span class="opt-lbl">B</span>Imantación</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">C</span>Tamizado</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">D</span>Decantación</button>
+      </div>
+      <div class="feedback" id="fb-q1"></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">Pregunta 02</div>
+      <div class="q-text">¿Qué color tienen los vapores de yodo durante la sublimación?</div>
+      <div class="opts" id="q2">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">A</span>Amarillo intenso</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">B</span>Azul claro</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q2')"><span class="opt-lbl">C</span>Violeta / morado</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">D</span>Incoloros</button>
+      </div>
+      <div class="feedback" id="fb-q2"></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">Pregunta 03</div>
+      <div class="q-text">En la decantación de agua + aceite, ¿cuál fase sale primero por la válvula inferior?</div>
+      <div class="opts" id="q3">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">A</span>El aceite, porque es menos viscoso</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">B</span>El aceite, porque flota arriba</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q3')"><span class="opt-lbl">C</span>El agua, porque es más densa (1 g/mL)</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">D</span>Ambos salen al mismo tiempo</button>
+      </div>
+      <div class="feedback" id="fb-q3"></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">Pregunta 04</div>
+      <div class="q-text">¿Cuál es la diferencia principal entre filtración y tamizado?</div>
+      <div class="opts" id="q4">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">A</span>Filtración usa temperatura; tamizado usa presión</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q4')"><span class="opt-lbl">B</span>Filtración separa sólido de líquido; tamizado separa sólidos entre sí</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">C</span>Son el mismo proceso con nombres distintos</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">D</span>Tamizado separa líquidos; filtración separa sólidos</button>
+      </div>
+      <div class="feedback" id="fb-q4"></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">Pregunta 05</div>
+      <div class="q-text">Un pigmento tiene Rf = 0,85 y otro Rf = 0,3. ¿Cuál es más soluble en el solvente móvil?</div>
+      <div class="opts" id="q5">
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q5')"><span class="opt-lbl">A</span>El de Rf = 0,85 — viajó más lejos</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">B</span>El de Rf = 0,3 — tiene más afinidad con el solvente</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">C</span>Ambos tienen la misma solubilidad</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">D</span>No se puede saber solo con el Rf</button>
+      </div>
+      <div class="feedback" id="fb-q5"></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">Pregunta 06</div>
+      <div class="q-text">¿Por qué en la evaporación no se recupera el agua?</div>
+      <div class="opts" id="q6">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q6')"><span class="opt-lbl">A</span>Se transforma en NaCl al evaporarse</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q6')"><span class="opt-lbl">B</span>Se absorbe por el vaso de precipitado</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q6')"><span class="opt-lbl">C</span>Se escapa como vapor al ambiente y no se condensa</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q6')"><span class="opt-lbl">D</span>Reacciona químicamente con la sal</button>
+      </div>
+      <div class="feedback" id="fb-q6"></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">Pregunta 07</div>
+      <div class="q-text">¿Qué propiedad física usa la cromatografía para separar los pigmentos?</div>
+      <div class="opts" id="q7">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q7')"><span class="opt-lbl">A</span>Diferencia de densidades entre pigmentos</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q7')"><span class="opt-lbl">B</span>Punto de sublimación de cada pigmento</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q7')"><span class="opt-lbl">C</span>Solubilidad diferencial + afinidad con la fase estacionaria</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q7')"><span class="opt-lbl">D</span>Magnetismo diferencial de cada pigmento</button>
+      </div>
+      <div class="feedback" id="fb-q7"></div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-num">Pregunta 08</div>
+      <div class="q-text">En cromatografía, el punto de tinta debe quedar por encima del nivel del solvente. ¿Por qué?</div>
+      <div class="opts" id="q8">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q8')"><span class="opt-lbl">A</span>Para que el calor del solvente vaporice la tinta hacia arriba</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q8')"><span class="opt-lbl">B</span>Si toca el solvente directamente, la tinta se disuelve sin separarse</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q8')"><span class="opt-lbl">C</span>Para evitar que el papel se moje demasiado rápido</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q8')"><span class="opt-lbl">D</span>No importa la posición — el resultado es el mismo</button>
+      </div>
+      <div class="feedback" id="fb-q8"></div>
+    </div>
+
+    <footer class="pg-footer">
+      <strong>Química · 2° Medio</strong><br>
+      Plataforma de Estudio · Deutsche Schule Chillán
+    </footer>
+
+  </div><!-- /panel-practicar -->
+
+</div><!-- /content-wrap -->
+
+<script>
+  var FBK = {
+    q1:  { ok: 'Correcto. La limadura de hierro es ferromagnética — el imán la atrae. El arroz no tiene propiedades magnéticas y permanece libre.', fail: 'La limadura de hierro es magnética. El imán la atrae separándola del arroz. Eso es imantación.' },
+    q2:  { ok: 'Correcto. Los vapores de I₂ son característicamente violeta/morado. Suben por el embudo y se condensan como cristales oscuros en la pared fría.', fail: 'Los vapores de yodo (I₂) son violeta/morado. Es una de las observaciones clave a registrar en el experimento.' },
+    q3:  { ok: 'Correcto. Agua: 1 g/mL > aceite: ~0,9 g/mL → el agua es más densa → se hunde → es la fase inferior → sale primero por la válvula.', fail: 'Mayor densidad = fase inferior = sale primero. Agua (1 g/mL) es más densa que aceite (~0,9 g/mL) → sale primero.' },
+    q4:  { ok: 'Correcto. Filtración = sólido + líquido (arena en agua). Tamizado = sólidos de distintos tamaños (piedras + arena). La diferencia clave es el estado de las fases.', fail: 'Filtración separa sólido de LÍQUIDO. Tamizado separa SÓLIDOS entre sí. Ambas usan diferencia de tamaño de partícula, pero en fases distintas.' },
+    q5:  { ok: 'Correcto. Mayor Rf → viajó más lejos → más soluble en el solvente móvil. Rf 0,85 > Rf 0,3.', fail: 'Mayor Rf = más soluble en el solvente móvil = viajó más lejos. El pigmento con Rf 0,85 es el más soluble.' },
+    q6:  { ok: 'Correcto. En evaporación el agua se vaporiza y se escapa al ambiente. Para recuperarla habría que condensarla — eso es destilación.', fail: 'En evaporación el solvente se pierde como vapor. Para recuperarlo necesitarías destilación (el vapor se condensa en un refrigerante).' },
+    q7:  { ok: 'Correcto. Cada pigmento tiene distinta afinidad con el alcohol (solvente móvil) y el papel (fase estacionaria). Eso determina cuán lejos viaja (Rf).', fail: 'La cromatografía se basa en solubilidad diferencial: pigmentos más solubles en el solvente viajan más lejos (mayor Rf). Los que prefieren el papel se quedan abajo.' },
+    q8:  { ok: 'Correcto. Si el punto de tinta toca el solvente directamente, los pigmentos se disuelven y bajan con él en vez de separarse ascendiendo por capilaridad.', fail: 'Si la tinta toca el solvente directamente, se disuelve toda junta y no hay separación. Debe quedar sobre el nivel del solvente para que la capilaridad la arrastre y separe.' }
+  };
+
+  var totalQ = 0, answered = 0, correct = 0, wrong = 0;
+
+  function showTab(tab, btn) {
+    document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.getElementById('panel-' + tab).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function answer(btn, qid) {
+    var group = document.getElementById(qid);
+    var fb    = document.getElementById('fb-' + qid);
+    var btns  = group.querySelectorAll('.opt-btn');
+    var isOk  = btn.getAttribute('data-correct') === 'true';
+
+    btns.forEach(function(b) { b.disabled = true; b.classList.add('dimmed'); });
+
+    if (isOk) {
+      btn.classList.remove('dimmed'); btn.classList.add('correct');
+      fb.className = 'feedback show ok';
+      fb.textContent = '✓ ' + FBK[qid].ok;
+      correct++;
+      document.getElementById('sc-ok').textContent = correct;
+    } else {
+      btn.classList.remove('dimmed'); btn.classList.add('wrong');
+      btns.forEach(function(b) {
+        if (b.getAttribute('data-correct') === 'true') {
+          b.classList.remove('dimmed'); b.classList.add('correct');
+        }
+      });
+      fb.className = 'feedback show fail';
+      fb.textContent = '✗ ' + FBK[qid].fail;
+      wrong++;
+      document.getElementById('sc-fail').textContent = wrong;
+    }
+    answered++;
+    document.getElementById('sc-pend').textContent = totalQ - answered;
+  }
+
+  function resetQuiz() {
+    answered = 0; correct = 0; wrong = 0;
+    document.getElementById('sc-ok').textContent   = '0';
+    document.getElementById('sc-fail').textContent = '0';
+    document.getElementById('sc-pend').textContent = totalQ;
+    document.querySelectorAll('.opt-btn').forEach(function(b) {
+      b.disabled = false;
+      b.classList.remove('correct', 'wrong', 'dimmed');
+    });
+    document.querySelectorAll('.feedback').forEach(function(f) {
+      f.className = 'feedback'; f.textContent = '';
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', function() {
+    totalQ = document.querySelectorAll('.q-card').length;
+    document.getElementById('sc-pend').textContent = totalQ;
+  });
+</script>
+</body>
+</html>

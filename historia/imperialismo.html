@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Imperialismo — Historia 2° Medio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root { --acc:#0d9488; --acc-lt:#f0fdfa; --acc-dim:#99f6e4; --bg:#f9fafb; --sur:#fff; --brd:#e5e7eb; --tx:#111827; --tx2:#6b7280; --tx3:#9ca3af; --green:#059669; --glt:#d1fae5; --red:#dc2626; --rlt:#fee2e2; --sh:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.05); --shsm:0 1px 2px rgba(0,0,0,.05),0 1px 4px rgba(0,0,0,.04); --r:16px; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased}
+    .page{max-width:480px;margin:0 auto;padding-bottom:72px}
+    .top-nav{background:#0f172a;padding:11px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+    .nav-back{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#94a3b8;border-radius:8px;padding:5px 12px;font-family:inherit;font-size:.78rem;font-weight:600;text-decoration:none}
+    .nav-crumb{font-size:.75rem;color:#475569}
+    .header{background:#111827;padding:22px 20px 0}
+    .breadcrumb{font-size:.71rem;color:#6b7280;margin-bottom:10px}
+    .breadcrumb span{margin:0 5px}
+    .hchip{display:inline-flex;align-items:center;gap:5px;background:rgba(13,148,136,.18);border:1px solid rgba(13,148,136,.35);border-radius:20px;padding:3px 11px;font-size:.68rem;font-weight:700;color:#5eead4;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+    .header h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;line-height:1.05;color:#fff;margin-bottom:5px}
+    .header-sub{font-size:.85rem;color:#6b7280;font-weight:500;margin-bottom:18px}
+    .tab-nav{display:flex;border-top:1px solid #1f2937}
+    .tab-btn{flex:1;border:none;background:transparent;color:#6b7280;font-family:inherit;font-size:.82rem;font-weight:600;padding:12px 0 11px;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+    .tab-btn.active{color:#fff;border-bottom-color:var(--acc)}
+    .panel{display:none}.panel.active{display:block}
+    .content{padding:26px 16px 0}
+    .sec{margin-bottom:32px}
+    .sec-hd{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+    .sec-n{font-size:.68rem;font-weight:800;color:var(--acc);letter-spacing:.12em}
+    .sec-l{font-size:.68rem;font-weight:700;color:var(--tx3);letter-spacing:.1em;text-transform:uppercase}
+    .quote-card{background:var(--sur);border-radius:var(--r);padding:22px 20px;box-shadow:var(--sh);border-left:3px solid var(--acc)}
+    .quote-text{font-size:1.04rem;font-weight:700;line-height:1.6;color:var(--tx);margin-bottom:8px}
+    .quote-text em{color:var(--acc);font-style:normal}
+    .quote-foot{font-size:.75rem;color:var(--tx3);font-weight:500}
+    .info-card{background:var(--sur);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shsm);border:1px solid var(--brd);margin-bottom:10px}
+    .info-title{font-size:.9rem;font-weight:800;color:var(--tx);margin-bottom:8px}
+    .info-body{font-size:.83rem;color:var(--tx2);line-height:1.68}
+    .info-body strong{color:var(--tx);font-weight:700}
+    .info-body ul{padding-left:16px;margin-top:6px}
+    .info-body li{margin-bottom:5px}
+    .cause-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .cause-item{background:var(--sur);border-radius:12px;padding:13px 13px;box-shadow:var(--shsm);border:1px solid var(--brd)}
+    .cause-icon{font-size:1.4rem;margin-bottom:7px;display:block}
+    .cause-title{font-size:.82rem;font-weight:700;color:var(--tx);margin-bottom:4px}
+    .cause-desc{font-size:.75rem;color:var(--tx2);line-height:1.5}
+    .kp-list{display:flex;flex-direction:column;gap:12px}
+    .kp-item{display:flex;gap:14px;align-items:flex-start}
+    .kp-n{font-size:1.05rem;font-weight:900;color:var(--acc-dim);min-width:26px;line-height:1.45}
+    .kp-t{font-size:.86rem;color:var(--tx2);line-height:1.65;padding-top:1px}
+    .kp-t strong{color:var(--tx)}
+    /* ── QUIZ ── */
+    .quiz-top{background:var(--sur);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;border:1px solid var(--brd);box-shadow:var(--shsm)}
+    .qt-row{display:flex;align-items:center;justify-content:space-between}
+    .sc-group{display:flex;gap:14px;align-items:center}
+    .sc-item{text-align:center}
+    .sc-val{font-size:1.4rem;font-weight:900;line-height:1}
+    .sc-lbl{font-size:.61rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+    .s-ok .sc-val{color:var(--green)}.s-ok .sc-lbl{color:#6ee7b7}
+    .s-fail .sc-val{color:var(--red)}.s-fail .sc-lbl{color:#fca5a5}
+    .s-pend .sc-val{color:var(--tx3)}.s-pend .sc-lbl{color:var(--tx3)}
+    .sc-div{width:1px;height:28px;background:var(--brd)}
+    .reset-btn{background:var(--acc-lt);border:1px solid var(--acc-dim);color:var(--acc);border-radius:10px;padding:6px 13px;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
+    .q-card{background:var(--sur);border-radius:var(--r);padding:16px 15px;margin-bottom:11px;box-shadow:var(--shsm);border:1px solid var(--brd)}
+    .q-num{font-size:.67rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:6px}
+    .q-text{font-size:.91rem;font-weight:700;color:var(--tx);line-height:1.5;margin-bottom:12px}
+    /* ── SOURCE / CARICATURE ── */
+    .source-block{background:var(--acc-lt);border-left:3px solid var(--acc);border-radius:0 10px 10px 0;padding:12px 14px;margin-bottom:12px}
+    .source-lbl{font-size:.66rem;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+    .source-text{font-size:.81rem;font-style:italic;color:#065f46;line-height:1.65;margin-bottom:6px}
+    .source-attr{font-size:.72rem;color:var(--tx2);font-weight:600}
+    .car-block{background:#1f2937;border-radius:12px;overflow:hidden;margin-bottom:12px}
+    .car-header{background:#374151;padding:7px 14px;display:flex;justify-content:space-between;align-items:center}
+    .car-type{font-size:.65rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em}
+    .car-date{font-size:.65rem;color:#6b7280}
+    .car-svg{padding:12px;display:flex;justify-content:center;background:#111827}
+    .car-caption{padding:10px 14px;font-size:.77rem;color:#d1d5db;line-height:1.5}
+    .car-caption strong{color:#f9fafb}
+    .opts{display:flex;flex-direction:column;gap:7px}
+    .opt-btn{width:100%;min-height:44px;background:#f9fafb;border:1.5px solid var(--brd);border-radius:10px;padding:9px 12px;text-align:left;font-family:inherit;font-size:.82rem;font-weight:500;color:var(--tx2);cursor:pointer;display:flex;align-items:center;gap:9px;transition:border-color .12s,background .12s;line-height:1.4}
+    .opt-btn:hover:not(:disabled){border-color:var(--acc);background:var(--acc-lt);color:var(--tx)}
+    .opt-lbl{min-width:22px;height:22px;border-radius:6px;background:#f3f4f6;color:var(--tx2);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.7rem;flex-shrink:0}
+    .opt-btn.correct{background:var(--glt);border-color:var(--green);color:#065f46}
+    .opt-btn.correct .opt-lbl{background:var(--green);color:#fff}
+    .opt-btn.wrong{background:var(--rlt);border-color:var(--red);color:#7f1d1d}
+    .opt-btn.wrong .opt-lbl{background:var(--red);color:#fff}
+    .opt-btn.dimmed{opacity:.3}
+    .opt-btn:disabled{cursor:default}
+    .feedback{display:none;margin-top:10px;border-radius:10px;padding:9px 13px;font-size:.79rem;line-height:1.6}
+    .feedback.show{display:block}
+    .feedback.ok{background:var(--glt);border:1px solid #a7f3d0;color:#065f46}
+    .feedback.fail{background:var(--rlt);border:1px solid #fca5a5;color:#7f1d1d}
+    .footer{margin-top:36px;text-align:center;font-size:.72rem;color:var(--tx3);padding:0 16px}
+    .footer strong{color:var(--tx2)}
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="top-nav">
+    <a href="historia.html" class="nav-back">← Historia</a>
+    <span class="nav-crumb">/ Imperialismo</span>
+  </div>
+  <div class="header">
+    <div class="breadcrumb">Historia<span>/</span>El mundo moderno</div>
+    <div class="hchip">🌍 Tema 01</div>
+    <h1>El<br>Imperialismo</h1>
+    <p class="header-sub">1880s–1914 · La conquista del mundo</p>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="showTab('estudiar',this)">📖 Estudiar</button>
+      <button class="tab-btn" onclick="showTab('practicar',this)">✏️ Practicar</button>
+    </div>
+  </div>
+
+  <div class="panel active" id="panel-estudiar">
+  <div class="content">
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-l">La gran idea</span></div>
+      <div class="quote-card">
+        <div class="quote-text">Europa industrializada necesitaba <em>materias primas baratas</em> y <em>nuevos mercados</em>. La solución: dominar África y Asia. No fue solo economía — fue también poder, raza y orgullo nacional.</div>
+        <div class="quote-foot">Consecuencia directa de la Revolución Industrial — siglo XIX</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-l">¿Por qué colonizar?</span></div>
+      <div class="cause-grid">
+        <div class="cause-item">
+          <span class="cause-icon">🏭</span>
+          <div class="cause-title">Materias primas</div>
+          <div class="cause-desc">Las fábricas exigían carbón, algodón, caucho. Las colonias las daban baratas.</div>
+        </div>
+        <div class="cause-item">
+          <span class="cause-icon">💰</span>
+          <div class="cause-title">Nuevos mercados</div>
+          <div class="cause-desc">El proteccionismo cerraba los mercados europeos. Las colonias eran compradores cautivos.</div>
+        </div>
+        <div class="cause-item">
+          <span class="cause-icon">👥</span>
+          <div class="cause-title">Explosión demográfica</div>
+          <div class="cause-desc">Más población → más producción → más necesidad de salidas para esa producción.</div>
+        </div>
+        <div class="cause-item">
+          <span class="cause-icon">🏴</span>
+          <div class="cause-title">Hegemonía mundial</div>
+          <div class="cause-desc">Tener colonias era símbolo de poder y prestigio nacional frente a las otras potencias.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-l">La justificación</span></div>
+      <div class="info-card">
+        <div class="info-title">🧬 Darwinismo Social</div>
+        <div class="info-body">Se tomó la teoría de Darwin ("el más fuerte sobrevive") y se aplicó a los pueblos: las naciones europeas serían "superiores" y tendrían el "derecho" y la "obligación" de dominar a los pueblos "inferiores". Esta pseudo-ciencia justificó conquistas brutales.<br><br><strong>La "misión civilizadora":</strong> se argumentó que colonizar era "ayudar" a los pueblos de África y Asia a "progresar". En la práctica, significó explotación, trabajo forzado y destrucción de culturas locales.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">🗺️ Reparto de África — Conferencia de Berlín (1884–1885)</div>
+        <div class="info-body">Las potencias europeas se reunieron <strong>sin ningún africano presente</strong> y dividieron el continente en zonas de influencia. En pocas décadas, el 90% de África quedó bajo control colonial europeo. Asia corrió la misma suerte.</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-l">Consecuencias del imperialismo</span></div>
+      <div class="info-card">
+        <div class="info-body">
+          <ul>
+            <li><strong>Rivalidad entre potencias:</strong> competir por colonias generó tensiones que derivarían en la 1ª GM</li>
+            <li><strong>Explotación masiva:</strong> los recursos locales fueron saqueados sin retribución a los pueblos colonizados</li>
+            <li><strong>Destrucción cultural:</strong> idiomas, religiones y tradiciones locales fueron suprimidas</li>
+            <li><strong>La paz armada:</strong> para proteger sus colonias, cada potencia armó ejércitos enormes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-l">Ideas clave</span></div>
+      <div class="kp-list">
+        <div class="kp-item"><div class="kp-n">1</div><div class="kp-t">El imperialismo es <strong>consecuencia directa de la Revolución Industrial</strong> — necesidad de materias primas y mercados.</div></div>
+        <div class="kp-item"><div class="kp-n">2</div><div class="kp-t">La justificación fue el <strong>darwinismo social</strong>: "razas superiores" tienen derecho de dominar a las "inferiores".</div></div>
+        <div class="kp-item"><div class="kp-n">3</div><div class="kp-t">La <strong>Conferencia de Berlín (1884)</strong> repartió África sin consultar a ningún africano.</div></div>
+        <div class="kp-item"><div class="kp-n">4</div><div class="kp-t">La rivalidad por las colonias fue una de las <strong>causas estructurales</strong> de la 1ª GM.</div></div>
+        <div class="kp-item"><div class="kp-n">5</div><div class="kp-t">El imperialismo no era solo económico: era también <strong>poder, prestigio y nacionalismo</strong>.</div></div>
+      </div>
+    </div>
+
+    <div class="footer"><strong>Historia · 2° Medio · Imperialismo</strong><br>Plataforma Educativa — Beta</div>
+  </div>
+  </div>
+
+  <div class="panel" id="panel-practicar">
+  <div class="content">
+    <div class="quiz-top">
+      <div class="qt-row">
+        <div class="sc-group">
+          <div class="sc-item s-ok"><div class="sc-val" id="sc-ok">0</div><div class="sc-lbl">Correctas</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-fail"><div class="sc-val" id="sc-fail">0</div><div class="sc-lbl">Incorrectas</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-pend"><div class="sc-val" id="sc-pend">—</div><div class="sc-lbl">Pendientes</div></div>
+        </div>
+        <button class="reset-btn" onclick="resetQuiz()">Reiniciar</button>
+      </div>
+    </div>
+
+    <!-- P1: Fuente escrita -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 01 — Análisis de fuente escrita</div>
+      <div class="source-block">
+        <div class="source-lbl">Fuente primaria — Texto</div>
+        <div class="source-text">"Lleva la carga del hombre blanco — envía al exilio lo mejor de tu raza — ve, ata a tus hijos al destierro para servir las necesidades de tus cautivos; para atender, en pesado arnés, a pueblos agitados y salvajes, mitad demonios y mitad niños."</div>
+        <div class="source-attr">Rudyard Kipling, "La carga del hombre blanco", 1899</div>
+      </div>
+      <div class="q-text">¿Cuál es el propósito principal de este texto respecto al imperialismo?</div>
+      <div class="opts" id="q1">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">A</span>Denunciar la violencia del colonialismo europeo en África y Asia</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q1')"><span class="opt-lbl">B</span>Justificar la dominación colonial como una obligación moral de las naciones "superiores"</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">C</span>Explicar las causas económicas de la expansión imperial europea</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">D</span>Exigir independencia para los pueblos colonizados de Asia y África</button>
+      </div>
+      <div class="feedback" id="fb-q1"></div>
+    </div>
+
+    <!-- P2: Caricatura -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 02 — Análisis de caricatura política</div>
+      <div class="car-block">
+        <div class="car-header">
+          <span class="car-type">📷 Fuente visual — Caricatura política</span>
+          <span class="car-date">c. 1885</span>
+        </div>
+        <div class="car-svg">
+          <svg width="240" height="160" viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg">
+            <!-- Mesa / Mapa de Africa -->
+            <ellipse cx="120" cy="90" rx="70" ry="50" fill="#d1fae5" stroke="#0d9488" stroke-width="1.5"/>
+            <text x="120" y="85" text-anchor="middle" font-size="11" font-weight="800" fill="#065f46">AFRICA</text>
+            <text x="120" y="100" text-anchor="middle" font-size="8" fill="#0d9488">Conferencia de Berlín</text>
+            <!-- Figura izquierda (GB) -->
+            <circle cx="28" cy="65" r="10" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+            <text x="28" y="69" text-anchor="middle" font-size="7" font-weight="700" fill="#1d4ed8">GB</text>
+            <line x1="38" y1="72" x2="60" y2="82" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <!-- Figura derecha (FR) -->
+            <circle cx="212" cy="65" r="10" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+            <text x="212" y="69" text-anchor="middle" font-size="7" font-weight="700" fill="#dc2626">FR</text>
+            <line x1="202" y1="72" x2="180" y2="82" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <!-- Figura arriba (DE) -->
+            <circle cx="120" cy="20" r="10" fill="#f3f4f6" stroke="#374151" stroke-width="1.5"/>
+            <text x="120" y="24" text-anchor="middle" font-size="7" font-weight="700" fill="#374151">DE</text>
+            <line x1="120" y1="30" x2="120" y2="50" stroke="#374151" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <!-- Cuchillos / Divisiones -->
+            <line x1="60" y1="65" x2="180" y2="115" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="180" y1="65" x2="60" y2="115" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="120" y1="50" x2="120" y2="130" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3"/>
+            <!-- Nota bottom -->
+            <text x="120" y="148" text-anchor="middle" font-size="7" fill="#6b7280">Berlín, 1884 — sin ningún africano presente</text>
+          </svg>
+        </div>
+        <div class="car-caption"><strong>Descripción:</strong> Caricatura que muestra representantes de las potencias europeas (Gran Bretaña, Francia, Alemania) dividiendo el continente africano mediante líneas, sin presencia de africanos. Publicada en prensa europea, 1885.</div>
+      </div>
+      <div class="q-text">¿Qué crítica implícita transmite esta caricatura sobre el proceso imperialista?</div>
+      <div class="opts" id="q2">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">A</span>Que las potencias europeas cooperaban pacíficamente en el desarrollo de África</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">B</span>Que el reparto de Africa beneficiaba económicamente a los pueblos africanos</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q2')"><span class="opt-lbl">C</span>Que Africa fue dividida arbitrariamente por potencias externas sin considerar a sus habitantes</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">D</span>Que la rivalidad entre potencias europeas haría inevitable una guerra entre ellas</button>
+      </div>
+      <div class="feedback" id="fb-q2"></div>
+    </div>
+
+    <!-- P3 -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 03</div>
+      <div class="q-text">¿Cuál es la principal razón económica que explica el imperialismo europeo de fines del siglo XIX?</div>
+      <div class="opts" id="q3">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">A</span>El deseo de expandir la democracia liberal a continentes subdesarrollados</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q3')"><span class="opt-lbl">B</span>La necesidad de obtener materias primas baratas y abrir nuevos mercados para la industria</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">C</span>La voluntad de los misioneros de evangelizar Africa y Asia</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">D</span>La escasez de mano de obra en Europa que obligaba a buscarla en otros continentes</button>
+      </div>
+      <div class="feedback" id="fb-q3"></div>
+    </div>
+
+    <!-- P4 -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 04</div>
+      <div class="q-text">El "darwinismo social" fue usado para justificar el imperialismo. ¿En qué consistía este argumento?</div>
+      <div class="opts" id="q4">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">A</span>Que la evolución biológica demostraba que todos los seres humanos eran iguales</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">B</span>Que la naturaleza favorecía la cooperación entre pueblos distintos para sobrevivir</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q4')"><span class="opt-lbl">C</span>Que existían razas "superiores" con derecho natural de dominar a pueblos "inferiores"</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">D</span>Que Darwin había demostrado científicamente la superioridad militar de Europa</button>
+      </div>
+      <div class="feedback" id="fb-q4"></div>
+    </div>
+
+    <!-- P5 -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 05</div>
+      <div class="q-text">¿Cuál fue la conexión directa entre el imperialismo y el estallido de la 1ª Guerra Mundial?</div>
+      <div class="opts" id="q5">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">A</span>Las colonias financiaron directamente los ejércitos que luego se enfrentaron en Europa</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">B</span>Los pueblos colonizados se rebelaron y obligaron a Europa a entrar en guerra entre sí</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q5')"><span class="opt-lbl">C</span>La rivalidad por las colonias generó tensiones entre las potencias que derivaron en conflicto bélico</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">D</span>El imperialismo no tuvo relación con la 1ª GM, que fue causada solo por el asesinato del Archiduque</button>
+      </div>
+      <div class="feedback" id="fb-q5"></div>
+    </div>
+
+    <div class="footer"><strong>Historia · 2° Medio · Imperialismo</strong><br>Plataforma Educativa — Beta</div>
+  </div>
+  </div>
+</div>
+<script>
+  var FBK={q1:{ok:'Correcto. Kipling justifica el colonialismo como un "deber moral" de las naciones blancas — la clásica retórica imperialista que presenta la dominación como servicio y sacrificio.',fail:'El tono del poema no es de denuncia sino de justificación. Kipling presenta la conquista colonial como una "carga" noble y necesaria de las razas "superiores".'},q2:{ok:'Correcto. La caricatura muestra la arbitrariedad del reparto: potencias externas dividen un continente ajeno sin consultar a sus habitantes, como si África fuera un objeto.',fail:'La crítica de la imagen es que Africa fue dividida sin consultar a sus propios pueblos. Las líneas arbitrarias de los mapas coloniales ignoraron completamente las culturas y fronteras preexistentes.'},q3:{ok:'Correcto. La Revolución Industrial creó fábricas que necesitaban materias primas y mercados. Las colonias ofrecían ambas cosas a bajo costo.',fail:'La causa central fue económica: la industria europea necesitaba materias primas baratas (carbón, caucho, algodón) y nuevos lugares donde vender su producción.'},q4:{ok:'Correcto. El darwinismo social distorsionó la teoría de Darwin para aplicarla a los grupos humanos, argumentando que los pueblos europeos eran "superiores" por ley natural.',fail:'El darwinismo social tomó la idea de Darwin de "supervivencia del más apto" y la aplicó ilegítimamente a los grupos humanos, creando una jerarquía racial para justificar la conquista.'},q5:{ok:'Correcto. La competencia por colonias creó fricciones permanentes entre las potencias (por ejemplo, las Crisis Marroquíes entre Francia y Alemania), alimentando las tensiones previas a la 1ª GM.',fail:'El imperialismo fue una de las causas estructurales de la 1ª GM: la rivalidad por las colonias creó tensiones entre potencias que ya estaban armadas y aliadas — la combinación perfecta para una guerra.'}};
+  var totalQ=0,answered=0,correct=0,wrong=0;
+  function showTab(t,b){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.getElementById('panel-'+t).classList.add('active');b.classList.add('active')}
+  function answer(btn,qid){var g=document.getElementById(qid),fb=document.getElementById('fb-'+qid),bs=g.querySelectorAll('.opt-btn'),ok=btn.getAttribute('data-correct')==='true';bs.forEach(b=>{b.disabled=true;b.classList.add('dimmed')});if(ok){btn.classList.remove('dimmed');btn.classList.add('correct');fb.className='feedback show ok';fb.textContent='✓ '+FBK[qid].ok;correct++;document.getElementById('sc-ok').textContent=correct}else{btn.classList.remove('dimmed');btn.classList.add('wrong');bs.forEach(b=>{if(b.getAttribute('data-correct')==='true'){b.classList.remove('dimmed');b.classList.add('correct')}});fb.className='feedback show fail';fb.textContent='✗ '+FBK[qid].fail;wrong++;document.getElementById('sc-fail').textContent=wrong}answered++;document.getElementById('sc-pend').textContent=totalQ-answered}
+  function resetQuiz(){answered=0;correct=0;wrong=0;document.getElementById('sc-ok').textContent='0';document.getElementById('sc-fail').textContent='0';document.getElementById('sc-pend').textContent=totalQ;document.querySelectorAll('.opt-btn').forEach(b=>{b.disabled=false;b.classList.remove('correct','wrong','dimmed')});document.querySelectorAll('.feedback').forEach(f=>{f.className='feedback';f.textContent=''})}
+  window.onload=function(){totalQ=document.querySelectorAll('.q-card').length;document.getElementById('sc-pend').textContent=totalQ};
+</script>
+</body>
+</html>

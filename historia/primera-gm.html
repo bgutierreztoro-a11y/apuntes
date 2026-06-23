@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1ª Guerra Mundial — Historia 2° Medio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--acc:#0d9488;--acc-lt:#f0fdfa;--acc-dim:#99f6e4;--bg:#f9fafb;--sur:#fff;--brd:#e5e7eb;--tx:#111827;--tx2:#6b7280;--tx3:#9ca3af;--green:#059669;--glt:#d1fae5;--red:#dc2626;--rlt:#fee2e2;--sh:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.05);--shsm:0 1px 2px rgba(0,0,0,.05),0 1px 4px rgba(0,0,0,.04);--r:16px}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased}
+    .page{max-width:480px;margin:0 auto;padding-bottom:72px}
+    .top-nav{background:#0f172a;padding:11px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+    .nav-back{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#94a3b8;border-radius:8px;padding:5px 12px;font-family:inherit;font-size:.78rem;font-weight:600;text-decoration:none}
+    .nav-crumb{font-size:.75rem;color:#475569}
+    .header{background:#111827;padding:22px 20px 0}
+    .breadcrumb{font-size:.71rem;color:#6b7280;margin-bottom:10px}
+    .breadcrumb span{margin:0 5px}
+    .hchip{display:inline-flex;align-items:center;gap:5px;background:rgba(13,148,136,.18);border:1px solid rgba(13,148,136,.35);border-radius:20px;padding:3px 11px;font-size:.68rem;font-weight:700;color:#5eead4;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+    .header h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;line-height:1.05;color:#fff;margin-bottom:5px}
+    .header-sub{font-size:.85rem;color:#6b7280;font-weight:500;margin-bottom:18px}
+    .tab-nav{display:flex;border-top:1px solid #1f2937}
+    .tab-btn{flex:1;border:none;background:transparent;color:#6b7280;font-family:inherit;font-size:.82rem;font-weight:600;padding:12px 0 11px;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+    .tab-btn.active{color:#fff;border-bottom-color:var(--acc)}
+    .panel{display:none}.panel.active{display:block}
+    .content{padding:26px 16px 0}
+    .sec{margin-bottom:32px}
+    .sec-hd{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+    .sec-n{font-size:.68rem;font-weight:800;color:var(--acc);letter-spacing:.12em}
+    .sec-l{font-size:.68rem;font-weight:700;color:var(--tx3);letter-spacing:.1em;text-transform:uppercase}
+    .quote-card{background:var(--sur);border-radius:var(--r);padding:22px 20px;box-shadow:var(--sh);border-left:3px solid var(--acc)}
+    .quote-text{font-size:1.04rem;font-weight:700;line-height:1.6;color:var(--tx);margin-bottom:8px}
+    .quote-text em{color:var(--acc);font-style:normal}
+    .quote-foot{font-size:.75rem;color:var(--tx3);font-weight:500}
+    .info-card{background:var(--sur);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shsm);border:1px solid var(--brd);margin-bottom:10px}
+    .info-title{font-size:.9rem;font-weight:800;color:var(--tx);margin-bottom:8px}
+    .info-body{font-size:.83rem;color:var(--tx2);line-height:1.68}
+    .info-body strong{color:var(--tx);font-weight:700}
+    .info-body ul{padding-left:16px;margin-top:6px}
+    .info-body li{margin-bottom:5px}
+    .alliance-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .alliance-card{background:var(--sur);border-radius:12px;padding:14px 14px;box-shadow:var(--shsm);border:1px solid var(--brd)}
+    .al-title{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    .al-name{font-size:.8rem;font-weight:700;color:var(--tx);margin-bottom:3px}
+    .al-sub{font-size:.73rem;color:var(--tx2);margin-top:6px;line-height:1.4}
+    .kp-list{display:flex;flex-direction:column;gap:12px}
+    .kp-item{display:flex;gap:14px;align-items:flex-start}
+    .kp-n{font-size:1.05rem;font-weight:900;color:var(--acc-dim);min-width:26px;line-height:1.45}
+    .kp-t{font-size:.86rem;color:var(--tx2);line-height:1.65;padding-top:1px}
+    .kp-t strong{color:var(--tx)}
+    .p-tag{display:inline-block;background:#fffbeb;color:#b45309;border:1px solid #fde68a;border-radius:6px;padding:3px 9px;font-size:.69rem;font-weight:700;margin-top:10px}
+    /* QUIZ */
+    .quiz-top{background:var(--sur);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;border:1px solid var(--brd);box-shadow:var(--shsm)}
+    .qt-row{display:flex;align-items:center;justify-content:space-between}
+    .sc-group{display:flex;gap:14px;align-items:center}
+    .sc-item{text-align:center}
+    .sc-val{font-size:1.4rem;font-weight:900;line-height:1}
+    .sc-lbl{font-size:.61rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+    .s-ok .sc-val{color:var(--green)}.s-ok .sc-lbl{color:#6ee7b7}
+    .s-fail .sc-val{color:var(--red)}.s-fail .sc-lbl{color:#fca5a5}
+    .s-pend .sc-val{color:var(--tx3)}.s-pend .sc-lbl{color:var(--tx3)}
+    .sc-div{width:1px;height:28px;background:var(--brd)}
+    .reset-btn{background:var(--acc-lt);border:1px solid var(--acc-dim);color:var(--acc);border-radius:10px;padding:6px 13px;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
+    .q-card{background:var(--sur);border-radius:var(--r);padding:16px 15px;margin-bottom:11px;box-shadow:var(--shsm);border:1px solid var(--brd)}
+    .q-num{font-size:.67rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:6px}
+    .q-text{font-size:.91rem;font-weight:700;color:var(--tx);line-height:1.5;margin-bottom:12px}
+    .source-block{background:var(--acc-lt);border-left:3px solid var(--acc);border-radius:0 10px 10px 0;padding:12px 14px;margin-bottom:12px}
+    .source-lbl{font-size:.66rem;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+    .source-text{font-size:.81rem;font-style:italic;color:#065f46;line-height:1.65;margin-bottom:6px}
+    .source-attr{font-size:.72rem;color:var(--tx2);font-weight:600}
+    .car-block{background:#1f2937;border-radius:12px;overflow:hidden;margin-bottom:12px}
+    .car-header{background:#374151;padding:7px 14px;display:flex;justify-content:space-between;align-items:center}
+    .car-type{font-size:.65rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em}
+    .car-date{font-size:.65rem;color:#6b7280}
+    .car-svg{padding:12px;display:flex;justify-content:center;background:#111827}
+    .car-caption{padding:10px 14px;font-size:.77rem;color:#d1d5db;line-height:1.5}
+    .car-caption strong{color:#f9fafb}
+    .opts{display:flex;flex-direction:column;gap:7px}
+    .opt-btn{width:100%;min-height:44px;background:#f9fafb;border:1.5px solid var(--brd);border-radius:10px;padding:9px 12px;text-align:left;font-family:inherit;font-size:.82rem;font-weight:500;color:var(--tx2);cursor:pointer;display:flex;align-items:center;gap:9px;transition:border-color .12s,background .12s;line-height:1.4}
+    .opt-btn:hover:not(:disabled){border-color:var(--acc);background:var(--acc-lt);color:var(--tx)}
+    .opt-lbl{min-width:22px;height:22px;border-radius:6px;background:#f3f4f6;color:var(--tx2);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.7rem;flex-shrink:0}
+    .opt-btn.correct{background:var(--glt);border-color:var(--green);color:#065f46}
+    .opt-btn.correct .opt-lbl{background:var(--green);color:#fff}
+    .opt-btn.wrong{background:var(--rlt);border-color:var(--red);color:#7f1d1d}
+    .opt-btn.wrong .opt-lbl{background:var(--red);color:#fff}
+    .opt-btn.dimmed{opacity:.3}
+    .opt-btn:disabled{cursor:default}
+    .feedback{display:none;margin-top:10px;border-radius:10px;padding:9px 13px;font-size:.79rem;line-height:1.6}
+    .feedback.show{display:block}
+    .feedback.ok{background:var(--glt);border:1px solid #a7f3d0;color:#065f46}
+    .feedback.fail{background:var(--rlt);border:1px solid #fca5a5;color:#7f1d1d}
+    .footer{margin-top:36px;text-align:center;font-size:.72rem;color:var(--tx3);padding:0 16px}
+    .footer strong{color:var(--tx2)}
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="top-nav">
+    <a href="historia.html" class="nav-back">← Historia</a>
+    <span class="nav-crumb">/ 1ª Guerra Mundial</span>
+  </div>
+  <div class="header">
+    <div class="breadcrumb">Historia<span>/</span>El mundo moderno</div>
+    <div class="hchip">🌍 Tema 02</div>
+    <h1>1ª Guerra<br>Mundial</h1>
+    <p class="header-sub">1914–1918 · La Gran Guerra</p>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="showTab('estudiar',this)">📖 Estudiar</button>
+      <button class="tab-btn" onclick="showTab('practicar',this)">✏️ Practicar</button>
+    </div>
+  </div>
+
+  <div class="panel active" id="panel-estudiar">
+  <div class="content">
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-l">La paz armada</span></div>
+      <div class="quote-card">
+        <div class="quote-text">Había paz porque nadie quería atacar sabiendo que <em>todos estaban armados</em>. Pero esta "paz" era una trampa: cualquier chispa activaría el sistema de alianzas y arrastraría a toda Europa a la guerra.</div>
+        <div class="quote-foot">Europa, 1871–1914 — 40 años de carrera armamentista</div>
+      </div>
+      <div class="alliance-grid">
+        <div class="alliance-card">
+          <div class="al-title" style="color:#dc2626;">Triple Alianza</div>
+          <div class="al-name">🇩🇪 Imperio Alemán</div>
+          <div class="al-name">🇮🇹 Italia</div>
+          <div class="al-name">🇦🇹 Austria-Hungría</div>
+          <div class="al-sub">+ Imperio Otomano · Potencias Centrales</div>
+        </div>
+        <div class="alliance-card">
+          <div class="al-title" style="color:#2563eb;">Triple Entente</div>
+          <div class="al-name">🇫🇷 Francia</div>
+          <div class="al-name">🇬🇧 Gran Bretaña</div>
+          <div class="al-name">🇷🇺 Rusia</div>
+          <div class="al-sub">+ Serbia · EEUU (1917) · Aliados</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-l">Causas y el chispazo</span></div>
+      <div class="info-card">
+        <div class="info-title">⚠️ Causas de fondo (MAIN)</div>
+        <div class="info-body">
+          <ul>
+            <li><strong>Militarismo:</strong> carrera armamentista entre potencias</li>
+            <li><strong>Alianzas:</strong> sistema que convertía cualquier conflicto local en guerra total</li>
+            <li><strong>Imperialismo:</strong> rivalidad por colonias generaba fricciones permanentes</li>
+            <li><strong>Nacionalismo:</strong> movimientos de independencia (como en los Balcanes) desestabilizaban imperios</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">💥 El detonante — 28 de junio de 1914, Sarajevo</div>
+        <div class="info-body">El Archiduque <strong>Franz Ferdinand</strong>, heredero al trono austro-húngaro, es asesinado por Gavrilo Princip, nacionalista serbio. Austria-Hungría culpa a Serbia → Alemania apoya a Austria-Hungría → Rusia apoya a Serbia → Francia a Rusia → Gran Bretaña entra. El sistema de alianzas se activó como fichas de dominó.</div>
+        <div class="p-tag">⚠ El asesinato fue el detonante, no la causa. Las causas de fondo llevaban décadas acumulándose.</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-l">Desarrollo de la guerra</span></div>
+      <div class="info-card">
+        <div class="info-title">🪖 La guerra de trincheras</div>
+        <div class="info-body">Los ejércitos cavaron kilómetros de trincheras en el norte de Francia. Durante años, los frentes apenas se movieron. Los soldados vivían en el barro, bajo fuego constante, gas mostaza y enfermedades. Por cada kilómetro de terreno: miles de muertos. El desgaste físico y psicológico fue devastador.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">🌍 Una guerra global</div>
+        <div class="info-body">
+          <ul>
+            <li>Frentes en <strong>Africa y Asia</strong> (colonias movilizadas)</li>
+            <li>Frente <strong>marítimo:</strong> Alemania torpedea barcos, incluyendo uno con civiles estadounidenses (Lusitania, 1915) → EEUU entra en 1917</li>
+            <li><strong>Revolución Rusa (1917):</strong> Rusia abandona la guerra, firma armisticio con Alemania</li>
+            <li>La mujer sostiene la industria en la retaguardia</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-l">Consecuencias</span></div>
+      <div class="info-card">
+        <div class="info-body">
+          <ul>
+            <li>Más de <strong>37 millones</strong> de muertos y heridos</li>
+            <li><strong>Mujer al mercado laboral</strong> — consecuencia no planificada, transformación social permanente</li>
+            <li>Imperios Austro-Húngaro, Alemán y Otomano <strong>disueltos</strong> y redistribuidos</li>
+            <li><strong>Tratado de Versalles (1919):</strong> Alemania asume culpa, se desarma, paga reparaciones. Humillación que sembrará el nazismo</li>
+            <li><strong>Sociedad de las Naciones:</strong> primer organismo para mantener la paz (fracasará)</li>
+            <li>Emergencia de <strong>EEUU y URSS</strong> como nuevas superpotencias</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-l">Ideas clave</span></div>
+      <div class="kp-list">
+        <div class="kp-item"><div class="kp-n">1</div><div class="kp-t">El asesinato de Sarajevo fue el <strong>detonante</strong>, no la causa. Las causas de fondo eran el militarismo, las alianzas, el imperialismo y el nacionalismo.</div></div>
+        <div class="kp-item"><div class="kp-n">2</div><div class="kp-t">El sistema de alianzas convirtió un conflicto local en <strong>guerra mundial</strong> — una reacción en cadena automática.</div></div>
+        <div class="kp-item"><div class="kp-n">3</div><div class="kp-t">Las trincheras fueron el símbolo de una guerra de <strong>desgaste total</strong>: estática, letal e inútil.</div></div>
+        <div class="kp-item"><div class="kp-n">4</div><div class="kp-t">El <strong>Tratado de Versalles</strong> humilló a Alemania y plantó las semillas del nazismo y la 2ª GM.</div></div>
+        <div class="kp-item"><div class="kp-n">5</div><div class="kp-t">La incorporación de la mujer al trabajo fue una <strong>consecuencia no planificada</strong> pero transformadora.</div></div>
+      </div>
+    </div>
+
+    <div class="footer"><strong>Historia · 2° Medio · 1ª Guerra Mundial</strong><br>Plataforma Educativa — Beta</div>
+  </div>
+  </div>
+
+  <div class="panel" id="panel-practicar">
+  <div class="content">
+    <div class="quiz-top">
+      <div class="qt-row">
+        <div class="sc-group">
+          <div class="sc-item s-ok"><div class="sc-val" id="sc-ok">0</div><div class="sc-lbl">Correctas</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-fail"><div class="sc-val" id="sc-fail">0</div><div class="sc-lbl">Incorrectas</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-pend"><div class="sc-val" id="sc-pend">—</div><div class="sc-lbl">Pendientes</div></div>
+        </div>
+        <button class="reset-btn" onclick="resetQuiz()">Reiniciar</button>
+      </div>
+    </div>
+
+    <!-- P1: Fuente escrita - carta de soldado -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 01 — Análisis de fuente escrita</div>
+      <div class="source-block">
+        <div class="source-lbl">Fuente primaria — Carta de un soldado</div>
+        <div class="source-text">"Llevamos cuatro meses en estas trincheras. El barro llega hasta las rodillas. Tres de mis compañeros murieron ayer por un gas que no vimos venir. Avanzamos cien metros en dos semanas. El comandante dice que eso es una victoria."</div>
+        <div class="source-attr">Carta de un soldado francés, Frente Occidental, 1915 (adaptación)</div>
+      </div>
+      <div class="q-text">¿Qué aspecto de la guerra de trincheras refleja principalmente esta fuente?</div>
+      <div class="opts" id="q1">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">A</span>La superioridad tecnológica del ejército francés frente a los alemanes</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">B</span>El rápido avance territorial que caracterizó la primera fase de la guerra</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q1')"><span class="opt-lbl">C</span>El enorme costo humano y el carácter estático e inútil de los combates en trincheras</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">D</span>El alto nivel de información que tenían los soldados sobre los planes de guerra</button>
+      </div>
+      <div class="feedback" id="fb-q1"></div>
+    </div>
+
+    <!-- P2: Caricatura - domino alianzas -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 02 — Análisis de caricatura política</div>
+      <div class="car-block">
+        <div class="car-header">
+          <span class="car-type">📷 Fuente visual — Caricatura política</span>
+          <span class="car-date">c. 1914</span>
+        </div>
+        <div class="car-svg">
+          <svg width="240" height="150" viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+            <!-- Fichas de domino representando países cayendo -->
+            <text x="120" y="18" text-anchor="middle" font-size="9" fill="#9ca3af">LA CAÍDA DEL DOMINÓ — Europa 1914</text>
+            <!-- Fichas cayendo en cascada -->
+            <rect x="20" y="40" width="18" height="30" rx="3" fill="#374151" transform="rotate(-5,29,55)"/>
+            <text x="29" y="57" text-anchor="middle" font-size="6" fill="#fff" transform="rotate(-5,29,55)">AH</text>
+            <rect x="55" y="38" width="18" height="30" rx="3" fill="#374151" transform="rotate(-12,64,53)"/>
+            <text x="64" y="55" text-anchor="middle" font-size="6" fill="#fff" transform="rotate(-12,64,53)">DE</text>
+            <rect x="95" y="36" width="18" height="30" rx="3" fill="#374151" transform="rotate(-20,104,51)"/>
+            <text x="104" y="53" text-anchor="middle" font-size="6" fill="#fff" transform="rotate(-20,104,51)">RU</text>
+            <rect x="138" y="38" width="18" height="30" rx="3" fill="#374151" transform="rotate(-28,147,53)"/>
+            <text x="147" y="55" text-anchor="middle" font-size="6" fill="#fff" transform="rotate(-28,147,53)">FR</text>
+            <rect x="183" y="42" width="18" height="30" rx="3" fill="#374151" transform="rotate(-38,192,57)"/>
+            <text x="192" y="59" text-anchor="middle" font-size="6" fill="#fff" transform="rotate(-38,192,57)">GB</text>
+            <!-- Chispa -->
+            <text x="10" y="45" font-size="14">💥</text>
+            <text x="8" y="60" font-size="7" fill="#f59e0b">SARAJEVO</text>
+            <!-- Lineas -->
+            <path d="M38 68 Q55 80 55 68" stroke="#f59e0b" stroke-width="1" fill="none" stroke-dasharray="2,2"/>
+            <path d="M73 68 Q95 80 95 66" stroke="#f59e0b" stroke-width="1" fill="none" stroke-dasharray="2,2"/>
+            <path d="M113 68 Q138 80 138 68" stroke="#f59e0b" stroke-width="1" fill="none" stroke-dasharray="2,2"/>
+            <path d="M156 68 Q183 80 183 72" stroke="#f59e0b" stroke-width="1" fill="none" stroke-dasharray="2,2"/>
+            <text x="120" y="110" text-anchor="middle" font-size="8" fill="#6b7280">Un disparo en Sarajevo activó el sistema de alianzas</text>
+            <text x="120" y="123" text-anchor="middle" font-size="8" fill="#6b7280">y arrastró a toda Europa a la guerra.</text>
+          </svg>
+        </div>
+        <div class="car-caption"><strong>Descripción:</strong> Caricatura tipo "dominó" que muestra cómo el asesinato en Sarajevo activó en cascada el sistema de alianzas europeo, arrastrando a cada potencia al conflicto. Imagen habitual en la prensa de la época para explicar el mecanismo de la guerra.</div>
+      </div>
+      <div class="q-text">¿Qué mecanismo histórico ilustra esta caricatura como causa de la 1ª GM?</div>
+      <div class="opts" id="q2">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">A</span>La superioridad militar de Austria-Hungría que la llevó a declarar guerra a toda Europa</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q2')"><span class="opt-lbl">B</span>El sistema de alianzas que convirtió un conflicto local en una guerra de alcance continental</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">C</span>La decisión colectiva de todas las potencias de declarar la guerra simultáneamente</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">D</span>La carrera armamentista como única causa directa del conflicto bélico</button>
+      </div>
+      <div class="feedback" id="fb-q2"></div>
+    </div>
+
+    <!-- P3 -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 03</div>
+      <div class="q-text">El Tratado de Versalles (1919) impuso a Alemania la obligación de:</div>
+      <div class="opts" id="q3">
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q3')"><span class="opt-lbl">A</span>Asumir la culpa total de la guerra, desarmarse y pagar reparaciones económicas a los Aliados</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">B</span>Ceder sus colonias en Asia sin compensación, manteniendo su ejército intacto</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">C</span>Financiar y liderar la Sociedad de las Naciones como garantía de paz futura</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">D</span>Disolver el Imperio Austro-Húngaro y redistribuir sus territorios entre los Aliados</button>
+      </div>
+      <div class="feedback" id="fb-q3"></div>
+    </div>
+
+    <!-- P4 -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 04</div>
+      <div class="q-text">¿Por qué la incorporación de la mujer al mercado laboral durante la 1ª GM es considerada una "consecuencia no planificada"?</div>
+      <div class="opts" id="q4">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">A</span>Porque los gobiernos habían planificado que solo hombres trabajarían en la industria</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q4')"><span class="opt-lbl">B</span>Porque surgió por necesidad al ausentarse los hombres al frente, sin ser un objetivo de guerra</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">C</span>Porque las mujeres se negaron a trabajar hasta que les fue exigido por ley</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">D</span>Porque los sindicatos obreros promovieron activamente el trabajo femenino desde el inicio</button>
+      </div>
+      <div class="feedback" id="fb-q4"></div>
+    </div>
+
+    <!-- P5 -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 05</div>
+      <div class="q-text">¿Cuál fue la principal consecuencia del Tratado de Versalles sobre Alemania a largo plazo?</div>
+      <div class="opts" id="q5">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">A</span>Permitió a Alemania reconstruirse rápidamente como democracia estable y próspera</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">B</span>Generó gratitud en el pueblo alemán por la moderación de las potencias vencedoras</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q5')"><span class="opt-lbl">C</span>Creó resentimiento y crisis económica que fueron el caldo de cultivo del ascenso del nazismo</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">D</span>Impulsó la democracia en toda Europa al debilitar los regímenes autoritarios</button>
+      </div>
+      <div class="feedback" id="fb-q5"></div>
+    </div>
+
+    <div class="footer"><strong>Historia · 2° Medio · 1ª Guerra Mundial</strong><br>Plataforma Educativa — Beta</div>
+  </div>
+  </div>
+</div>
+<script>
+  var FBK={q1:{ok:'Correcto. La carta muestra la realidad cotidiana de las trincheras: barro, gas, muerte y avances mínimos presentados como victorias. Desgaste total con resultados mínimos.',fail:'La fuente describe exactamente lo opuesto a avances rápidos: meses en el mismo lugar, compañeros muertos, mínimo terreno ganado. Es el retrato del horror estático de las trincheras.'},q2:{ok:'Correcto. La imagen del dominó representa perfectamente el sistema de alianzas: un disparo en Sarajevo activó a Austria-Hungría → Alemania → Rusia → Francia → Gran Bretaña, en cascada.',fail:'El dominó representa el mecanismo de las alianzas: la caída de una pieza (el asesinato) arrastra automáticamente a las demás (los países aliados), convirtiendo un incidente local en guerra mundial.'},q3:{ok:'Correcto. El artículo 231 del Tratado declaró a Alemania única culpable ("war guilt clause"), la obligó a desarmarse y pagar 132 mil millones de marcos en reparaciones.',fail:'El Tratado de Versalles aplicó tres condiciones humillantes a Alemania: responsabilidad total de la guerra, desarme militar completo y pago de enormes reparaciones económicas a los Aliados.'},q4:{ok:'Correcto. No fue planeado: cuando los hombres marcharon al frente, alguien debía sostener las fábricas. Las mujeres llenaron ese vacío por necesidad, y eso transformó permanentemente su rol social.',fail:'Se llamó "no planificada" porque no fue una política deliberada de igualdad de género — surgió como solución práctica a la escasez de mano de obra cuando los hombres fueron al frente.'},q5:{ok:'Correcto. La humillación económica y moral del Tratado creó el resentimiento que Hitler explotó. Sin Versalles, es difícil imaginar el ascenso del nazismo en la forma en que ocurrió.',fail:'La historia lo confirmó: la humillación de Versalles generó pobreza, resentimiento y crisis de identidad en Alemania — el terreno fértil en el que Hitler cultivó el nazismo 14 años después.'}};
+  var totalQ=0,answered=0,correct=0,wrong=0;
+  function showTab(t,b){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.getElementById('panel-'+t).classList.add('active');b.classList.add('active')}
+  function answer(btn,qid){var g=document.getElementById(qid),fb=document.getElementById('fb-'+qid),bs=g.querySelectorAll('.opt-btn'),ok=btn.getAttribute('data-correct')==='true';bs.forEach(b=>{b.disabled=true;b.classList.add('dimmed')});if(ok){btn.classList.remove('dimmed');btn.classList.add('correct');fb.className='feedback show ok';fb.textContent='✓ '+FBK[qid].ok;correct++;document.getElementById('sc-ok').textContent=correct}else{btn.classList.remove('dimmed');btn.classList.add('wrong');bs.forEach(b=>{if(b.getAttribute('data-correct')==='true'){b.classList.remove('dimmed');b.classList.add('correct')}});fb.className='feedback show fail';fb.textContent='✗ '+FBK[qid].fail;wrong++;document.getElementById('sc-fail').textContent=wrong}answered++;document.getElementById('sc-pend').textContent=totalQ-answered}
+  function resetQuiz(){answered=0;correct=0;wrong=0;document.getElementById('sc-ok').textContent='0';document.getElementById('sc-fail').textContent='0';document.getElementById('sc-pend').textContent=totalQ;document.querySelectorAll('.opt-btn').forEach(b=>{b.disabled=false;b.classList.remove('correct','wrong','dimmed')});document.querySelectorAll('.feedback').forEach(f=>{f.className='feedback';f.textContent=''})}
+  window.onload=function(){totalQ=document.querySelectorAll('.q-card').length;document.getElementById('sc-pend').textContent=totalQ};
+</script>
+</body>
+</html>

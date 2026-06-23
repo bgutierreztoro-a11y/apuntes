@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Física — Apuntes 2° Medio</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    :root {
+      --ac:    #3d35c0;
+      --ac-bg: rgba(61,53,192,.07);
+      --ac-lt: #5b52d8;
+      --ac-br: rgba(61,53,192,.18);
+    }
+  </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../supabase-client.js"></script>
+<script src="../auth-guard.js"></script>
+
+<nav class="site-nav">
+  <div class="nav-left">
+    <a href="../index.html" class="back-btn" aria-label="Volver al inicio">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M10 3L6 8l4 5"/>
+      </svg>
+      Inicio
+    </a>
+    <span class="breadcrumb" aria-current="page">/ Física</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="nav-user"></span>
+    <button class="nav-logout" onclick="AppAuth.signOut()">Salir</button>
+  </div>
+</nav>
+
+<div class="content-wrap">
+
+  <header class="subj-header">
+    <div class="subj-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Física · Unidad 1
+    </div>
+    <h1 class="subj-h1">Física</h1>
+    <p class="subj-sub">Mecánica — selecciona un tema para estudiar</p>
+  </header>
+
+  <main>
+
+    <section class="sec" aria-labelledby="sec-avail">
+      <div class="sec-head">
+        <span class="sec-title" id="sec-avail">Disponibles</span>
+        <div class="sec-rule" aria-hidden="true"></div>
+      </div>
+      <div class="topics" role="list">
+
+        <a href="dinamica.html" class="topic" role="listitem">
+          <span class="t-num">01</span>
+          <div class="t-body">
+            <div class="t-name">Dinámica</div>
+            <div class="t-desc">Los 3 principios de Newton · Peso · Normal</div>
+          </div>
+          <span class="t-badge badge-done">Completo</span>
+          <span class="t-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a href="calculos.html" class="topic" role="listitem">
+          <span class="t-num">02</span>
+          <div class="t-body">
+            <div class="t-name">Cálculo y Fórmulas</div>
+            <div class="t-desc">Fn = ma · Peso · Normal · Ejemplos paso a paso</div>
+          </div>
+          <span class="t-badge badge-done">Completo</span>
+          <span class="t-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a href="roce-tension.html" class="topic" role="listitem">
+          <span class="t-num">03</span>
+          <div class="t-body">
+            <div class="t-name">Roce, Tensión, Normal y Peso</div>
+            <div class="t-desc">Roce estático y cinético · μe y μk · Tensión en cuerdas · Atwood</div>
+          </div>
+          <span class="t-badge badge-done">Completo</span>
+          <span class="t-arrow" aria-hidden="true">→</span>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-brand">Física · 2° Medio · U1</span>
+    <span class="footer-loc">Chillán, Chile</span>
+  </footer>
+
+</div>
+</body>
+</html>

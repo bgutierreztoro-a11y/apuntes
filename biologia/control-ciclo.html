@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Control del Ciclo y Cáncer — Biología</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --acc: #10b981; --acc-lt: #ecfdf5; --acc-dim: #6ee7b7;
+      --bg: #f9fafb; --sur: #fff; --brd: #e5e7eb;
+      --tx: #111827; --tx2: #6b7280; --tx3: #9ca3af;
+      --green: #059669; --glt: #d1fae5;
+      --red: #dc2626; --rlt: #fee2e2;
+      --sh: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+      --shsm: 0 1px 2px rgba(0,0,0,.05), 0 1px 4px rgba(0,0,0,.04);
+      --r: 16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--tx); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    .page { max-width: 480px; margin: 0 auto; padding-bottom: 72px; }
+
+    .nav { background: #0f172a; padding: 11px 16px; display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 10; }
+    .back-btn { display: flex; align-items: center; gap: 5px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 5px 10px; color: #94a3b8; font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; }
+    .crumb { font-size: 0.75rem; color: #475569; }
+
+    .header { background: #111827; padding: 22px 20px; }
+    .header-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(16,185,129,0.18); border: 1px solid rgba(16,185,129,0.35); border-radius: 20px; padding: 4px 12px; font-size: 0.68rem; font-weight: 700; color: #6ee7b7; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+    .header h1 { font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1; color: #fff; margin-bottom: 6px; }
+    .header-sub { font-size: 0.86rem; color: #6b7280; font-weight: 500; }
+
+    .tab-bar { background: #1f2937; }
+    .tab-nav { display: flex; border-top: 1px solid #1f2937; }
+    .tab-btn { flex: 1; border: none; background: transparent; color: #6b7280; font-size: 0.82rem; font-weight: 600; padding: 12px 0 11px; cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; font-family: inherit; }
+    .tab-btn.active { color: #fff; border-bottom-color: var(--acc); }
+
+    .panel { display: none; padding: 18px 16px 0; }
+    .panel.active { display: block; }
+
+    .sec-hd { font-size: 0.68rem; font-weight: 700; color: var(--tx3); letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 10px 2px; }
+
+    .info-card { background: var(--sur); border-radius: var(--r); padding: 16px 18px; box-shadow: var(--shsm); border: 1px solid var(--brd); margin-bottom: 10px; }
+    .info-card-title { font-size: 0.9rem; font-weight: 800; color: var(--tx); margin-bottom: 8px; }
+    .info-card p { font-size: 0.83rem; color: var(--tx2); line-height: 1.68; }
+    .info-card p + p { margin-top: 6px; }
+    .info-card strong { color: var(--tx); font-weight: 700; }
+    .info-card ul { padding-left: 16px; margin-top: 6px; }
+    .info-card ul li { font-size: 0.83rem; color: var(--tx2); line-height: 1.6; margin-bottom: 5px; }
+    .info-card ul li strong { color: var(--tx); }
+
+    .hl-box { background: var(--acc-lt); border-left: 3px solid var(--acc); border-radius: 0 10px 10px 0; padding: 10px 14px; margin-bottom: 10px; }
+    .hl-box-lbl { font-size: 0.66rem; font-weight: 700; color: var(--acc); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .hl-box p { font-size: 0.81rem; color: #065f46; line-height: 1.65; }
+    .hl-box strong { color: #064e3b; }
+
+    .warn-box { background: #fef3c7; border-left: 3px solid #f59e0b; border-radius: 0 10px 10px 0; padding: 10px 14px; margin-bottom: 10px; }
+    .warn-box-lbl { font-size: 0.66rem; font-weight: 700; color: #b45309; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .warn-box p { font-size: 0.81rem; color: #78350f; line-height: 1.65; }
+
+    .danger-box { background: #fee2e2; border-left: 3px solid #ef4444; border-radius: 0 10px 10px 0; padding: 10px 14px; margin-bottom: 10px; }
+    .danger-box-lbl { font-size: 0.66rem; font-weight: 700; color: #b91c1c; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .danger-box p { font-size: 0.81rem; color: #7f1d1d; line-height: 1.65; }
+    .danger-box strong { color: #450a0a; }
+
+    .diag-block { background: #1f2937; border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    .diag-header { background: #374151; padding: 7px 14px; display: flex; justify-content: space-between; align-items: center; }
+    .diag-type { font-size: 0.65rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; }
+    .diag-title { font-size: 0.65rem; color: #6b7280; }
+    .diag-body { padding: 14px; display: flex; justify-content: center; background: #111827; }
+    .diag-caption { padding: 10px 14px; font-size: 0.77rem; color: #d1d5db; line-height: 1.5; }
+
+    /* CHECKPOINT DIAGRAM */
+    .cp-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .cp-item { background: var(--sur); border-radius: 14px; padding: 14px 16px; border: 1px solid var(--brd); box-shadow: var(--shsm); display: flex; gap: 12px; align-items: flex-start; }
+    .cp-badge { min-width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; text-align: center; flex-shrink: 0; line-height: 1.3; }
+    .cp-badge.g1s { background: #dbeafe; color: #1d4ed8; }
+    .cp-badge.g2m { background: #fef3c7; color: #92400e; }
+    .cp-badge.m   { background: #fee2e2; color: #991b1b; }
+    .cp-info {}
+    .cp-name { font-size: 0.88rem; font-weight: 800; color: var(--tx); margin-bottom: 4px; }
+    .cp-desc { font-size: 0.79rem; color: var(--tx2); line-height: 1.6; }
+    .cp-checks { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 5px; }
+    .cp-check { font-size: 0.72rem; background: #f3f4f6; color: var(--tx2); border-radius: 6px; padding: 3px 8px; font-weight: 500; }
+
+    /* CYCLIN TABLE */
+    .cyclin-table { background: var(--sur); border-radius: var(--r); overflow: hidden; border: 1px solid var(--brd); margin-bottom: 14px; }
+    .cyclin-row { display: grid; grid-template-columns: 1.1fr 0.9fr 1.2fr 1fr; border-bottom: 1px solid var(--brd); }
+    .cyclin-row:last-child { border-bottom: none; }
+    .cyclin-cell { padding: 9px 10px; font-size: 0.78rem; color: var(--tx2); line-height: 1.4; }
+    .cyclin-cell.head { font-weight: 800; color: var(--tx); background: #f3f4f6; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .cyclin-cell.acc { color: var(--acc); font-weight: 700; }
+    .cyclin-cell strong { color: var(--tx); font-weight: 700; }
+
+    /* GENE CARDS */
+    .gene-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 14px; }
+    .gene-card { background: var(--sur); border-radius: 12px; padding: 13px; box-shadow: var(--shsm); border: 1px solid var(--brd); }
+    .gene-icon { font-size: 1.5rem; margin-bottom: 7px; }
+    .gene-name { font-size: 0.85rem; font-weight: 800; color: var(--tx); margin-bottom: 4px; }
+    .gene-type { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .gene-type.supr { color: var(--green); }
+    .gene-type.onco { color: #ef4444; }
+    .gene-desc { font-size: 0.75rem; color: var(--tx2); line-height: 1.5; }
+
+    /* HALLMARKS */
+    .hallmark-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+    .hm-item { background: var(--sur); border-radius: 12px; padding: 12px 14px; border: 1px solid var(--brd); display: flex; gap: 10px; align-items: center; }
+    .hm-icon { font-size: 1.2rem; min-width: 28px; }
+    .hm-text { font-size: 0.82rem; color: var(--tx2); line-height: 1.5; }
+    .hm-text strong { color: var(--tx); }
+
+    .kp-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+    .kp-item { display: flex; gap: 14px; align-items: flex-start; }
+    .kp-n { font-size: 1.05rem; font-weight: 900; color: var(--acc-dim); min-width: 26px; line-height: 1.45; }
+    .kp-t { font-size: 0.86rem; color: var(--tx2); line-height: 1.65; padding-top: 1px; }
+    .kp-t strong { color: var(--tx); }
+
+    /* QUIZ */
+    .quiz-top { background: var(--sur); border-radius: var(--r); padding: 14px 16px; margin-bottom: 14px; border: 1px solid var(--brd); }
+    .sc-group { display: flex; gap: 14px; align-items: center; }
+    .sc-item { text-align: center; }
+    .sc-val { font-size: 1.4rem; font-weight: 900; line-height: 1; }
+    .sc-lbl { font-size: 0.61rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px; color: var(--tx3); }
+    .sc-div { width: 1px; height: 28px; background: var(--brd); }
+    .s-ok { color: var(--green); }
+    .s-fail { color: var(--red); }
+    .s-pend { color: var(--tx3); }
+    .reset-btn { margin-left: auto; background: var(--acc-lt); border: 1px solid #a7f3d0; color: var(--green); border-radius: 8px; padding: 6px 12px; font-size: 0.78rem; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .q-card { background: var(--sur); border-radius: var(--r); padding: 16px 15px; margin-bottom: 11px; box-shadow: var(--shsm); border: 1px solid var(--brd); }
+    .q-num { font-size: 0.67rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--acc); margin-bottom: 6px; }
+    .q-text { font-size: 0.91rem; font-weight: 700; color: var(--tx); line-height: 1.5; margin-bottom: 12px; }
+    .opts { display: flex; flex-direction: column; gap: 7px; }
+    .opt-btn { width: 100%; min-height: 44px; background: #f9fafb; border: 1.5px solid var(--brd); border-radius: 10px; padding: 9px 12px; text-align: left; font-size: 0.82rem; font-weight: 500; color: var(--tx2); cursor: pointer; display: flex; align-items: center; gap: 9px; transition: border-color 0.12s, background 0.12s; line-height: 1.4; font-family: inherit; }
+    .opt-btn:hover:not(:disabled) { border-color: var(--acc); background: var(--acc-lt); color: var(--tx); }
+    .opt-lbl { min-width: 22px; height: 22px; border-radius: 6px; background: #f3f4f6; color: var(--tx3); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.7rem; flex-shrink: 0; }
+    .opt-btn.correct { background: var(--glt); border-color: #a7f3d0; color: #065f46; }
+    .opt-btn.correct .opt-lbl { background: #a7f3d0; color: #065f46; }
+    .opt-btn.wrong { background: var(--rlt); border-color: #fca5a5; color: #7f1d1d; }
+    .opt-btn.wrong .opt-lbl { background: #fca5a5; color: #7f1d1d; }
+    .opt-btn.dimmed { opacity: 0.3; }
+    .opt-btn:disabled { cursor: default; }
+    .feedback { display: none; margin-top: 10px; border-radius: 10px; padding: 9px 13px; font-size: 0.79rem; line-height: 1.6; }
+    .feedback.show { display: block; }
+    .feedback.ok { background: var(--glt); border: 1px solid #a7f3d0; color: #065f46; }
+    .feedback.fail { background: var(--rlt); border: 1px solid #fca5a5; color: #7f1d1d; }
+
+    .mb14 { margin-bottom: 14px; }
+    .mb20 { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="nav">
+    <a href="index.html" class="back-btn">← Biología</a>
+    <span class="crumb">Control del Ciclo y Cáncer</span>
+  </nav>
+
+  <div class="header">
+    <div class="header-chip">Tema 02 · Biología</div>
+    <h1>Control del Ciclo<br>y Cáncer</h1>
+    <p class="header-sub">Checkpoints, ciclinas, oncogenes y biología del cáncer</p>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="showTab('estudiar',this)">📖 Estudiar</button>
+      <button class="tab-btn" onclick="showTab('practicar',this)">✏️ Practicar</button>
+    </div>
+  </div>
+
+  <!-- ══════════ ESTUDIAR ══════════ -->
+  <div class="panel active" id="panel-estudiar">
+
+    <!-- CHECKPOINTS -->
+    <p class="sec-hd" style="margin-top:4px;">Puntos de Control (Checkpoints)</p>
+
+    <div class="info-card mb14">
+      <div class="info-card-title">¿Para qué sirven los checkpoints?</div>
+      <p>Los checkpoints son puntos de verificación en el ciclo celular donde la célula evalúa si las condiciones son adecuadas para continuar. Si hay daño en el ADN u otros problemas, se detiene el ciclo hasta que se reparen o, si no es posible, se induce apoptosis.</p>
+    </div>
+
+    <!-- DIAGRAMA CHECKPOINTS -->
+    <div class="diag-block mb14">
+      <div class="diag-header">
+        <span class="diag-type">Diagrama</span>
+        <span class="diag-title">Checkpoints del Ciclo</span>
+      </div>
+      <div class="diag-body">
+        <svg width="230" height="230" viewBox="0 0 230 230">
+          <circle cx="115" cy="115" r="85" fill="#0f172a" stroke="#1f2937" stroke-width="1"/>
+          <!-- Arcos de fases -->
+          <path d="M115 30 A85 85 0 0 1 192 163" fill="none" stroke="#3b82f6" stroke-width="20"/>
+          <path d="M192 163 A85 85 0 0 1 72 196" fill="none" stroke="#10b981" stroke-width="20"/>
+          <path d="M72 196 A85 85 0 0 1 34 76" fill="none" stroke="#f59e0b" stroke-width="20"/>
+          <path d="M34 76 A85 85 0 0 1 115 30" fill="none" stroke="#ef4444" stroke-width="20"/>
+          <!-- Centro -->
+          <circle cx="115" cy="115" r="58" fill="#111827"/>
+          <text x="115" y="111" text-anchor="middle" fill="#f1f5f9" font-size="10" font-weight="900" font-family="Inter,sans-serif">Control</text>
+          <text x="115" y="125" text-anchor="middle" fill="#6b7280" font-size="9" font-family="Inter,sans-serif">del Ciclo</text>
+          <!-- Etiquetas fases -->
+          <text x="165" y="55" fill="#93c5fd" font-size="10" font-weight="700" font-family="Inter,sans-serif">G1</text>
+          <text x="196" y="180" fill="#6ee7b7" font-size="10" font-weight="700" font-family="Inter,sans-serif">S</text>
+          <text x="36" y="195" fill="#fcd34d" font-size="10" font-weight="700" font-family="Inter,sans-serif">G2</text>
+          <text x="23" y="60" fill="#fca5a5" font-size="10" font-weight="700" font-family="Inter,sans-serif">M</text>
+          <!-- CHECKPOINT G1/S - rojo stop -->
+          <circle cx="155" cy="118" r="13" fill="#1d4ed8" stroke="#93c5fd" stroke-width="2"/>
+          <text x="155" y="115" text-anchor="middle" fill="white" font-size="7" font-weight="900" font-family="Inter,sans-serif">G1/S</text>
+          <text x="155" y="124" text-anchor="middle" fill="#bfdbfe" font-size="6" font-family="Inter,sans-serif">🛑</text>
+          <!-- CHECKPOINT G2/M -->
+          <circle cx="63" cy="155" r="13" fill="#92400e" stroke="#fcd34d" stroke-width="2"/>
+          <text x="63" y="152" text-anchor="middle" fill="white" font-size="7" font-weight="900" font-family="Inter,sans-serif">G2/M</text>
+          <text x="63" y="161" text-anchor="middle" fill="#fde68a" font-size="6" font-family="Inter,sans-serif">🛑</text>
+          <!-- CHECKPOINT M (SAC) -->
+          <circle cx="68" cy="74" r="13" fill="#991b1b" stroke="#fca5a5" stroke-width="2"/>
+          <text x="68" y="71" text-anchor="middle" fill="white" font-size="7.5" font-weight="900" font-family="Inter,sans-serif">SAC</text>
+          <text x="68" y="80" text-anchor="middle" fill="#fecaca" font-size="6" font-family="Inter,sans-serif">🛑</text>
+        </svg>
+      </div>
+      <div class="diag-caption">Tres checkpoints principales vigilan el ciclo. G1/S verifica condiciones antes de replicar el ADN; G2/M verifica que la replicación fue correcta; el SAC verifica que todos los cromosomas estén unidos al huso.</div>
+    </div>
+
+    <div class="cp-list mb14">
+      <div class="cp-item">
+        <div class="cp-badge g1s">G1/S</div>
+        <div class="cp-info">
+          <div class="cp-name">Checkpoint G1/S — Punto de Restricción</div>
+          <div class="cp-desc">¿Puede la célula comprometerse a replicar su ADN? Se evalúan múltiples condiciones antes de entrar a la fase S.</div>
+          <div class="cp-checks">
+            <span class="cp-check">Tamaño celular</span>
+            <span class="cp-check">Nutrientes disponibles</span>
+            <span class="cp-check">Señales mitogénicas</span>
+            <span class="cp-check">Integridad del ADN</span>
+          </div>
+        </div>
+      </div>
+      <div class="cp-item">
+        <div class="cp-badge g2m">G2/M</div>
+        <div class="cp-info">
+          <div class="cp-name">Checkpoint G2/M</div>
+          <div class="cp-desc">¿Se replicó el ADN correctamente? Se verifica antes de entrar a mitosis.</div>
+          <div class="cp-checks">
+            <span class="cp-check">Replicación ADN completa</span>
+            <span class="cp-check">Daños en ADN reparados</span>
+            <span class="cp-check">Tamaño celular</span>
+          </div>
+        </div>
+      </div>
+      <div class="cp-item">
+        <div class="cp-badge m">SAC</div>
+        <div class="cp-info">
+          <div class="cp-name">Checkpoint M — SAC (Spindle Assembly)</div>
+          <div class="cp-desc">¿Todos los cromosomas están correctamente unidos al huso mitótico? Previene errores de segregación cromosómica.</div>
+          <div class="cp-checks">
+            <span class="cp-check">Todos los cinetocoros ocupados</span>
+            <span class="cp-check">Tensión correcta en microtúbulos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CICLINAS Y CDK -->
+    <p class="sec-hd">Ciclinas y CDK</p>
+
+    <div class="info-card mb14">
+      <div class="info-card-title">¿Cómo funciona el sistema Ciclina-CDK?</div>
+      <p>Las <strong>CDK</strong> (Quinasas Dependientes de Ciclinas) son enzimas que fosforilan proteínas para avanzar el ciclo. Por sí solas están inactivas. Se activan al unirse a las <strong>Ciclinas</strong>, proteínas que fluctúan en concentración a lo largo del ciclo (aumentan y se degradan en momentos específicos).</p>
+    </div>
+
+    <div class="cyclin-table mb14">
+      <div class="cyclin-row">
+        <div class="cyclin-cell head">Ciclina</div>
+        <div class="cyclin-cell head">CDK</div>
+        <div class="cyclin-cell head">Fase</div>
+        <div class="cyclin-cell head">Función</div>
+      </div>
+      <div class="cyclin-row">
+        <div class="cyclin-cell acc"><strong>Ciclina D</strong></div>
+        <div class="cyclin-cell">CDK4/6</div>
+        <div class="cyclin-cell">G1</div>
+        <div class="cyclin-cell">Respuesta a mitógenos. Fosforila Rb → libera E2F</div>
+      </div>
+      <div class="cyclin-row">
+        <div class="cyclin-cell acc"><strong>Ciclina E</strong></div>
+        <div class="cyclin-cell">CDK2</div>
+        <div class="cyclin-cell">G1/S</div>
+        <div class="cyclin-cell">Entrada a fase S. Completa fosforilación de Rb</div>
+      </div>
+      <div class="cyclin-row">
+        <div class="cyclin-cell acc"><strong>Ciclina A</strong></div>
+        <div class="cyclin-cell">CDK2</div>
+        <div class="cyclin-cell">S</div>
+        <div class="cyclin-cell">Progresión de la replicación del ADN</div>
+      </div>
+      <div class="cyclin-row">
+        <div class="cyclin-cell acc"><strong>Ciclina B</strong></div>
+        <div class="cyclin-cell">CDK1</div>
+        <div class="cyclin-cell">G2/M</div>
+        <div class="cyclin-cell">Entrada a mitosis. Complejo MPF (Factor Promotor de Mitosis)</div>
+      </div>
+    </div>
+
+    <div class="hl-box mb14">
+      <div class="hl-box-lbl">MPF — Factor Promotor de Mitosis</div>
+      <p>El complejo Ciclina B / CDK1 se llama <strong>MPF</strong>. Cuando su concentración alcanza un umbral crítico, activa la entrada a mitosis: condensa los cromosomas, desintegra la envoltura nuclear y organiza el huso mitótico. La degradación de Ciclina B al final de la mitosis permite que la célula salga de la mitosis.</p>
+    </div>
+
+    <!-- GENES SUPRESORES -->
+    <p class="sec-hd">Genes Supresores de Tumor</p>
+
+    <div class="gene-grid mb14">
+      <div class="gene-card">
+        <div class="gene-icon">🛡️</div>
+        <div class="gene-type supr">Supresor Tumoral</div>
+        <div class="gene-name">Proteína Rb</div>
+        <div class="gene-desc">Retinoblastoma. Inhibe al factor de transcripción E2F. Si Rb está activo (hipofosforilado), bloquea la entrada a fase S.</div>
+      </div>
+      <div class="gene-card">
+        <div class="gene-icon">⚖️</div>
+        <div class="gene-type supr">Supresor Tumoral</div>
+        <div class="gene-name">Proteína p53</div>
+        <div class="gene-desc">"Guardián del genoma." Activa genes de reparación ADN, detiene el ciclo y puede inducir apoptosis si el daño es irreparable.</div>
+      </div>
+    </div>
+
+    <div class="info-card mb14">
+      <div class="info-card-title">Mecanismo de Rb</div>
+      <p>En condiciones normales, <strong>Rb hipofosforilada (activa)</strong> se une a E2F e impide la transcripción de genes necesarios para la fase S.</p>
+      <p style="margin-top:8px;">Cuando hay señales mitogénicas: Ciclina D-CDK4/6 fosforila Rb → <strong>Rb hiperfosforilada (inactiva)</strong> libera E2F → E2F activa genes de fase S → la célula entra a fase S.</p>
+      <p style="margin-top:8px;">En cáncer: mutación de Rb → siempre inactiva → E2F siempre libre → proliferación descontrolada.</p>
+    </div>
+
+    <div class="info-card mb14">
+      <div class="info-card-title">Mecanismo de p53</div>
+      <ul>
+        <li>Daño en el ADN activa quinasas (ATM/ATR) que estabilizan p53.</li>
+        <li>p53 activa la transcripción de <strong>p21</strong>, un inhibidor de CDK que detiene el ciclo en G1.</li>
+        <li>p53 activa genes de <strong>reparación del ADN</strong> (PCNA, GADD45).</li>
+        <li>Si el daño es irreparable, p53 activa genes pro-apoptóticos (<strong>Bax, Puma, Noxa</strong>).</li>
+        <li>En el ~50% de los cánceres humanos, p53 está mutado o no funciona.</li>
+      </ul>
+    </div>
+
+    <!-- ONCOGENES -->
+    <p class="sec-hd">Proto-oncogenes y Oncogenes</p>
+
+    <!-- DIAGRAMA PROTO→ONCO -->
+    <div class="diag-block mb14">
+      <div class="diag-header">
+        <span class="diag-type">Diagrama</span>
+        <span class="diag-title">De proto-oncogén a oncogén</span>
+      </div>
+      <div class="diag-body" style="padding:16px; flex-direction:column; align-items:center; gap:0;">
+        <svg width="320" height="100" viewBox="0 0 320 100">
+          <!-- Proto-oncogén -->
+          <rect x="8" y="20" width="100" height="60" rx="10" fill="#1a3a2e" stroke="#10b981" stroke-width="1.5"/>
+          <text x="58" y="45" text-anchor="middle" fill="#6ee7b7" font-size="9" font-weight="800" font-family="Inter,sans-serif">PROTO-ONCOGÉN</text>
+          <text x="58" y="60" text-anchor="middle" fill="#9ca3af" font-size="8" font-family="Inter,sans-serif">Función normal:</text>
+          <text x="58" y="72" text-anchor="middle" fill="#9ca3af" font-size="8" font-family="Inter,sans-serif">promueve crecimiento</text>
+
+          <!-- Flecha con mutación -->
+          <line x1="110" y1="50" x2="200" y2="50" stroke="#f59e0b" stroke-width="2"/>
+          <polygon points="200,44 210,50 200,56" fill="#f59e0b"/>
+          <rect x="128" y="34" width="58" height="18" rx="6" fill="#3b1f00"/>
+          <text x="157" y="46" text-anchor="middle" fill="#fcd34d" font-size="8" font-weight="700" font-family="Inter,sans-serif">MUTACIÓN</text>
+
+          <!-- Oncogén -->
+          <rect x="212" y="20" width="100" height="60" rx="10" fill="#3b0a0a" stroke="#ef4444" stroke-width="1.5"/>
+          <text x="262" y="45" text-anchor="middle" fill="#fca5a5" font-size="9" font-weight="800" font-family="Inter,sans-serif">ONCOGÉN</text>
+          <text x="262" y="60" text-anchor="middle" fill="#9ca3af" font-size="8" font-family="Inter,sans-serif">Señal permanente:</text>
+          <text x="262" y="72" text-anchor="middle" fill="#9ca3af" font-size="8" font-family="Inter,sans-serif">proliferación sin control</text>
+        </svg>
+      </div>
+      <div class="diag-caption">Los proto-oncogenes son genes normales que promueven el crecimiento celular de forma regulada. Una mutación de ganancia de función los convierte en oncogenes, que envían señales de proliferación de forma permanente.</div>
+    </div>
+
+    <div class="info-card mb14">
+      <div class="info-card-title">Ejemplos de Oncogenes</div>
+      <ul>
+        <li><strong>Ras:</strong> proteína señalizadora. Mutado en ~30% de cánceres humanos. En forma mutante, permanece activo enviando señales de crecimiento.</li>
+        <li><strong>Myc:</strong> factor de transcripción. Amplificado en muchos cánceres. Promueve la proliferación y la síntesis de proteínas.</li>
+        <li><strong>HER2/neu (ErbB2):</strong> receptor tirosina quinasa. Sobreexpresado en cáncer de mama (~25%).</li>
+        <li><strong>BCR-ABL:</strong> translocación cromosómica en leucemia mieloide crónica (LMC). Es el target del Imatinib.</li>
+      </ul>
+    </div>
+
+    <!-- CÁNCER -->
+    <p class="sec-hd">Biología del Cáncer</p>
+
+    <div class="danger-box mb14">
+      <div class="danger-box-lbl">Definición</div>
+      <p>El <strong>cáncer</strong> es un conjunto de enfermedades caracterizadas por el crecimiento celular descontrolado. Se origina cuando acumula múltiples mutaciones en genes que regulan la proliferación, la diferenciación y la muerte celular.</p>
+    </div>
+
+    <div class="hallmark-list mb14">
+      <div class="hm-item"><div class="hm-icon">📈</div><div class="hm-text"><strong>Proliferación sostenida:</strong> las células cancerosas se auto-suministran señales mitogénicas.</div></div>
+      <div class="hm-item"><div class="hm-icon">🚫</div><div class="hm-text"><strong>Evasión de supresores:</strong> genes como p53 y Rb están mutados o inactivados.</div></div>
+      <div class="hm-item"><div class="hm-icon">🧬</div><div class="hm-text"><strong>Inmortalidad replicativa:</strong> reactivación de telomerasa → telómeros no se acortan.</div></div>
+      <div class="hm-item"><div class="hm-icon">💀</div><div class="hm-text"><strong>Resistencia a apoptosis:</strong> sobreexpresión de Bcl-2 u otros mecanismos anti-apoptóticos.</div></div>
+      <div class="hm-item"><div class="hm-icon">🩸</div><div class="hm-text"><strong>Angiogénesis inducida:</strong> VEGF estimula la formación de nuevos vasos para nutrir el tumor.</div></div>
+      <div class="hm-item"><div class="hm-icon">🌊</div><div class="hm-text"><strong>Invasión y metástasis:</strong> células tumorales invaden tejidos adyacentes y se diseminan por sangre/linfa.</div></div>
+    </div>
+
+    <!-- APOPTOSIS -->
+    <p class="sec-hd">Apoptosis</p>
+
+    <div class="info-card mb14">
+      <div class="info-card-title">¿Qué es la apoptosis?</div>
+      <p>La <strong>apoptosis</strong> (muerte celular programada) es un proceso ordenado de autodestrucción celular. Es fundamental para el desarrollo, el mantenimiento de la homeostasis y la eliminación de células dañadas. Las células que escapan de la apoptosis pueden volverse cancerosas.</p>
+    </div>
+
+    <div class="info-card mb20">
+      <div class="info-card-title">Vías de la Apoptosis</div>
+      <ul>
+        <li><strong>Vía intrínseca (mitocondrial):</strong> señales internas (daño ADN, estrés celular) → la mitocondria libera citocromo c → forma el apoptosoma → activa caspasas iniciadoras → activa caspasas ejecutoras → muerte celular. Regulada por la familia Bcl-2 (pro-apoptótico: Bax, Bak; anti-apoptótico: Bcl-2, Bcl-xL).</li>
+        <li><strong>Vía extrínseca (receptores de muerte):</strong> señales externas (FasL, TNF) se unen a receptores de muerte (Fas, TNFR) en la membrana → activan caspasa-8 directamente → caspasas ejecutoras → muerte celular.</li>
+      </ul>
+    </div>
+
+  </div><!-- /panel estudiar -->
+
+  <!-- ══════════ PRACTICAR ══════════ -->
+  <div class="panel" id="panel-practicar">
+
+    <div class="quiz-top">
+      <div class="sc-group">
+        <div class="sc-item">
+          <div class="sc-val s-ok" id="sc-ok">0</div>
+          <div class="sc-lbl">Correctas</div>
+        </div>
+        <div class="sc-div"></div>
+        <div class="sc-item">
+          <div class="sc-val s-fail" id="sc-fail">0</div>
+          <div class="sc-lbl">Incorrectas</div>
+        </div>
+        <div class="sc-div"></div>
+        <div class="sc-item">
+          <div class="sc-val s-pend" id="sc-pend">10</div>
+          <div class="sc-lbl">Pendientes</div>
+        </div>
+        <button class="reset-btn" onclick="resetQuiz()">↺ Reiniciar</button>
+      </div>
+    </div>
+
+    <div id="quiz-container"></div>
+
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    q: "¿Cuál es la función del checkpoint G1/S?",
+    opts: ["Verificar que los cromosomas estén bien unidos al huso","Evaluar si las condiciones son adecuadas para replicar el ADN","Verificar que la replicación del ADN se completó","Comprobar que las cromátidas se separaron correctamente"],
+    correct: 1,
+    fb: "El checkpoint G1/S (punto de restricción) evalúa si la célula tiene el tamaño adecuado, suficientes nutrientes, señales mitogénicas y si el ADN está íntegro antes de comprometerse a replicarlo en fase S."
+  },
+  {
+    q: "¿Qué es el MPF y cuál es su función?",
+    opts: [
+      "Ciclina D / CDK4, promueve la entrada a fase S",
+      "Ciclina B / CDK1, promueve la entrada a mitosis",
+      "Ciclina E / CDK2, inicia la replicación del ADN",
+      "p53 / p21, detiene el ciclo cuando hay daño en ADN"
+    ],
+    correct: 1,
+    fb: "El MPF (Factor Promotor de Mitosis) es el complejo Ciclina B / CDK1. Cuando alcanza concentración suficiente, dispara la entrada a mitosis: condensa cromosomas, desintegra la envoltura nuclear y organiza el huso mitótico."
+  },
+  {
+    q: "¿Qué ocurre cuando Rb está hiperfosforilada?",
+    opts: [
+      "Rb activa se une a E2F e impide la transcripción de genes de fase S",
+      "Rb inactiva libera a E2F, que activa genes necesarios para la fase S",
+      "Rb promueve la apoptosis celular",
+      "Rb activa la transcripción de ciclinas"
+    ],
+    correct: 1,
+    fb: "La hiperfosforilación de Rb (por Ciclina D-CDK4/6 y Ciclina E-CDK2) la inactiva. Rb inactiva libera al factor de transcripción E2F, que activa los genes necesarios para entrar a la fase S."
+  },
+  {
+    q: "p53 se denomina 'guardián del genoma' porque:",
+    opts: [
+      "Sintetiza el ADN durante la fase S",
+      "Activa la citocinesis",
+      "Detecta daño en el ADN y puede detener el ciclo o inducir apoptosis",
+      "Inhibe a las ciclinas en todas las fases"
+    ],
+    correct: 2,
+    fb: "p53 detecta daño en el ADN (activado por ATM/ATR). Activa p21 para detener el ciclo, activa genes de reparación, y si el daño es irreparable, induce apoptosis activando genes como Bax y Puma. El ~50% de los cánceres tienen p53 mutado."
+  },
+  {
+    q: "¿Cuál es la diferencia entre un proto-oncogén y un oncogén?",
+    opts: [
+      "Son lo mismo, solo cambia el nombre según la especie",
+      "Los proto-oncogenes regulan la muerte celular; los oncogenes regulan el crecimiento",
+      "Un proto-oncogén es el gen normal que promueve el crecimiento regulado; un oncogén es la versión mutada que lo hace de forma descontrolada",
+      "Los oncogenes inhiben el crecimiento celular"
+    ],
+    correct: 2,
+    fb: "Los proto-oncogenes son genes normales que participan en la regulación del crecimiento. Una mutación de 'ganancia de función' los convierte en oncogenes, que envían señales de proliferación de manera permanente e incontrolada."
+  },
+  {
+    q: "¿Cuál de estas características es propia del cáncer?",
+    opts: [
+      "Diferenciación celular aumentada",
+      "Inmortalidad replicativa por reactivación de telomerasa",
+      "Mayor sensibilidad a la apoptosis",
+      "Reducción de la angiogénesis"
+    ],
+    correct: 1,
+    fb: "La inmortalidad replicativa es una de las características del cáncer (hallmarks). Las células cancerosas reactivan la telomerasa, que evita el acortamiento de los telómeros, permitiendo divisiones ilimitadas."
+  },
+  {
+    q: "¿Qué hace el SAC (Spindle Assembly Checkpoint)?",
+    opts: [
+      "Verifica que el ADN se haya replicado correctamente",
+      "Verifica que todos los cromosomas estén correctamente unidos al huso antes de la anafase",
+      "Inicia la citocinesis después de la telofase",
+      "Activa la condensación cromosómica en profase"
+    ],
+    correct: 1,
+    fb: "El SAC es el checkpoint de la fase M. Verifica que todos los cinetocoros estén correctamente ocupados por microtúbulos del huso antes de permitir la separación de cromátidas, previniendo errores de segregación (aneuploidías)."
+  },
+  {
+    q: "La apoptosis se diferencia de la necrosis en que:",
+    opts: [
+      "Solo ocurre en células cancerosas",
+      "Es un proceso caótico que daña tejidos vecinos",
+      "Es un proceso ordenado y programado que no daña tejidos vecinos",
+      "Solo la activa p53"
+    ],
+    correct: 2,
+    fb: "La apoptosis es muerte celular programada: la célula se autodestruye de forma ordenada, fragmentando su ADN y formando cuerpos apoptóticos que son fagocitados sin causar inflamación. La necrosis es muerte accidental que sí daña tejidos vecinos."
+  },
+  {
+    q: "¿Cuál de estas ciclinas y CDK es responsable de la entrada a la fase S?",
+    opts: ["Ciclina B / CDK1","Ciclina D / CDK4","Ciclina E / CDK2","Ciclina A / CDK2"],
+    correct: 2,
+    fb: "El complejo Ciclina E / CDK2 es crítico para la transición G1→S (entrada a fase S). Completa la fosforilación de Rb iniciada por Ciclina D-CDK4/6, liberando completamente a E2F para activar los genes de la fase S."
+  },
+  {
+    q: "¿Qué ocurre con Bcl-2 en muchas células cancerosas?",
+    opts: [
+      "Se inhibe completamente, promoviendo la apoptosis",
+      "Se sobreexpresa, inhibiendo la apoptosis y permitiendo la supervivencia celular",
+      "Solo se activa en respuesta a señales de crecimiento externas",
+      "Se muta para activar la vía extrínseca de apoptosis"
+    ],
+    correct: 1,
+    fb: "Bcl-2 es una proteína anti-apoptótica. En muchas células cancerosas (especialmente leucemias y linfomas), Bcl-2 se sobreexpresa, inhibiendo la vía intrínseca de apoptosis. Esto permite que las células dañadas sobrevivan en lugar de morir. Es el target de fármacos como Venetoclax."
+  }
+];
+
+let scores = { ok: 0, fail: 0, answered: [] };
+
+function buildQuiz() {
+  const c = document.getElementById('quiz-container');
+  c.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = 'qcard-' + i;
+    card.innerHTML = `
+      <div class="q-num">Pregunta ${i+1} de ${QUESTIONS.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="opts">
+        ${q.opts.map((o,j) => `
+          <button class="opt-btn" onclick="answer(${i},${j})">
+            <span class="opt-lbl">${String.fromCharCode(65+j)}</span>${o}
+          </button>`).join('')}
+      </div>
+      <div class="feedback" id="fb-${i}"></div>
+    `;
+    c.appendChild(card);
+  });
+}
+
+function answer(qi, chosen) {
+  if (scores.answered.includes(qi)) return;
+  scores.answered.push(qi);
+  const q = QUESTIONS[qi];
+  const card = document.getElementById('qcard-' + qi);
+  const btns = card.querySelectorAll('.opt-btn');
+  const fb = document.getElementById('fb-' + qi);
+
+  btns.forEach((b, j) => {
+    b.disabled = true;
+    if (j === q.correct) b.classList.add('correct');
+    else if (j === chosen) b.classList.add('wrong');
+    else b.classList.add('dimmed');
+  });
+
+  if (chosen === q.correct) {
+    scores.ok++;
+    fb.className = 'feedback show ok';
+    fb.innerHTML = '✅ ' + q.fb;
+  } else {
+    scores.fail++;
+    fb.className = 'feedback show fail';
+    fb.innerHTML = '❌ ' + q.fb;
+  }
+  updateScore();
+}
+
+function updateScore() {
+  document.getElementById('sc-ok').textContent = scores.ok;
+  document.getElementById('sc-fail').textContent = scores.fail;
+  document.getElementById('sc-pend').textContent = QUESTIONS.length - scores.answered.length;
+}
+
+function resetQuiz() {
+  scores = { ok: 0, fail: 0, answered: [] };
+  updateScore();
+  buildQuiz();
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+buildQuiz();
+</script>
+</body>
+</html>

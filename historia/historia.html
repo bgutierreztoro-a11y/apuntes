@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Historia — Apuntes 2° Medio</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    :root {
+      --ac:    #0a6b58;
+      --ac-bg: rgba(10,107,88,.07);
+      --ac-lt: #0d8269;
+      --ac-br: rgba(10,107,88,.17);
+    }
+  </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../supabase-client.js"></script>
+<script src="../auth-guard.js"></script>
+
+<nav class="site-nav">
+  <div class="nav-left">
+    <a href="../index.html" class="back-btn" aria-label="Volver al inicio">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M10 3L6 8l4 5"/>
+      </svg>
+      Inicio
+    </a>
+    <span class="breadcrumb" aria-current="page">/ Historia</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="nav-user"></span>
+    <button class="nav-logout" onclick="AppAuth.signOut()">Salir</button>
+  </div>
+</nav>
+
+<div class="content-wrap">
+
+  <header class="subj-header">
+    <div class="subj-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/>
+        <path d="M12 6v6l3 3"/>
+      </svg>
+      Historia · 2° Medio
+    </div>
+    <h1 class="subj-h1">Historia</h1>
+    <p class="subj-sub">Mundo moderno y Chile contemporáneo</p>
+  </header>
+
+  <main>
+
+    <section class="sec" aria-labelledby="sec-mundo">
+      <div class="sec-head">
+        <span class="sec-title" id="sec-mundo">El mundo moderno · 1900–1945</span>
+        <div class="sec-rule" aria-hidden="true"></div>
+      </div>
+      <div class="topics" role="list">
+
+        <a href="imperialismo.html" class="topic" role="listitem">
+          <span class="t-num">01</span>
+          <div class="t-body">
+            <div class="t-name">Imperialismo y tensiones europeas</div>
+            <div class="t-desc">Reparto de África, nacionalismos y carrera armamentista</div>
+          </div>
+          <span class="t-badge badge-done">Disponible</span>
+          <span class="t-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a href="primera-guerra.html" class="topic" role="listitem">
+          <span class="t-num">02</span>
+          <div class="t-body">
+            <div class="t-name">Primera Guerra Mundial</div>
+            <div class="t-desc">Causas, frentes, tratados y consecuencias del conflicto</div>
+          </div>
+          <span class="t-badge badge-done">Disponible</span>
+          <span class="t-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a href="entreguerras.html" class="topic" role="listitem">
+          <span class="t-num">03</span>
+          <div class="t-body">
+            <div class="t-name">Período de entreguerras</div>
+            <div class="t-desc">Crisis del 29, fascismos, URSS y auge de los totalitarismos</div>
+          </div>
+          <span class="t-badge badge-done">Disponible</span>
+          <span class="t-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a href="segunda-guerra.html" class="topic" role="listitem">
+          <span class="t-num">04</span>
+          <div class="t-body">
+            <div class="t-name">Segunda Guerra Mundial</div>
+            <div class="t-desc">Desarrollo, frentes, Holocausto y nuevo orden mundial</div>
+          </div>
+          <span class="t-badge badge-done">Disponible</span>
+          <span class="t-arrow" aria-hidden="true">→</span>
+        </a>
+
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="sec-chile">
+      <div class="sec-head">
+        <span class="sec-title" id="sec-chile">Chile 1958–1973 · Entra en prueba</span>
+        <div class="sec-rule" aria-hidden="true"></div>
+      </div>
+      <div class="topics" role="list">
+
+        <a href="chile-alessandri.html" class="topic" role="listitem">
+          <span class="t-num">05</span>
+          <div class="t-body">
+            <div class="t-name">Alessandri y Frei Montalva</div>
+            <div class="t-desc">Reformas, DC y la Revolución en Libertad (1958–1970)</div>
+          </div>
+          <span class="t-badge badge-exam">Prueba</span>
+          <span class="t-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a href="chile-allende.html" class="topic" role="listitem">
+          <span class="t-num">06</span>
+          <div class="t-body">
+            <div class="t-name">Gobierno de Allende</div>
+            <div class="t-desc">UP, vía chilena al socialismo y crisis de 1973</div>
+          </div>
+          <span class="t-badge badge-exam">Prueba</span>
+          <span class="t-arrow" aria-hidden="true">→</span>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-brand">Historia · 2° Medio</span>
+    <span class="footer-loc">Chillán, Chile</span>
+  </footer>
+
+</div>
+</body>
+</html>

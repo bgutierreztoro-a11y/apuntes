@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dinámica — Física 2° Medio</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    :root { --ac: #3d35c0; --ac-bg: rgba(61,53,192,.07); --ac-lt: #5b52d8; --ac-br: rgba(61,53,192,.18); }
+  </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../supabase-client.js"></script>
+<script src="../auth-guard.js"></script>
+
+<nav class="site-nav">
+  <div class="nav-left">
+    <a href="index.html" class="back-btn" aria-label="Volver a Física">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3L6 8l4 5"/></svg>
+      Física
+    </a>
+    <span class="breadcrumb" aria-current="page">/ Dinámica</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="nav-user"></span>
+    <button class="nav-logout" onclick="AppAuth.signOut()">Salir</button>
+  </div>
+</nav>
+
+<div class="content-wrap">
+
+  <header class="pg-header">
+    <div class="pg-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Física · Mecánica
+    </div>
+    <h1 class="pg-title">Dinámica</h1>
+    <p class="pg-sub">Los tres principios que explican por qué se mueven las cosas</p>
+    <div class="tab-wrap">
+      <button class="tab-btn active" onclick="showTab('estudiar',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Estudiar
+      </button>
+      <button class="tab-btn" onclick="showTab('practicar',this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Practicar
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════ ESTUDIAR ═══════ -->
+  <div class="panel active" id="panel-estudiar">
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-l">La gran idea</span><span class="sec-hr"></span></div>
+      <div class="quote-card">
+        <div class="quote-text">La fuerza <em>no es una propiedad</em> de ningún cuerpo. Nadie la "tiene". Solo existe cuando hay <em>interacción</em> entre dos cuerpos — y siempre ocurre en pares.</div>
+        <div class="quote-foot">Fundamento central — Dinámica, Cap. 2</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-l">Los tres principios de Newton</span><span class="sec-hr"></span></div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">01</div>
+          <div><div class="p-name">Primer principio</div><div class="p-title">Inercia</div></div>
+        </div>
+        <div class="p-body">Un cuerpo en movimiento <strong>seguirá moviéndose</strong>, y uno en reposo <strong>seguirá en reposo</strong>, hasta que una fuerza externa actúe sobre él. El estado natural <strong>no es el reposo</strong>: es mantener lo que ya tiene — sea velocidad cero o cualquier otra.</div>
+        <div class="p-formula">Fn = 0 → velocidad constante (reposo o MRU)</div>
+        <div class="p-tag">⚠ Este principio lo formuló Galileo, no Newton. Ni el nombre es de Newton.</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">02</div>
+          <div><div class="p-name">Segundo principio</div><div class="p-title">Masa y Aceleración</div></div>
+        </div>
+        <div class="p-body">La fuerza neta produce <strong>aceleración</strong>, no velocidad. A mayor masa, menor aceleración con la misma fuerza. Un ascensor que sube o baja con <strong>velocidad constante</strong> tiene Fn = 0 — porque no hay aceleración. El auto consume más en ciudad porque <strong>cambia de velocidad constantemente</strong> (acelera y frena).</div>
+        <div class="p-formula">Fn = m × a &nbsp;→&nbsp; a = Fn / m &nbsp;[Newton = kg · m/s²]</div>
+      </div>
+
+      <div class="p-card">
+        <div class="p-hd">
+          <div class="p-num">03</div>
+          <div><div class="p-name">Tercer principio</div><div class="p-title">Acción y Reacción</div></div>
+        </div>
+        <div class="p-body">Cuando un cuerpo ejerce una fuerza sobre otro, el segundo responde con una fuerza <strong>igual en magnitud, misma dirección, sentido contrario</strong>. Siempre. Las fuerzas son iguales — lo que varía es el <strong>efecto</strong> según la masa (por eso la moto sale más dañada que el camión, aunque la fuerza fue la misma).</div>
+        <div class="p-formula">F acción = −F reacción &nbsp;(mismo módulo, sentidos opuestos)</div>
+        <div class="p-tag">⚠ No confundir fuerza con efecto — moto vs. camión, piedra vs. vidrio.</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-l">En la vida real</span><span class="sec-hr"></span></div>
+      <div class="eg-grid">
+        <div class="eg-card"><span class="eg-icon">🏃</span><div class="eg-title">El atleta</div><div class="eg-desc">Sus pies empujan el suelo atrás → el suelo lo impulsa adelante. El suelo merece las medallas.</div></div>
+        <div class="eg-card"><span class="eg-icon">🪜</span><div class="eg-title">Escaleras</div><div class="eg-desc">Pies empujan el peldaño abajo → la escalera te empuja arriba. La escalera te sube.</div></div>
+        <div class="eg-card"><span class="eg-icon">🚗</span><div class="eg-title">Automóvil</div><div class="eg-desc">Ruedas empujan la carretera atrás → la carretera mueve el auto adelante.</div></div>
+        <div class="eg-card"><span class="eg-icon">🐦</span><div class="eg-title">El ave</div><div class="eg-desc">No vuela por sus alas: el aire reacciona al aleteo y la empuja hacia arriba.</div></div>
+        <div class="eg-card"><span class="eg-icon">🧴</span><div class="eg-title">El ketchup</div><div class="eg-desc">No sacas el ketchup: detienes el envase y la inercia lo expulsa. — 1er Principio.</div></div>
+        <div class="eg-card"><span class="eg-icon">🚤</span><div class="eg-title">Lancha y persona</div><div class="eg-desc">La lancha choca y frena. La persona sigue a la misma velocidad que traía — inercia.</div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-l">Fuerzas que debes conocer</span><span class="sec-hr"></span></div>
+
+      <div class="f-card">
+        <div class="f-title">Peso</div>
+        <div class="f-body">Fuerza de atracción que ejerce la Tierra sobre un cuerpo. Se mide en <strong>Newton (N)</strong>, <strong>no en kg</strong>. La masa es la cantidad de materia (kg); el peso es la fuerza gravitacional (N).<br><br>Par acción-reacción: la Tierra atrae al objeto (acción) → el objeto atrae a la Tierra (reacción), con la misma fuerza.</div>
+        <div class="p-formula">P = m × g &nbsp;→&nbsp; 1 kg pesa 9,8 N &nbsp;(g = 9,8 m/s²)</div>
+      </div>
+
+      <div class="f-card">
+        <div class="f-title">Normal</div>
+        <div class="f-body">Fuerza que ejerce una superficie sobre un cuerpo, <strong>perpendicular</strong> a esa superficie. En plano horizontal, la Normal anula exactamente al Peso. Si hay dos cuerpos apilados, la Normal soporta la suma de ambos pesos.<br><br>Ojo: la Normal <strong>no siempre</strong> es igual al peso — en planos inclinados o con fuerzas externas adicionales cambia.</div>
+        <div class="p-formula">N = (m₁ + m₂) × g &nbsp;(dos cuerpos apilados en plano horizontal)</div>
+      </div>
+
+      <div class="graph-wrap">
+        <div class="graph-title">Gráfico posición — tiempo (MRU)</div>
+        <svg width="100%" height="110" viewBox="0 0 280 110">
+          <line x1="28" y1="95" x2="260" y2="95" stroke="#e5e4dc" stroke-width="1.5"/>
+          <line x1="28" y1="8" x2="28" y2="95" stroke="#e5e4dc" stroke-width="1.5"/>
+          <text x="263" y="99" font-size="10" fill="#a8a7c0" font-family="sans-serif">t</text>
+          <text x="15" y="12" font-size="10" fill="#a8a7c0" font-family="sans-serif">x</text>
+          <line x1="40" y1="88" x2="252" y2="18" stroke="#3d35c0" stroke-width="2" stroke-linecap="round"/>
+          <text x="148" y="60" font-size="9" fill="#5e5d78" text-anchor="middle" font-family="sans-serif">velocidad constante</text>
+          <text x="148" y="72" font-size="9" fill="#5e5d78" text-anchor="middle" font-family="sans-serif">aceleración = 0 · Fn = 0</text>
+        </svg>
+        <div class="graph-cap">Línea recta = pendiente constante = velocidad constante → aceleración cero → Fn = 0.</div>
+      </div>
+
+      <div class="graph-wrap">
+        <div class="graph-title">Gráfico velocidad — tiempo (MRUA)</div>
+        <svg width="100%" height="110" viewBox="0 0 280 110">
+          <line x1="28" y1="95" x2="260" y2="95" stroke="#e5e4dc" stroke-width="1.5"/>
+          <line x1="28" y1="8" x2="28" y2="95" stroke="#e5e4dc" stroke-width="1.5"/>
+          <text x="263" y="99" font-size="10" fill="#a8a7c0" font-family="sans-serif">t</text>
+          <text x="15" y="12" font-size="10" fill="#a8a7c0" font-family="sans-serif">v</text>
+          <line x1="40" y1="88" x2="252" y2="18" stroke="#166534" stroke-width="2" stroke-linecap="round"/>
+          <text x="148" y="60" font-size="9" fill="#5e5d78" text-anchor="middle" font-family="sans-serif">aceleración positiva constante</text>
+          <text x="148" y="72" font-size="9" fill="#5e5d78" text-anchor="middle" font-family="sans-serif">Fn = positiva constante</text>
+        </svg>
+        <div class="graph-cap">Línea recta con pendiente positiva = aceleración constante → Fn positiva y constante.</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-l">Lo que entra en la prueba</span><span class="sec-hr"></span></div>
+      <div class="kp-list">
+        <div class="kp-item"><div class="kp-n">1</div><div class="kp-t">La fuerza es una <strong>interacción</strong>. Nadie la "tiene": aparece entre dos cuerpos.</div></div>
+        <div class="kp-item"><div class="kp-n">2</div><div class="kp-t">Fn = 0 no significa reposo — significa <strong>velocidad constante</strong> (puede ser reposo o MRU).</div></div>
+        <div class="kp-item"><div class="kp-n">3</div><div class="kp-t">El 1er Principio (Inercia) lo formuló <strong>Galileo</strong>. Newton lo explicó, no lo creó ni lo nombró.</div></div>
+        <div class="kp-item"><div class="kp-n">4</div><div class="kp-t">El 2do Principio relaciona fuerza con <strong>aceleración</strong>, no con velocidad.</div></div>
+        <div class="kp-item"><div class="kp-n">5</div><div class="kp-t">Acción y reacción son <strong>iguales en módulo</strong>. Lo que varía es el efecto según la masa.</div></div>
+        <div class="kp-item"><div class="kp-n">6</div><div class="kp-t"><strong>Peso</strong> en Newton, <strong>masa</strong> en kg. "Tengo 70 kg de peso" tiene dos errores conceptuales.</div></div>
+        <div class="kp-item"><div class="kp-n">7</div><div class="kp-t">La <strong>Normal</strong> es perpendicular a la superficie. Anula el peso en plano horizontal.</div></div>
+        <div class="kp-item"><div class="kp-n">8</div><div class="kp-t">Un cuerpo aislado es inerte. Lo que pasa afuera lo cambia — no se mueve solo.</div></div>
+      </div>
+    </div>
+
+    <div class="pg-footer"><strong>Física · 2° Medio · Dinámica</strong></div>
+  </div>
+
+  <!-- ═══════ PRACTICAR ═══════ -->
+  <div class="panel" id="panel-practicar">
+
+    <div class="quiz-top">
+      <div class="qt-row">
+        <div class="sc-group">
+          <div class="sc-item s-ok"><span class="sc-val" id="sc-ok">0</span><span class="sc-lbl">Correctas</span></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-fail"><span class="sc-val" id="sc-fail">0</span><span class="sc-lbl">Incorrectas</span></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-pend"><span class="sc-val" id="sc-pend">—</span><span class="sc-lbl">Pendientes</span></div>
+        </div>
+        <button class="reset-btn" onclick="resetQuiz()">Reiniciar</button>
+      </div>
+    </div>
+
+    <div class="q-card"><div class="q-num">Pregunta 01</div><div class="q-text">En estricto rigor físico, "nadie tiene fuerza" porque:</div><div class="opts" id="q1"><button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">A</span>La fuerza se agota con el esfuerzo y el tiempo</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">B</span>La fuerza es una propiedad exclusiva del suelo</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q1')"><span class="opt-lbl">C</span>La fuerza solo existe en la interacción entre dos cuerpos</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">D</span>Los seres humanos son naturalmente inertes</button></div><div class="feedback" id="fb-q1"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 02</div><div class="q-text">¿Quién nos hace subir las escaleras?</div><div class="opts" id="q2"><button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">A</span>Nuestros músculos al contraerse hacia arriba</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">B</span>La gravedad al reducirse momentáneamente</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q2')"><span class="opt-lbl">C</span>La escalera, mediante la fuerza de reacción sobre nuestros pies</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">D</span>El peso del cuerpo convertido en energía cinética</button></div><div class="feedback" id="fb-q2"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 03</div><div class="q-text">"En las carreras de atletismo, el suelo merece las medallas." Esta frase hace referencia a:</div><div class="opts" id="q3"><button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">A</span>Que el suelo soporta el peso de los atletas</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q3')"><span class="opt-lbl">B</span>La fuerza de reacción del suelo que impulsa al atleta hacia adelante</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">C</span>Que los atletas no hacen esfuerzo real al correr</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">D</span>La fricción del zapato que frena el movimiento</button></div><div class="feedback" id="fb-q3"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 04</div><div class="q-text">¿Con cuál principio de Newton se relaciona "el caso del ketchup"?</div><div class="opts" id="q4"><button class="opt-btn" data-correct="true" onclick="answer(this,'q4')"><span class="opt-lbl">A</span>Primer Principio — el ketchup tiende a mantener su estado por inercia</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">B</span>Segundo Principio — la masa del ketchup produce aceleración</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">C</span>Tercer Principio — el envase empuja al ketchup como reacción</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">D</span>No se relaciona con ningún principio de Newton</button></div><div class="feedback" id="fb-q4"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 05</div><div class="q-text">¿Cuál de las siguientes opciones presenta un estado natural del movimiento?</div><div class="opts" id="q5"><button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">A</span>Un cuerpo en caída libre</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">B</span>Un submarino subiendo cada vez más rápido</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q5')"><span class="opt-lbl">C</span>Un automóvil avanzando en carretera con velocidad constante</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">D</span>Un ascensor subiendo con aceleración constante no nula</button></div><div class="feedback" id="fb-q5"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 06</div><div class="q-text">Una persona sostiene un celular en reposo en su mano. ¿Cuál es la reacción a la fuerza peso del celular?</div><div class="opts" id="q6"><button class="opt-btn" data-correct="false" onclick="answer(this,'q6')"><span class="opt-lbl">A</span>La fuerza de la mano sobre el celular</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q6')"><span class="opt-lbl">B</span>La fuerza del celular sobre la mano</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q6')"><span class="opt-lbl">C</span>La fuerza de la Tierra sobre el celular</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q6')"><span class="opt-lbl">D</span>La fuerza del celular sobre la Tierra</button></div><div class="feedback" id="fb-q6"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 07</div><div class="q-text">¿Cuál frase expresa mejor el segundo principio de Newton?</div><div class="opts" id="q7"><button class="opt-btn" data-correct="false" onclick="answer(this,'q7')"><span class="opt-lbl">A</span>Una acción es equivalente a una reacción</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q7')"><span class="opt-lbl">B</span>Todo cuerpo mantiene su estado si la Fn es nula</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q7')"><span class="opt-lbl">C</span>La aceleración de un cuerpo es directamente proporcional a la Fn sobre él</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q7')"><span class="opt-lbl">D</span>La aceleración es inversamente proporcional a la fuerza</button></div><div class="feedback" id="fb-q7"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 08</div><div class="q-text">Al frenar bruscamente un auto, las personas tienden a irse hacia adelante. ¿Con cuál principio se relaciona?</div><div class="opts" id="q8"><button class="opt-btn" data-correct="true" onclick="answer(this,'q8')"><span class="opt-lbl">A</span>Primer Principio — la persona mantiene su estado de movimiento por inercia</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q8')"><span class="opt-lbl">B</span>Segundo Principio — la fuerza de freno produce aceleración en la persona</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q8')"><span class="opt-lbl">C</span>Tercer Principio — la persona ejerce reacción sobre el asiento</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q8')"><span class="opt-lbl">D</span>No se relaciona directamente con ningún principio</button></div><div class="feedback" id="fb-q8"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 09</div><div class="q-text">La Tierra atrae a la Luna con una fuerza F. ¿Con qué fuerza atrae la Luna a la Tierra?</div><div class="opts" id="q9"><button class="opt-btn" data-correct="false" onclick="answer(this,'q9')"><span class="opt-lbl">A</span>Una fuerza menor, proporcional a la masa de la Luna</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q9')"><span class="opt-lbl">B</span>Una fuerza mayor, proporcional a la masa de la Tierra</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q9')"><span class="opt-lbl">C</span>La misma fuerza F — son par acción y reacción</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q9')"><span class="opt-lbl">D</span>La Luna no ejerce fuerza sobre la Tierra</button></div><div class="feedback" id="fb-q9"></div></div>
+
+    <div class="q-card"><div class="q-num">Pregunta 10</div><div class="q-text">Julio dice "tengo un peso de 70 kg". ¿Cuál opción corrige los dos errores conceptuales?</div><div class="opts" id="q10"><button class="opt-btn" data-correct="false" onclick="answer(this,'q10')"><span class="opt-lbl">A</span>"Tengo una fuerza de 70 Newton"</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q10')"><span class="opt-lbl">B</span>"Tengo un peso de 686 kg"</button><button class="opt-btn" data-correct="true" onclick="answer(this,'q10')"><span class="opt-lbl">C</span>"Mi masa es 70 kg" o bien "mi peso es 686 Newton"</button><button class="opt-btn" data-correct="false" onclick="answer(this,'q10')"><span class="opt-lbl">D</span>"Tengo una masa de 686 Newton"</button></div><div class="feedback" id="fb-q10"></div></div>
+
+    <div class="pg-footer"><strong>Física · 2° Medio · Dinámica</strong></div>
+  </div>
+
+</div>
+
+<script>
+var FBK = {
+  q1:  { ok: 'Correcto. La fuerza no es algo que se posee. Existe solo cuando dos cuerpos interactúan; sin interacción, no hay fuerza.', fail: 'La clave: la fuerza es interacción entre dos cuerpos. Nadie la "tiene" por sí solo — aparece cuando hay contacto o relación.' },
+  q2:  { ok: 'Correcto. Tus pies empujan el peldaño hacia abajo (acción) y la escalera te empuja hacia arriba (reacción). Esa reacción te sube.', fail: 'Tus pies empujan el peldaño (acción) → la escalera reacciona empujándote hacia arriba. Es la reacción de la escalera la que te mueve.' },
+  q3:  { ok: 'Correcto. El atleta empuja el suelo hacia atrás → el suelo lo impulsa hacia adelante (reacción). Sin esa reacción, no hay carrera.', fail: 'Los pies del atleta empujan el suelo atrás (acción) → el suelo lo empuja adelante (reacción). El suelo es quien lo impulsa realmente.' },
+  q4:  { ok: 'Correcto. Al detener el envase bruscamente, el ketchup tiende a seguir en movimiento por inercia — 1er Principio de Newton.', fail: 'Al frenar el envase, el ketchup tiende a mantener su movimiento. Eso es inercia: 1er Principio. No tú sacas el ketchup, detienes el envase.' },
+  q5:  { ok: 'Correcto. Velocidad constante = Fn = 0 = estado natural (MRU). Caída libre y aceleración implican Fn ≠ 0.', fail: 'Estado natural = Fn = 0 = velocidad constante. Solo el auto con velocidad constante cumple eso. Caída libre tiene Fn ≠ 0.' },
+  q6:  { ok: 'Correcto. El peso es la Tierra atrayendo al celular. La reacción es el celular atrayendo a la Tierra — par gravitacional, 3er Principio.', fail: 'Peso = Tierra atrae celular (acción). Reacción = celular atrae Tierra. Son el par acción-reacción de la gravedad.' },
+  q7:  { ok: 'Correcto. 2do Principio: Fn = m × a. La aceleración es directamente proporcional a la fuerza neta.', fail: 'El 2do Principio es Fn = m × a: a mayor fuerza neta, mayor aceleración. Proporcionalidad directa.' },
+  q8:  { ok: 'Correcto. El auto frenó, pero nadie detuvo a la persona. Tiende a mantener su velocidad original — eso es inercia: 1er Principio.', fail: 'La persona sigue adelante porque mantiene su estado de movimiento (inercia). El auto frenó, ella no. 1er Principio.' },
+  q9:  { ok: 'Correcto. 3er Principio: si Tierra atrae Luna con F, Luna atrae Tierra con la misma F. El efecto es diferente por las masas distintas.', fail: 'Acción y reacción siempre tienen el mismo módulo. La Luna atrae a la Tierra con la misma fuerza F — solo el efecto varía por las masas.' },
+  q10: { ok: 'Correcto. Error 1: peso se mide en Newton, no kg. Error 2: 70 kg es su masa. Peso real = 70 × 9,8 = 686 N.', fail: 'Dos errores: (1) peso en Newton, no kg; (2) 70 kg es la masa. El peso correcto es m × g = 70 × 9,8 = 686 N.' }
+};
+var totalQ = 0, answered = 0, correct = 0, wrong = 0;
+
+function showTab(tab, btn) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('panel-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+function answer(btn, qid) {
+  var group = document.getElementById(qid);
+  var fb = document.getElementById('fb-' + qid);
+  var buttons = group.querySelectorAll('.opt-btn');
+  var isOk = btn.getAttribute('data-correct') === 'true';
+  buttons.forEach(function(b){ b.disabled = true; b.classList.add('dimmed'); });
+  if (isOk) {
+    btn.classList.remove('dimmed'); btn.classList.add('correct');
+    fb.className = 'feedback show ok'; fb.textContent = '✓ ' + FBK[qid].ok;
+    correct++; document.getElementById('sc-ok').textContent = correct;
+  } else {
+    btn.classList.remove('dimmed'); btn.classList.add('wrong');
+    buttons.forEach(function(b){ if (b.getAttribute('data-correct') === 'true') { b.classList.remove('dimmed'); b.classList.add('correct'); } });
+    fb.className = 'feedback show fail'; fb.textContent = '✗ ' + FBK[qid].fail;
+    wrong++; document.getElementById('sc-fail').textContent = wrong;
+  }
+  answered++; document.getElementById('sc-pend').textContent = totalQ - answered;
+}
+function resetQuiz() {
+  answered = 0; correct = 0; wrong = 0;
+  document.getElementById('sc-ok').textContent = '0';
+  document.getElementById('sc-fail').textContent = '0';
+  document.getElementById('sc-pend').textContent = totalQ;
+  document.querySelectorAll('.opt-btn').forEach(function(b){ b.disabled = false; b.classList.remove('correct','wrong','dimmed'); });
+  document.querySelectorAll('.feedback').forEach(function(f){ f.className = 'feedback'; f.textContent = ''; });
+}
+window.onload = function() { totalQ = document.querySelectorAll('.q-card').length; document.getElementById('sc-pend').textContent = totalQ; };
+</script>
+</body>
+</html>

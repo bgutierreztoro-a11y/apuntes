@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Química — Apuntes 2° Medio</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    :root {
+      --ac:    #b85c0a;
+      --ac-bg: rgba(184,92,10,.07);
+      --ac-lt: #c96d1a;
+      --ac-br: rgba(184,92,10,.18);
+    }
+  </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../supabase-client.js"></script>
+<script src="../auth-guard.js"></script>
+
+<nav class="site-nav">
+  <div class="nav-left">
+    <a href="../index.html" class="back-btn" aria-label="Volver al inicio">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M10 3L6 8l4 5"/>
+      </svg>
+      Inicio
+    </a>
+    <span class="breadcrumb" aria-current="page">/ Química</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="nav-user"></span>
+    <button class="nav-logout" onclick="AppAuth.signOut()">Salir</button>
+  </div>
+</nav>
+
+<div class="content-wrap">
+
+  <header class="subj-header">
+    <div class="subj-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 18.568A2 2 0 0 0 6.463 21.5h11.074a2 2 0 0 0 1.744-2.932l-5.07-8.145A2 2 0 0 1 14 9.527V2"/>
+        <path d="M8.5 2h7"/>
+        <path d="M7 16.5c.5.5 1.5.5 2.5 0s2-.5 2.5 0"/>
+      </svg>
+      Química · 2° Medio
+    </div>
+    <h1 class="subj-h1">Química</h1>
+    <p class="subj-sub">Selecciona un tema para estudiar</p>
+  </header>
+
+  <main>
+    <section class="sec" aria-labelledby="sec-topics">
+      <div class="sec-head">
+        <span class="sec-title" id="sec-topics">Disponibles</span>
+        <div class="sec-rule" aria-hidden="true"></div>
+      </div>
+      <div class="topics" role="list">
+
+        <a href="metodos-separacion.html" class="topic" role="listitem">
+          <span class="t-num">01</span>
+          <div class="t-body">
+            <div class="t-name">Métodos de Separación de Mezclas</div>
+            <div class="t-desc">Imantación, sublimación, decantación, filtración, tamizado, cromatografía y evaporación</div>
+          </div>
+          <span class="t-badge badge-done">Completo</span>
+          <span class="t-arrow" aria-hidden="true">→</span>
+        </a>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-brand">Química · 2° Medio</span>
+    <span class="footer-loc">Chillán, Chile</span>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Totalitarismos — Historia 2° Medio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--acc:#0d9488;--acc-lt:#f0fdfa;--acc-dim:#99f6e4;--bg:#f9fafb;--sur:#fff;--brd:#e5e7eb;--tx:#111827;--tx2:#6b7280;--tx3:#9ca3af;--green:#059669;--glt:#d1fae5;--red:#dc2626;--rlt:#fee2e2;--sh:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.05);--shsm:0 1px 2px rgba(0,0,0,.05),0 1px 4px rgba(0,0,0,.04);--r:16px}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased}
+    .page{max-width:480px;margin:0 auto;padding-bottom:72px}
+    .top-nav{background:#0f172a;padding:11px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+    .nav-back{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#94a3b8;border-radius:8px;padding:5px 12px;font-family:inherit;font-size:.78rem;font-weight:600;text-decoration:none}
+    .nav-crumb{font-size:.75rem;color:#475569}
+    .header{background:#111827;padding:22px 20px 0}
+    .breadcrumb{font-size:.71rem;color:#6b7280;margin-bottom:10px}
+    .breadcrumb span{margin:0 5px}
+    .hchip{display:inline-flex;align-items:center;gap:5px;background:rgba(13,148,136,.18);border:1px solid rgba(13,148,136,.35);border-radius:20px;padding:3px 11px;font-size:.68rem;font-weight:700;color:#5eead4;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+    .header h1{font-size:2rem;font-weight:900;letter-spacing:-.03em;line-height:1.05;color:#fff;margin-bottom:5px}
+    .header-sub{font-size:.85rem;color:#6b7280;font-weight:500;margin-bottom:18px}
+    .tab-nav{display:flex;border-top:1px solid #1f2937}
+    .tab-btn{flex:1;border:none;background:transparent;color:#6b7280;font-family:inherit;font-size:.82rem;font-weight:600;padding:12px 0 11px;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+    .tab-btn.active{color:#fff;border-bottom-color:var(--acc)}
+    .panel{display:none}.panel.active{display:block}
+    .content{padding:26px 16px 0}
+    .sec{margin-bottom:32px}
+    .sec-hd{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+    .sec-n{font-size:.68rem;font-weight:800;color:var(--acc);letter-spacing:.12em}
+    .sec-l{font-size:.68rem;font-weight:700;color:var(--tx3);letter-spacing:.1em;text-transform:uppercase}
+    .quote-card{background:var(--sur);border-radius:var(--r);padding:22px 20px;box-shadow:var(--sh);border-left:3px solid var(--acc)}
+    .quote-text{font-size:1.04rem;font-weight:700;line-height:1.6;color:var(--tx);margin-bottom:8px}
+    .quote-text em{color:var(--acc);font-style:normal}
+    .quote-foot{font-size:.75rem;color:var(--tx3);font-weight:500}
+    .info-card{background:var(--sur);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shsm);border:1px solid var(--brd);margin-bottom:10px}
+    .info-title{font-size:.9rem;font-weight:800;color:var(--tx);margin-bottom:8px}
+    .info-body{font-size:.83rem;color:var(--tx2);line-height:1.68}
+    .info-body strong{color:var(--tx);font-weight:700}
+    .info-body ul{padding-left:16px;margin-top:6px}
+    .info-body li{margin-bottom:5px}
+    /* Tabla comparativa */
+    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px;border:1px solid var(--brd)}
+    .comp-table{width:100%;border-collapse:collapse;font-size:.77rem;min-width:340px}
+    .comp-table th{background:var(--acc-lt);color:var(--acc);font-weight:700;padding:9px 10px;text-align:left;border-bottom:2px solid var(--acc-dim);white-space:nowrap}
+    .comp-table th:first-child{color:var(--tx3);background:#f9fafb}
+    .comp-table td{padding:8px 10px;border-bottom:1px solid var(--brd);color:var(--tx2);vertical-align:top;line-height:1.5}
+    .comp-table td:first-child{font-weight:700;color:var(--tx);background:#fafafa;white-space:nowrap}
+    .comp-table tr:last-child td{border-bottom:none}
+    .table-label{font-size:.68rem;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;margin-top:14px}
+    .char-grid{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+    .char-tag{background:var(--acc-lt);color:#0f766e;border:1px solid var(--acc-dim);border-radius:20px;padding:4px 11px;font-size:.73rem;font-weight:600}
+    /* Modelo sovietico vs capitalista */
+    .vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+    .vs-card{background:var(--sur);border-radius:12px;padding:12px 13px;box-shadow:var(--shsm);border:1px solid var(--brd)}
+    .vs-title{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+    .vs-item{font-size:.77rem;color:var(--tx2);margin-bottom:5px;line-height:1.5}
+    .vs-item strong{color:var(--tx)}
+    .kp-list{display:flex;flex-direction:column;gap:12px}
+    .kp-item{display:flex;gap:14px;align-items:flex-start}
+    .kp-n{font-size:1.05rem;font-weight:900;color:var(--acc-dim);min-width:26px;line-height:1.45}
+    .kp-t{font-size:.86rem;color:var(--tx2);line-height:1.65;padding-top:1px}
+    .kp-t strong{color:var(--tx)}
+    /* QUIZ */
+    .quiz-top{background:var(--sur);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;border:1px solid var(--brd);box-shadow:var(--shsm)}
+    .qt-row{display:flex;align-items:center;justify-content:space-between}
+    .sc-group{display:flex;gap:14px;align-items:center}
+    .sc-item{text-align:center}
+    .sc-val{font-size:1.4rem;font-weight:900;line-height:1}
+    .sc-lbl{font-size:.61rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+    .s-ok .sc-val{color:var(--green)}.s-ok .sc-lbl{color:#6ee7b7}
+    .s-fail .sc-val{color:var(--red)}.s-fail .sc-lbl{color:#fca5a5}
+    .s-pend .sc-val{color:var(--tx3)}.s-pend .sc-lbl{color:var(--tx3)}
+    .sc-div{width:1px;height:28px;background:var(--brd)}
+    .reset-btn{background:var(--acc-lt);border:1px solid var(--acc-dim);color:var(--acc);border-radius:10px;padding:6px 13px;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
+    .q-card{background:var(--sur);border-radius:var(--r);padding:16px 15px;margin-bottom:11px;box-shadow:var(--shsm);border:1px solid var(--brd)}
+    .q-num{font-size:.67rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:6px}
+    .q-text{font-size:.91rem;font-weight:700;color:var(--tx);line-height:1.5;margin-bottom:12px}
+    .source-block{background:var(--acc-lt);border-left:3px solid var(--acc);border-radius:0 10px 10px 0;padding:12px 14px;margin-bottom:12px}
+    .source-lbl{font-size:.66rem;font-weight:700;color:var(--acc);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+    .source-text{font-size:.81rem;font-style:italic;color:#065f46;line-height:1.65;margin-bottom:6px}
+    .source-attr{font-size:.72rem;color:var(--tx2);font-weight:600}
+    .car-block{background:#1f2937;border-radius:12px;overflow:hidden;margin-bottom:12px}
+    .car-header{background:#374151;padding:7px 14px;display:flex;justify-content:space-between;align-items:center}
+    .car-type{font-size:.65rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em}
+    .car-date{font-size:.65rem;color:#6b7280}
+    .car-svg{padding:12px;display:flex;justify-content:center;background:#111827}
+    .car-caption{padding:10px 14px;font-size:.77rem;color:#d1d5db;line-height:1.5}
+    .car-caption strong{color:#f9fafb}
+    .opts{display:flex;flex-direction:column;gap:7px}
+    .opt-btn{width:100%;min-height:44px;background:#f9fafb;border:1.5px solid var(--brd);border-radius:10px;padding:9px 12px;text-align:left;font-family:inherit;font-size:.82rem;font-weight:500;color:var(--tx2);cursor:pointer;display:flex;align-items:center;gap:9px;transition:border-color .12s,background .12s;line-height:1.4}
+    .opt-btn:hover:not(:disabled){border-color:var(--acc);background:var(--acc-lt);color:var(--tx)}
+    .opt-lbl{min-width:22px;height:22px;border-radius:6px;background:#f3f4f6;color:var(--tx2);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.7rem;flex-shrink:0}
+    .opt-btn.correct{background:var(--glt);border-color:var(--green);color:#065f46}
+    .opt-btn.correct .opt-lbl{background:var(--green);color:#fff}
+    .opt-btn.wrong{background:var(--rlt);border-color:var(--red);color:#7f1d1d}
+    .opt-btn.wrong .opt-lbl{background:var(--red);color:#fff}
+    .opt-btn.dimmed{opacity:.3}
+    .opt-btn:disabled{cursor:default}
+    .feedback{display:none;margin-top:10px;border-radius:10px;padding:9px 13px;font-size:.79rem;line-height:1.6}
+    .feedback.show{display:block}
+    .feedback.ok{background:var(--glt);border:1px solid #a7f3d0;color:#065f46}
+    .feedback.fail{background:var(--rlt);border:1px solid #fca5a5;color:#7f1d1d}
+    .footer{margin-top:36px;text-align:center;font-size:.72rem;color:var(--tx3);padding:0 16px}
+    .footer strong{color:var(--tx2)}
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="top-nav">
+    <a href="historia.html" class="nav-back">← Historia</a>
+    <span class="nav-crumb">/ Totalitarismos</span>
+  </div>
+  <div class="header">
+    <div class="breadcrumb">Historia<span>/</span>El mundo moderno</div>
+    <div class="hchip">🌍 Tema 03</div>
+    <h1>Los<br>Totalitarismos</h1>
+    <p class="header-sub">1922–1945 · Fascismo, Nazismo, Estalinismo</p>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="showTab('estudiar',this)">📖 Estudiar</button>
+      <button class="tab-btn" onclick="showTab('practicar',this)">✏️ Practicar</button>
+    </div>
+  </div>
+
+  <div class="panel active" id="panel-estudiar">
+  <div class="content">
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">01</span><span class="sec-l">Dictadura vs. Totalitarismo</span></div>
+      <div class="quote-card">
+        <div class="quote-text">Una <em>dictadura</em> toma el poder. Un <em>totalitarismo</em> va más allá: quiere controlar la mente, la cultura y la vida cotidiana. Exige adhesión fanática, no solo obediencia.</div>
+        <div class="quote-foot">Conceptos clave — distinguirlos en la prueba</div>
+      </div>
+      <div class="info-card" style="margin-top:10px;">
+        <div class="info-body">
+          <strong>Dictadura:</strong> partido único, apropiación del poder, suprime separación de poderes, usa violencia contra opositores, impone régimen económico.<br><br>
+          <strong>Totalitarismo:</strong> todo lo anterior + afecta culturalmente a la sociedad, busca su <em>adhesión obligada</em>, convierte la política en fanatismo. El Estado lo controla todo — hasta el pensamiento.
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">02</span><span class="sec-l">Los tres totalitarismos</span></div>
+      <div class="info-card">
+        <div class="info-title">🇮🇹 Fascismo — Italia 1922 (Mussolini)</div>
+        <div class="info-body"><strong>Contexto:</strong> frustración postguerra, inflación y desempleo. Italia esperaba más del Tratado de Versalles.<br><strong>Economía:</strong> Corporativismo estatal — empresas aliadas al Estado, no al mercado libre.<br><strong>Represión:</strong> Camisas Negras como milicia paramilitar.<br><strong>Ideología:</strong> Nacionalismo extremo, anti-comunismo, culto al Estado y al líder.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">🇩🇪 Nazismo — Alemania 1933 (Hitler)</div>
+        <div class="info-body"><strong>Contexto:</strong> humillación del Tratado de Versalles + crisis económica de 1929. Desempleo masivo.<br><strong>Economía:</strong> Autarquía (Alemania produce para sí misma) + militarización masiva.<br><strong>Represión:</strong> SS — terror total. Campos de concentración y exterminio.<br><strong>Ideología:</strong> Pureza racial (antisemitismo), "espacio vital" (Lebensraum), tercera vía entre comunismo y capitalismo.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">🇷🇺 Estalinismo — URSS 1924 (Stalin)</div>
+        <div class="info-body"><strong>Contexto:</strong> muerte de Lenin, consolidación del PCUS (Partido Comunista).<br><strong>Economía:</strong> Colectivización agraria forzada + planes quinquenales. Tierra y producción al Estado.<br><strong>Represión:</strong> Purgas masivas, Gulags (campos de trabajo), terrorismo de Estado.<br><strong>Ideología:</strong> Comunismo autoritario, expansión de la revolución socialista.</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">03</span><span class="sec-l">Los tres comparados</span></div>
+      <div class="table-label">Tabla comparativa</div>
+      <div class="table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr><th>Aspecto</th><th>🇮🇹 Fascismo</th><th>🇩🇪 Nazismo</th><th>🇷🇺 Estalinismo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Líder</td><td>Mussolini</td><td>Hitler</td><td>Stalin</td></tr>
+            <tr><td>Año inicio</td><td>1922</td><td>1933</td><td>1924</td></tr>
+            <tr><td>Economía</td><td>Corporativismo</td><td>Autarquía militar</td><td>Colectivización</td></tr>
+            <tr><td>Represión</td><td>Camisas Negras</td><td>SS y Gestapo</td><td>Purgas y Gulags</td></tr>
+            <tr><td>Ideología</td><td>Nación + Estado</td><td>Raza + espacio vital</td><td>Clase + revolución</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-card" style="margin-top:12px;">
+        <div class="info-title">⚠️ Lo que todos comparten</div>
+        <div class="char-grid">
+          <span class="char-tag">Eliminan opositores</span>
+          <span class="char-tag">Exaltan al líder</span>
+          <span class="char-tag">Propaganda masiva</span>
+          <span class="char-tag">Milicias paramilitares</span>
+          <span class="char-tag">Estado por sobre todo</span>
+          <span class="char-tag">Adhesión obligada</span>
+          <span class="char-tag">Expansión territorial</span>
+          <span class="char-tag">Intervienen en economía</span>
+          <span class="char-tag">Sin libertad de prensa</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">04</span><span class="sec-l">Modelo soviético vs. capitalista</span></div>
+      <div class="vs-grid">
+        <div class="vs-card">
+          <div class="vs-title" style="color:#dc2626;">🔴 Soviético</div>
+          <div class="vs-item"><strong>Propiedad:</strong> Estatal / colectiva</div>
+          <div class="vs-item"><strong>Economía:</strong> Planificada por el Estado</div>
+          <div class="vs-item"><strong>Gobierno:</strong> Partido único</div>
+          <div class="vs-item"><strong>Objetivo:</strong> Igualdad de clases</div>
+          <div class="vs-item"><strong>Religión:</strong> Ateísmo de Estado</div>
+        </div>
+        <div class="vs-card">
+          <div class="vs-title" style="color:#2563eb;">🔵 Capitalista</div>
+          <div class="vs-item"><strong>Propiedad:</strong> Privada</div>
+          <div class="vs-item"><strong>Economía:</strong> Mercado libre</div>
+          <div class="vs-item"><strong>Gobierno:</strong> Democracia, pluripartidismo</div>
+          <div class="vs-item"><strong>Objetivo:</strong> Crecimiento individual</div>
+          <div class="vs-item"><strong>Religión:</strong> Libertad de culto</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-hd"><span class="sec-n">05</span><span class="sec-l">Ideas clave</span></div>
+      <div class="kp-list">
+        <div class="kp-item"><div class="kp-n">1</div><div class="kp-t"><strong>Dictadura ≠ Totalitarismo:</strong> el totalitarismo va más allá al controlar la cultura y exigir fanatismo.</div></div>
+        <div class="kp-item"><div class="kp-n">2</div><div class="kp-t">Los 3 totalitarismos comparten características pese a diferir en ideología (Fascismo vs. Comunismo).</div></div>
+        <div class="kp-item"><div class="kp-n">3</div><div class="kp-t">El <strong>nazismo</strong> fue el más extremo: persiguió razas, construyó campos de exterminio → Derechos Humanos.</div></div>
+        <div class="kp-item"><div class="kp-n">4</div><div class="kp-t">Ninguno respetó principios liberales: todos intervinieron en la economía y suprimieron libertades.</div></div>
+        <div class="kp-item"><div class="kp-n">5</div><div class="kp-t">El modelo <strong>soviético vs. capitalista</strong> dividirá el mundo en la Guerra Fría tras 1945.</div></div>
+      </div>
+    </div>
+
+    <div class="footer"><strong>Historia · 2° Medio · Totalitarismos</strong><br>Plataforma Educativa — Beta</div>
+  </div>
+  </div>
+
+  <div class="panel" id="panel-practicar">
+  <div class="content">
+    <div class="quiz-top">
+      <div class="qt-row">
+        <div class="sc-group">
+          <div class="sc-item s-ok"><div class="sc-val" id="sc-ok">0</div><div class="sc-lbl">Correctas</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-fail"><div class="sc-val" id="sc-fail">0</div><div class="sc-lbl">Incorrectas</div></div>
+          <div class="sc-div"></div>
+          <div class="sc-item s-pend"><div class="sc-val" id="sc-pend">—</div><div class="sc-lbl">Pendientes</div></div>
+        </div>
+        <button class="reset-btn" onclick="resetQuiz()">Reiniciar</button>
+      </div>
+    </div>
+
+    <!-- P1: Fuente - discurso totalitario -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 01 — Análisis de fuente escrita</div>
+      <div class="source-block">
+        <div class="source-lbl">Fuente primaria — Discurso político</div>
+        <div class="source-text">"El individuo no es nada, el Estado lo es todo. El Estado debe penetrar cada aspecto de la vida del ciudadano: su trabajo, su familia, su pensamiento. No existe interés privado que pueda anteponerse al interés superior de la nación."</div>
+        <div class="source-attr">Discurso atribuido a líderes fascistas, Italia, c. 1925 (adaptación)</div>
+      </div>
+      <div class="q-text">¿Qué característica del totalitarismo refleja principalmente esta fuente?</div>
+      <div class="opts" id="q1">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">A</span>El respeto por las libertades individuales como base del sistema político</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">B</span>La búsqueda de equilibrio entre los derechos del individuo y los del Estado</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q1')"><span class="opt-lbl">C</span>La subordinación total del individuo al Estado, que controla todos los ámbitos de la vida</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q1')"><span class="opt-lbl">D</span>La promoción de la economía de mercado como motor del bienestar colectivo</button>
+      </div>
+      <div class="feedback" id="fb-q1"></div>
+    </div>
+
+    <!-- P2: Caricatura totalitarismo -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 02 — Análisis de caricatura política</div>
+      <div class="car-block">
+        <div class="car-header">
+          <span class="car-type">📷 Fuente visual — Caricatura política</span>
+          <span class="car-date">c. 1935</span>
+        </div>
+        <div class="car-svg">
+          <svg width="240" height="170" viewBox="0 0 240 170" xmlns="http://www.w3.org/2000/svg">
+            <!-- Sombra gigante del lider sobre las masas -->
+            <defs>
+              <linearGradient id="sombra" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#374151" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#374151" stop-opacity="0.1"/>
+              </linearGradient>
+            </defs>
+            <!-- Sombra del líder (grande, oscura) -->
+            <polygon points="120,10 40,150 200,150" fill="url(#sombra)"/>
+            <!-- Figura del lider (arriba, pequeña pero poderosa) -->
+            <circle cx="120" cy="22" r="10" fill="#f9fafb"/>
+            <rect x="113" y="32" width="14" height="20" rx="2" fill="#f9fafb"/>
+            <!-- Brazo en alto -->
+            <line x1="120" y1="38" x2="135" y2="28" stroke="#f9fafb" stroke-width="2"/>
+            <!-- Masas abajo (pequeñas, uniformes) -->
+            <circle cx="60" cy="152" r="5" fill="#6b7280"/>
+            <circle cx="78" cy="155" r="5" fill="#6b7280"/>
+            <circle cx="96" cy="153" r="5" fill="#6b7280"/>
+            <circle cx="114" cy="156" r="5" fill="#6b7280"/>
+            <circle cx="132" cy="153" r="5" fill="#6b7280"/>
+            <circle cx="150" cy="155" r="5" fill="#6b7280"/>
+            <circle cx="168" cy="152" r="5" fill="#6b7280"/>
+            <!-- Brazos de masas en alto (adhesión) -->
+            <line x1="60" y1="148" x2="55" y2="140" stroke="#6b7280" stroke-width="1"/>
+            <line x1="78" y1="151" x2="73" y2="143" stroke="#6b7280" stroke-width="1"/>
+            <line x1="96" y1="149" x2="91" y2="141" stroke="#6b7280" stroke-width="1"/>
+            <line x1="114" y1="152" x2="109" y2="144" stroke="#6b7280" stroke-width="1"/>
+            <line x1="132" y1="149" x2="127" y2="141" stroke="#6b7280" stroke-width="1"/>
+            <line x1="150" y1="151" x2="145" y2="143" stroke="#6b7280" stroke-width="1"/>
+            <line x1="168" y1="148" x2="163" y2="140" stroke="#6b7280" stroke-width="1"/>
+            <!-- Texto -->
+            <text x="120" y="8" text-anchor="middle" font-size="7" fill="#9ca3af">EL FÜHRER / IL DUCE / EL SECRETARIO GENERAL</text>
+          </svg>
+        </div>
+        <div class="car-caption"><strong>Descripción:</strong> Caricatura que muestra a un líder totalitario (figura central, elevada) proyectando una sombra gigante sobre una multitud uniformada que lo saluda con el brazo en alto. Símbolo del culto al líder y la sumisión de masas. Publicada en prensa occidental antifascista, c. 1935.</div>
+      </div>
+      <div class="q-text">¿Qué elemento del totalitarismo critica principalmente esta caricatura?</div>
+      <div class="opts" id="q2">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">A</span>La ineficiencia económica de los sistemas de planificación centralizada</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q2')"><span class="opt-lbl">B</span>El culto al líder y la adhesión masiva forzada que caracterizó a los regímenes totalitarios</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">C</span>La incapacidad de los líderes totalitarios para movilizar a la población</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q2')"><span class="opt-lbl">D</span>La división entre diferentes facciones dentro de los movimientos fascistas europeos</button>
+      </div>
+      <div class="feedback" id="fb-q2"></div>
+    </div>
+
+    <!-- P3 -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 03</div>
+      <div class="q-text">¿Cuál es una característica compartida por el Fascismo, el Nazismo y el Estalinismo?</div>
+      <div class="opts" id="q3">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">A</span>Promovieron el libre mercado y la propiedad privada como motores del desarrollo</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">B</span>Defendieron el pluripartidismo y la representación democrática de los ciudadanos</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q3')"><span class="opt-lbl">C</span>Utilizaron la propaganda y el terror de Estado para imponer y mantener su poder</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q3')"><span class="opt-lbl">D</span>Buscaron expandir los derechos individuales como base de su legitimidad política</button>
+      </div>
+      <div class="feedback" id="fb-q3"></div>
+    </div>
+
+    <!-- P4 -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 04</div>
+      <div class="q-text">¿Cuál es la diferencia fundamental entre el modelo soviético y el modelo capitalista occidental?</div>
+      <div class="opts" id="q4">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">A</span>El soviético promueve el libre mercado; el capitalista planifica la economía desde el Estado</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q4')"><span class="opt-lbl">B</span>El soviético elimina la propiedad privada y planifica la economía; el capitalista defiende la propiedad privada y el mercado libre</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">C</span>Ambos sistemas tienen elecciones democráticas, pero con distintos partidos políticos</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q4')"><span class="opt-lbl">D</span>El capitalismo elimina la propiedad privada para garantizar la igualdad de clases</button>
+      </div>
+      <div class="feedback" id="fb-q4"></div>
+    </div>
+
+    <!-- P5 -->
+    <div class="q-card">
+      <div class="q-num">Pregunta 05</div>
+      <div class="q-text">El nazismo se diferencia del fascismo italiano principalmente en que:</div>
+      <div class="opts" id="q5">
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">A</span>El nazismo admitía el pluripartidismo y el fascismo no</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">B</span>El fascismo italiano persiguió razas, mientras el nazismo promovía la igualdad</button>
+        <button class="opt-btn" data-correct="true"  onclick="answer(this,'q5')"><span class="opt-lbl">C</span>El nazismo añadió una ideología de pureza racial y persecución sistemática de grupos étnicos</button>
+        <button class="opt-btn" data-correct="false" onclick="answer(this,'q5')"><span class="opt-lbl">D</span>El nazismo era de base popular mientras el fascismo fue impuesto por una élite militar</button>
+      </div>
+      <div class="feedback" id="fb-q5"></div>
+    </div>
+
+    <div class="footer"><strong>Historia · 2° Medio · Totalitarismos</strong><br>Plataforma Educativa — Beta</div>
+  </div>
+  </div>
+</div>
+<script>
+  var FBK={q1:{ok:'Correcto. La fuente expresa la esencia del totalitarismo: el individuo no existe como entidad autónoma — todo debe subordinarse al Estado. Es la negación del liberalismo.',fail:'El texto expresa exactamente lo opuesto a la democracia liberal: no hay balance entre individuo y Estado — el Estado lo absorbe todo. Eso define al totalitarismo en contraste con la dictadura común.'},q2:{ok:'Correcto. La sombra gigante del líder y las masas con el brazo en alto representan el culto al líder y la adhesión masiva obligada — características centrales de todo régimen totalitario.',fail:'La imagen critica el culto al líder: la figura enorme proyectando una sombra sobre pequeñas masas uniformadas que lo saludan obedientemente. Es la representación visual de la adhesión forzada.'},q3:{ok:'Correcto. Pese a diferir en ideología (nacionalismo vs. comunismo), los 3 totalitarismos usaron propaganda, terror, milicias y eliminación de opositores para mantenerse en el poder.',fail:'Lo que los une no es la ideología sino los métodos: propaganda, terror de Estado, eliminación de opositores y culto al líder. Estas herramientas fueron comunes a los 3, independiente de su ideología.'},q4:{ok:'Correcto. La diferencia central: en el sistema soviético el Estado es dueño de todo y planifica la producción; en el capitalista la propiedad y la economía son privadas y dirigidas por el mercado.',fail:'La diferencia fundamental está en la propiedad y la economía: soviético = estatal + planificada; capitalista = privada + mercado libre. El resto (gobierno, libertades) son consecuencias de esta base.'},q5:{ok:'Correcto. El nazismo incorporó una ideología racial explícita: la búsqueda de la pureza aria, la persecución y exterminio del pueblo judío y otros grupos. El fascismo italiano era nacionalista pero no basado en raza.',fail:'La diferencia clave es la ideología racial: el nazismo basó toda su política en la "pureza racial" aria y la eliminación sistemática de judíos, romani, discapacitados, etc. El fascismo italiano no tenía ese componente desde el inicio.'}};
+  var totalQ=0,answered=0,correct=0,wrong=0;
+  function showTab(t,b){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.getElementById('panel-'+t).classList.add('active');b.classList.add('active')}
+  function answer(btn,qid){var g=document.getElementById(qid),fb=document.getElementById('fb-'+qid),bs=g.querySelectorAll('.opt-btn'),ok=btn.getAttribute('data-correct')==='true';bs.forEach(b=>{b.disabled=true;b.classList.add('dimmed')});if(ok){btn.classList.remove('dimmed');btn.classList.add('correct');fb.className='feedback show ok';fb.textContent='✓ '+FBK[qid].ok;correct++;document.getElementById('sc-ok').textContent=correct}else{btn.classList.remove('dimmed');btn.classList.add('wrong');bs.forEach(b=>{if(b.getAttribute('data-correct')==='true'){b.classList.remove('dimmed');b.classList.add('correct')}});fb.className='feedback show fail';fb.textContent='✗ '+FBK[qid].fail;wrong++;document.getElementById('sc-fail').textContent=wrong}answered++;document.getElementById('sc-pend').textContent=totalQ-answered}
+  function resetQuiz(){answered=0;correct=0;wrong=0;document.getElementById('sc-ok').textContent='0';document.getElementById('sc-fail').textContent='0';document.getElementById('sc-pend').textContent=totalQ;document.querySelectorAll('.opt-btn').forEach(b=>{b.disabled=false;b.classList.remove('correct','wrong','dimmed')});document.querySelectorAll('.feedback').forEach(f=>{f.className='feedback';f.textContent=''})}
+  window.onload=function(){totalQ=document.querySelectorAll('.q-card').length;document.getElementById('sc-pend').textContent=totalQ};
+</script>
+</body>
+</html>
