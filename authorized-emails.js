@@ -4,5 +4,6 @@ window.AUTHORIZED_EMAILS = [
   'bgutierreztoro@gmail.com',
   'benjamingutierrezt@alumnos.dschillan.cl',
   'carlosampuero@alumnos.dschillan.cl',
-  'florenciagarcia@alumnos.dschillan.cl'
+  'florenciagarcia@alumnos.dschillan.cl',
+  'emilia.fuentes.vasquezch@gmail.com'
 ];
